@@ -1,0 +1,26 @@
+The following figure of merit (FOM) for nuclear material attractiveness is taken directly from a paper by Lawrence Livermore National Laboratory \cite{King2010TheScenario}. 
+
+\begin{equation}
+    \text{FOM}_1 = 1-\log\left( M\left[\frac{1}{800} + \frac{h}{4500}\right] +\frac{M}{50}\left[\frac{D}{500}\right]^{1/\log2}\right)
+\end{equation}
+
+\begin{displayquote}
+Where M is the bare critical mass of the metal product material (impure plutonium) that is intended for the nuclear explosive in kg, h is the heat content in W/kg, and D is the dose rate of a 0.2M sphere evaluated at 1 m from the surface in rad/h. Table 1 correlates the result for the FOM calculation with the material's nuclear explosive utility (Bathke et al., 2009). In this FOM, the heat source h and the dose rate D are those that result directly from the isotopic composition of the metal in its transformed state after removal of fission products. The bare critical mass M is the critical mass after the same transformation. bare critical mass (kg) of the seperated element of interest \cite{King2010TheScenario}.
+\end{displayquote}
+
+\begin{table}[H]
+\centering
+\caption{Correlation between FOM$_1$ and nuclear explosives utility \cite{King2010TheScenario}}
+\label{tab:figure_labels}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c l}
+\toprule
+\textbf{FOM$_1$} & \textbf{Nuclear explosives utility} \\
+\midrule
+$>$2 & Preferred \\
+1-2 & Usable \\
+0-1 & Unsable \\
+$<$0 & Unsable \\
+\bottomrule
+\end{tabular}
+\end{table}

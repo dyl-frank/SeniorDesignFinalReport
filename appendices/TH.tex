@@ -1,0 +1,315 @@
+
+
+This appendix documents the detailed methodology for the Critical Heat Flux (CHF) scoping analysis presented in Section 3.3.
+
+\subsubsection*{A.1.1 Pressure Selection: CANDU vs. PWR}
+
+The choice of 10 MPa operating pressure, characteristic of CANDU reactors, represents a conservative approach compared to the 15.5 MPa typical of PWR designs (e.g., AP1000). While lower pressure reduces CHF margins, this choice offers several advantages:
+
+\begin{itemize}
+    \item \textbf{Structural simplicity}: Lower pressure reduces mechanical stresses on pressure boundaries, enabling simpler vessel designs and reducing the likelihood of pressure boundary failures (especially for the larger vessel size required for heavy water moderation)
+    
+    \item \textbf{Safety margins in LOCA scenarios}: Lower stored energy in the primary system results in less severe consequences during loss-of-coolant accidents
+    
+    \item \textbf{Conservative thermal-hydraulic evaluation}: By analyzing at lower pressure where CHF is reduced, the design ensures adequate margins even under more challenging conditions
+\end{itemize}
+
+The pressure-dependent nature of CHF is captured in the Groeneveld correlation, where higher pressures generally yield higher CHF values. By designing to meet CHF criteria at 10 MPa, the system maintains conservative margins if future optimization increases pressure.
+
+\subsubsection*{A.1.2 Saturated Liquid Assumption}
+
+The assumption of saturated liquid ($x = 0$) at the reactor outlet, rather than the subcooled condition expected in actual operation, provides additional conservatism. In reality, CANDU and PWR primary systems operate with significant subcooling (typically 10-20°C below saturation). The saturated condition represents:
+
+\begin{itemize}
+    \item \textbf{Worst-case thermodynamic state}: Saturated liquid is on the verge of boiling, representing the minimum thermal margin before quality begins to develop
+    
+    \item \textbf{Lower CHF values}: CHF correlations show reduced critical heat flux as quality approaches zero from negative values (subcooled) compared to deeply subcooled conditions
+    
+    \item \textbf{Bounding analysis}: This assumption ensures the design remains safe even if subcooling is lost during transient conditions
+\end{itemize}
+
+\subsubsection*{A.1.3 Outlet Condition Evaluation}
+
+Evaluating all thermal-hydraulic parameters at outlet conditions represents the most thermally challenging location in the core, where:
+
+\begin{itemize}
+    \item Coolant temperature is highest
+    \item Enthalpy is maximized
+    \item Thermal margin to CHF is minimized
+    \item Local power peaking effects are most severe (assuming cosine axial distribution)
+\end{itemize}
+
+This outlet-based analysis ensures that if CHF margins are adequate at this location, they will be sufficient throughout the entire fuel channel length.
+
+\subsection*{A.2 Critical Heat Flux Calculation Methodology}
+
+\subsubsection*{A.2.1 Overview of CHF}
+
+Critical Heat Flux represents the thermal limit at which nucleate boiling transitions to film boiling, causing a dramatic reduction in heat transfer efficiency and potentially leading to fuel cladding failure. The CHF is a function of:
+
+\begin{itemize}
+    \item Mass flux ($G$) [kg/m$^2$/s]
+    \item System pressure ($P$) [MPa]
+    \item Local quality ($x$) [dimensionless, -0.5 to 1.0]
+    \item Channel geometry (hydraulic diameter, heated length)
+\end{itemize}
+
+\subsubsection*{A.2.2 Calculation Procedure}
+
+The CHF analysis follows this systematic procedure:
+
+\begin{enumerate}
+    \item \textbf{Determine mass flux}: Calculate the total coolant mass flow rate required to remove the thermal power with the specified temperature rise, then divide by the total flow area to obtain mass flux $G$ (kg/m$^2$/s)
+    
+    \item \textbf{Apply CHF correlation}: Using the calculated mass flux, system pressure, and assumed quality, determine CHF from the 2006 Groeneveld CHF look-up tables \cite{Groeneveld2007TheTable}. The Groeneveld tables are valid for:
+    \begin{itemize}
+        \item Pressure: 0.1 to 21 MPa
+        \item Mass flux: 0 to 8000 kg/m$^2$/s
+        \item Quality: -0.5 to 1.0
+    \end{itemize}
+    
+    This encompasses all operating conditions in this analysis. The widely-used W-3 correlation, which is standard practice for commercial PWR applications, is \textit{not valid} for the low mass flux regime (102.6 kg/m$^2$/s) encountered in this design, as W-3 is calibrated for mass fluxes typically above 1000 kg/m$^2$/s. The Groeneveld look-up tables, being based on over 30,000 experimental data points including low-flow conditions, provide reliable CHF predictions across the full range of conditions examined here.
+    
+    \item \textbf{Calculate surface heat fluxes}: Determine average heat flux from total power and surface area, then apply power peaking factor to obtain peak heat flux
+    
+    \item \textbf{Compare to limits}: Ensure peak heat flux with safety margin remains below CHF
+\end{enumerate}
+
+\subsection*{A.3 Governing Equations}
+
+The governing equation for coolant mass flow rate is:
+
+\begin{equation}
+\dot{m} = \frac{\dot{Q}_{\text{th}}}{c_p \Delta T}
+\end{equation}
+
+where:
+\begin{itemize}
+    \item $\dot{Q}_{\text{th}}$ = thermal power [W] = 2.0 $\times$ 10$^9$ W
+    \item $c_p$ = specific heat of D$_2$O at 10 MPa [J/kg·K] $\approx$ 5740 J/kg·K
+    \item $\Delta T$ = coolant temperature rise [K] = 50 K (inlet 260°C to outlet 310°C)
+\end{itemize}
+
+The mass flux is then:
+
+\begin{equation}
+G = \frac{\dot{m}}{A_{\text{flow,total}}}
+\end{equation}
+
+where the flow area per rod channel is:
+
+\begin{equation}
+A_{\text{flow,rod}} = p^2 - \pi r_{\text{rod}}^2
+\end{equation}
+
+with:
+\begin{itemize}
+    \item $p$ = rod pitch = 0.06 m
+    \item $r_{\text{rod}}$ = fuel rod outer radius = 0.00546 m (10.922 mm diameter)
+\end{itemize}
+
+Average surface heat flux is:
+
+\begin{equation}
+q''_{\text{avg}} = \frac{\dot{Q}_{\text{th}}}{A_{\text{surface,total}}}
+\end{equation}
+
+where $A_{\text{surface,total}} = N_{\text{rods}} \times \pi D_{\text{rod}} \times L_{\text{active}}$.
+
+The peak heat flux accounts for spatial power distribution:
+
+\begin{equation}
+q''_{\text{peak}} = F_q \cdot q''_{\text{avg}}
+\end{equation}
+
+where $F_q$ is the power peaking factor.
+
+\subsection*{A.4 Power Peaking Factor Selection}
+
+The power peaking factor $F_q = 2.0$ represents the ratio of maximum local heat flux to core-average heat flux. This conservative value accounts for:
+
+\begin{itemize}
+    \item \textbf{Radial power distribution}: Fresh fuel assemblies (or less-depleted spent fuel) produce higher power than heavily-depleted assemblies
+    
+    \item \textbf{Axial power distribution}: Power peaks near the core midplane due to neutron flux distribution (typically cosine-shaped in unreflected cores)
+    
+    \item \textbf{Local peaking}: Individual fuel rod power variations due to:
+    \begin{itemize}
+        \item Proximity to control elements or burnable poisons
+        \item Local moderation effects (water gaps, instrumentation channels)
+        \item Non-uniform burnup within spent fuel assemblies
+    \end{itemize}
+    
+    \item \textbf{Design margin}: While typical PWR peaking factors range from 1.5-1.7, using 2.0 provides margin for uncertainties and abnormal conditions
+\end{itemize}
+
+The value of 2.0 is extremely conservative compared to typical CANDU designs, which exhibit lower peaking factors (1.3-1.5) due to on-power refueling and continuous flux flattening. This choice ensures the design can accommodate power distribution perturbations arising from the non-uniform burnup of spent fuel feed material.
+
+\subsection*{A.5 Safety Margin Application}
+
+The safety margin factor of 0.9 is applied to buffer the CHF limit obtained from the Groeneveld tables:
+
+\begin{equation}
+q''_{\text{limit}} = 0.9 \times \text{CHF}
+\end{equation}
+
+This 0.9 factor (equivalent to a 10\% reduction in allowable heat flux) accounts for:
+\begin{itemize}
+    \item Uncertainties in the CHF correlation ($\pm$5-10\% typical)
+    \item Experimental data scatter in the lookup table database
+    \item Manufacturing tolerances (rod diameter, pitch variations)
+    \item Flow distribution uncertainties
+\end{itemize}
+
+The Departure from Nucleate Boiling Ratio (DNBR) is then calculated as:
+
+\begin{equation}
+\text{DNBR} = \frac{q''_{\text{limit}}}{q''_{\text{peak}}} = \frac{0.9 \times \text{CHF}}{q''_{\text{peak}}}
+\end{equation}
+
+The typical regulatory criterion used in PWRs requires DNBR $\geq$ 1.3-2.0 (depending on correlation used and licensing basis). The 0.9 safety margin factor applied to the CHF is appropriate for scoping calculations because:
+
+\begin{itemize}
+    \item \textbf{Multiple layers of conservatism}: The analysis already includes conservative assumptions (saturated conditions, outlet evaluation, high peaking factor)
+    
+    \item \textbf{Preliminary design phase}: Scoping calculations establish feasibility; detailed safety analysis will apply full regulatory margins (typically DNBR $\geq$ 1.3 with additional 95/95 statistical treatment)
+    
+    \item \textbf{Cumulative margins}: The product of conservative assumptions typically yields overall margins exceeding individual factors
+    
+    \item \textbf{CHF correlation uncertainty}: The 0.9 factor provides margin for correlation uncertainty without excessive over-design at preliminary stages
+\end{itemize}
+
+\subsection*{A.6 Detailed Calculation Results}
+
+\begin{table}[H]
+\centering
+\caption{Detailed thermal-hydraulic parameters}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Parameter} & \textbf{Value} & \textbf{Units} \\
+\hline
+\multicolumn{3}{|c|}{\textit{System Parameters}} \\
+\hline
+Thermal Power Rating & 2.0 & GW$_{\text{th}}$ \\
+Number of fuel rods & 19,377 & - \\
+Total heavy metal mass & 33.33 & MT \\
+Active fuel length & 3.60 & m \\
+Fuel rod outer diameter & 10.922 & mm \\
+Lattice pitch & 60 & mm \\
+\hline
+\multicolumn{3}{|c|}{\textit{Coolant Conditions}} \\
+\hline
+Inlet temperature & 260 & °C \\
+Outlet temperature & 310 & °C \\
+Temperature rise ($\Delta T$) & 50 & K \\
+System pressure & 10.0 & MPa \\
+Inlet quality & 0.0 & - \\
+D$_2$O specific heat (avg) & 5740 & J/(kg·K) \\
+D$_2$O density (avg) & 720 & kg/m$^3$ \\
+\hline
+\multicolumn{3}{|c|}{\textit{Flow Parameters}} \\
+\hline
+Mass flow rate required & 6970.57 & kg/s \\
+Flow area per rod & 3.50 $\times$ 10$^{-3}$ & m$^2$ \\
+Total flow area & 67.92 & m$^2$ \\
+Mass flux & 102.6 & kg/(m$^2$·s) \\
+Coolant velocity & 0.143 & m/s \\
+Reynolds number & $\sim$2000 & - (laminar/transition) \\
+Total D$_2$O volume & 244.71 & m$^3$ \\
+\hline
+\multicolumn{3}{|c|}{\textit{Heat Flux Parameters}} \\
+\hline
+Total heat transfer area & 2394 & m$^2$ \\
+Average surface heat flux & 835.18 & kW/m$^2$ \\
+Power peaking factor assumed & 2.0 & - \\
+Peak surface heat flux & 1670.37 & kW/m$^2$ \\
+\hline
+\multicolumn{3}{|c|}{\textit{CHF Analysis}} \\
+\hline
+CHF (from Groeneveld tables) & 4162 & kW/m$^2$ \\
+Safety factor applied & 0.9 & - \\
+Allowable heat flux limit & 3746 & kW/m$^2$ \\
+DNBR & 2.24 & - \\
+Regulatory minimum DNBR & 1.3-2.0 & - \\
+Margin & 12-72\% & above minimum \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection*{A.7 Comparison Analysis}
+
+Several parameters deviate from typical reactor values, as expected for this novel design:
+
+\begin{itemize}
+    \item \textbf{Mass flux (102.6 kg/m$^2$/s)}: Significantly lower than typical CANDU (1500-3000 kg/m$^2$/s) or PWR (3000-4000 kg/m$^2$/s) values. This is a direct result of the large lattice pitch (60 mm vs. 28 mm for CANDU) required to achieve spectrum thermalization for plutonium burning. The low mass flux:
+    \begin{itemize}
+        \item Reduces pumping power requirements
+        \item May enhance natural circulation capability
+        \item Requires careful flow stability analysis (planned for NUEN 410)
+    \end{itemize}
+    
+    \item \textbf{Peak heat flux (1670 kW/m$^2$)}: Higher than typical CANDU (900-1200 kW/m$^2$) due to the conservative peaking factor of 2.0, which bounds uncertainties from non-uniform spent fuel burnup distributions. Still within bounds of typical PWR values (1100-1300 kW/m$^2$).
+    
+    \item \textbf{CHF margin (DNBR = 2.24)}: Lower than typical operating margins (3-5 for CANDU, 2-3 for PWR), reflecting the scoping nature of this analysis with simplified safety factors. However, it exceeds the regulatory minimum of 1.3-2.0 by 12-72\%, providing adequate margin for preliminary design. Detailed analysis in NUEN 410 will refine this with:
+    \begin{itemize}
+        \item Actual subcooled conditions (will increase CHF)
+        \item Detailed power distributions from full-core Serpent model (may reduce peaking factor)
+        \item Axial power profile (may shift peak location away from outlet)
+    \end{itemize}
+\end{itemize}
+
+\subsection*{A.8 Uncertainty and Sensitivity}
+
+Key uncertainties and their expected impact:
+
+\begin{table}[H]
+\centering
+\caption{Sensitivity of DNBR to key parameters}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Parameter} & \textbf{Nominal} & \textbf{Variation} & \textbf{$\Delta$DNBR} \\
+\midrule
+Power peaking factor & 2.0 & $\pm$10\% & $\mp$10\% \\
+Operating pressure & 10 MPa & +1 MPa & +15\% \\
+Subcooling & 0°C & +10°C & +25\% \\
+Mass flux & 102.6 kg/m$^2$/s & $\pm$10\% & $\pm$3\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The analysis shows that DNBR is most sensitive to subcooling (which was conservatively neglected) and pressure (which could be increased in future optimization). Both factors would improve thermal margins.
+
+\subsection*{A.9 Path Forward to NUEN 410}
+
+Detailed thermal-hydraulics analysis in NUEN 410 will address:
+
+\begin{enumerate}
+    \item \textbf{CFD modeling (ANSYS Fluent)}:
+    \begin{itemize}
+        \item 3D subchannel or full-bundle geometry
+        \item Actual subcooled conditions
+        \item Axial power profile from Serpent
+        \item Turbulence model validation
+    \end{itemize}
+    
+    \item \textbf{Flow stability analysis}:
+    \begin{itemize}
+        \item Static flow instability (Ledinegg)
+        \item Dynamic instability (density wave oscillations)
+        \item Critical heat flux margin degradation
+    \end{itemize}
+    
+    \item \textbf{Natural circulation capability}:
+    \begin{itemize}
+        \item Decay heat removal without pumps
+        \item Loop momentum equation solution
+        \item Comparison to CANDU shutdown cooling
+    \end{itemize}
+    
+    \item \textbf{Transient analysis}:
+    \begin{itemize}
+        \item Pump coastdown
+        \item Loss of flow accident
+        \item Reactivity insertion events
+    \end{itemize}
+\end{enumerate}

@@ -1,0 +1,338 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NUEN 410 Nuclear Engineering Systems and Design
+% Design Project Review Template
+% Texas A&M University - Department of Nuclear Engineering
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt]{article}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{12pt}
+% Packages
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{makecell}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+% \usepackage{cite}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{fancybox}
+\usepackage{wasysym}
+\usepackage{lastpage}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{listings}
+\numberwithin{equation}{section}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{svg}
+\usepackage{csquotes}
+\usepackage{longtable}
+\usepackage[backend=biber,style=ieee]{biblatex}
+\addbibresource{references.bib}
+\usepackage{pdfpages}
+
+
+% Formatting
+\singlespacing  % Single spacing as per requirements (adjust to \singlespacing if needed)
+\let\originaleqref\eqref
+\renewcommand{\eqref}[1]{Eq.\originaleqref{#1}}
+\usepackage[justification=centering]{caption}
+
+% Header and Footer
+
+\fancyhf{}
+\rhead{NUEN 410 Project Review}
+\lhead{Team 3}
+\cfoot{\thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Title formatting
+\newcommand{\projecttitle}[1]{{\Large\bfseries\centering #1\par}}
+\newcommand{\sectionheading}[1]{{\large\bfseries #1}\par\medskip}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DOCUMENT BEGINS HERE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% ===================================================================
+% TITLE PAGE
+% ===================================================================
+\pagestyle{empty}
+
+% TITLE PAGE
+\begin{titlepage}
+\centering
+
+\vspace*{1in}
+
+% Course Information
+{\Large\bfseries NUEN 410}\\[0.4em]
+{\large Design of Nuclear Reactors}\\[0.2em]
+{\normalsize Spring 2026}
+
+\vspace{1.5in}
+
+% Main Title
+{\fontsize{42}{50}\selectfont\bfseries 
+LAST BREATH\\[0.2em]
+REACTOR DESIGN\par}
+
+\vspace{0.5in}
+
+% Subtitle
+{\LARGE\itshape Senior Design Project Review\par}
+
+\vfill
+
+% Institution
+{\large 
+Submitted to the\\[0.3em]
+\textbf{Department of Nuclear Engineering}\\[0.2em]
+Texas A\&M University}
+
+\newpage
+% Team Members
+{\large\bfseries Team Members}\\[0.8em]
+{\large
+Dylan J. Frank\\[0.5em]
+Ridwan T. Imam\\[0.5em]
+Sean A. Yeatts
+}
+
+\vspace{1in}
+
+% Team Captain and Date
+{\normalsize
+\textbf{Team Captain:} Dylan J. Frank\\[0.5em]
+\textbf{Date:} \today
+}
+
+\vspace{0.5in}
+
+\end{titlepage}
+
+\clearpage
+
+
+% ===================================================================
+% TABLE OF CONTENTS
+% ===================================================================
+\tableofcontents
+
+\clearpage
+% ===================================================================
+% INTRODUCTION
+% ===================================================================
+% \setcounter{page}{1}
+\pagenumbering{arabic}
+\pagestyle{fancy}
+
+\section{Introduction}
+%\input{textContent/introduction}
+
+% ===================================================================
+% FOM
+% ===================================================================
+\section{Figures of Merritt}
+\subsection{Nuclear Explosive Utility}
+\input{textContent/FOM}
+
+% ===================================================================
+% OBJECTIVES
+% ===================================================================
+\section{Objectives}
+\input{textContent/objectives}
+
+% ===================================================================
+% OPTIMIZATION
+% ===================================================================
+\section{Optimization Strategy}
+
+% ===================================================================
+% Design
+% ===================================================================
+\section{Design Concept}
+
+% ===================================================================
+% ANALYSIS
+% ===================================================================
+\section{Analysis Approach and Results}
+
+\subsection{Neutronics and Health Physics}
+\input{textContent/neutronicsAnalysis}
+
+\subsection{Material Integrity}
+%\input{textContent/spectrumOptimization}
+
+\subsection{Thermal Hydraulics}
+
+The primary objective of the thermal-hydraulics analysis for the Last Breath Reactor is to confirm that coolant, cladding, and fuel temperatures remain within acceptable limits and that the local surface heat flux stays comfortably below the critical heat flux (CHF), thereby preserving fuel integrity. The analysis combines a scoping-level channel model with subchannel-scale considerations and uses conservative but realistic input parameters matched to the neutronics design.
+
+\subsubsection{Operating Conditions and Pressure Selection}
+
+The reactor operates as a pressurized heavy water system with D$_2$O coolant and moderator at an operating pressure of 10~MPa, characteristic of CANDU-class reactors rather than PWR pressures of 15 to 16~MPa. This pressure choice is motivated by the combination of heavy water moderation and a 6~cm lattice pitch, which require a larger diameter pressure vessel that is more challenging to maintain at higher pressures. Operating at 10~MPa reduces pressure-boundary stresses and stored primary-side energy while still providing sufficient CHF margin for safe operation.
+
+For the CANDU-like operating window considered, the coolant inlet temperature lies between 260~\textdegree C and 267~\textdegree C and the outlet temperature between 309~\textdegree C and 310~\textdegree C. A design temperature rise of 50~K is adopted for the scoping case. Thermophysical properties of heavy water at 10~MPa and temperatures near 260 to 310~\textdegree C, obtained from property correlations, give a specific heat at constant pressure of approximately $5.7 \times 10^{3}$~J/(kg~K), a density on the order of $7.2 \times 10^{2}$~kg/m$^{3}$, a thermal conductivity of order 0.5~W/(m~K), and a dynamic viscosity of order $2 \times 10^{-4}$~Pa~s.
+
+The core geometry used in the analysis consists of an active fuel length of 3.60172~m, an outer fuel rod diameter of 10.922~mm, and a square lattice with 6.0~cm pitch.
+
+\subsubsection{Mass Flow Rate, Mass Flux, and Reynolds Number}
+
+The required total mass flow rate is computed from the thermal power and specified temperature rise:
+
+\begin{equation}
+\dot{m} = \frac{\dot{Q}_{\text{th}}}{c_p \Delta T}
+\end{equation}
+
+with $\dot{Q}_{\text{th}} = 2.0 \times 10^{9}$~W, $c_p \approx 5.7 \times 10^{3}$~J/(kg~K), and $\Delta T = 50$~K, yielding
+
+\begin{equation}
+\dot{m} \approx 7.0 \times 10^{3} \ \text{kg/s}
+\end{equation}
+
+for the entire core.
+
+The flow area per fuel rod is obtained from the lattice pitch and rod radius:
+
+\begin{equation}
+A_{\text{flow,rod}} = p^2 - \pi r_{\text{rod}}^2
+\end{equation}
+
+with $p = 0.06$~m and $r_{\text{rod}} = 0.010922/2$~m. Using this geometry and the required heavy metal inventory at a power density of 30~W/g, the total number of rods is approximately $1.9 \times 10^{4}$, giving a total flow area of order $6.8 \times 10^{1}$~m$^{2}$. The corresponding mass flux is then
+
+\begin{equation}
+G = \frac{\dot{m}}{A_{\text{flow,total}}} \approx 1.0 \times 10^{2} \ \text{kg/(m$^{2}$ s)}
+\end{equation}
+
+The bulk coolant velocity is $u = G/\rho \approx 0.14$~m/s. A representative subchannel hydraulic diameter $D_h$ is of order a few centimeters. With $\rho \approx 7.2 \times 10^{2}$~kg/m$^{3}$ and $\mu \sim 2 \times 10^{-4}$~Pa~s, the Reynolds number is
+
+\begin{equation}
+Re = \frac{\rho u D_h}{\mu} \sim 10^{4}
+\end{equation}
+
+confirming fully turbulent flow in the coolant subchannels.
+
+\subsubsection{Heat Flux, CHF, and DNBR}
+
+At a thermal power of 2.0~GWth and power density of 30~W/g, the total fuel mass is approximately 67~tonnes. With UO$_2$ density of 10\,196~kg/m$^{3}$, rod length 3.60172~m, and radius 0.010922/2~m, this corresponds to roughly $1.9 \times 10^{4}$ fuel rods.
+
+The heated surface area for a single rod is
+
+\begin{equation}
+A_{\text{rod}} = \pi D_{\text{rod}} L_{\text{active}} \approx \pi \times 0.010922 \times 3.60172 \ \text{m}^{2}
+\end{equation}
+
+and the total heated surface is
+
+\begin{equation}
+A_{\text{surf,total}} = N_{\text{rods}} A_{\text{rod}} \approx 2.3 \times 10^{3} \ \text{m}^{2}
+\end{equation}
+
+The core-average surface heat flux is then
+
+\begin{equation}
+q''_{\text{avg}} = \frac{\dot{Q}_{\text{th}}}{A_{\text{surf,total}}} \approx 8.4 \times 10^{2} \ \text{kW/m}^{2}
+\end{equation}
+
+For a realistic design, the power peaking factor is expected to lie between 1.2 and 1.5, reflecting radial, axial, and local power variations. Taking $F_q = 1.5$ as a conservative but realistic value gives a peak surface heat flux
+
+\begin{equation}
+q''_{\text{peak}} = F_q q''_{\text{avg}} \approx 1.3 \times 10^{3} \ \text{kW/m}^{2}
+\end{equation}
+
+The CHF is obtained from a Groeneveld-based look-up approach as a function of mass flux. A linear interpolation between reference points $(G_1, \text{CHF}_1) = (100 \ \text{kg/(m$^{2}$ s)}, 4158 \ \text{kW/m}^{2})$ and $(G_2, \text{CHF}_2) = (300 \ \text{kg/(m$^{2}$ s)}, 4523 \ \text{kW/m}^{2})$ is used:
+
+\begin{equation}
+\text{CHF}(G) = \text{CHF}_1 + (G - G_1)\frac{\text{CHF}_2 - \text{CHF}_1}{G_2 - G_1}
+\end{equation}
+
+At $G \approx 102.6$~kg/(m$^{2}$ s), this gives
+
+\begin{equation}
+\text{CHF} \approx 4.2 \times 10^{3} \ \text{kW/m}^{2}
+\end{equation}
+
+A multiplicative safety factor of 0.9 is applied to this CHF to account for correlation uncertainty and data scatter:
+
+\begin{equation}
+q''_{\text{limit}} = 0.9 \times \text{CHF} \approx 3.7 \times 10^{3} \ \text{kW/m}^{2}
+\end{equation}
+
+The Departure from Nucleate Boiling Ratio is then
+
+\begin{equation}
+\text{DNBR} = \frac{q''_{\text{limit}}}{q''_{\text{peak}}} \approx \frac{3.7 \times 10^{3}}{1.3 \times 10^{3}} \approx 2.8
+\end{equation}
+
+A DNBR of approximately 2.8 using a realistic peaking factor (1.5 instead of 2.0) indicates a comfortable margin to CHF in the low-mass-flux regime of this design. The peak heat flux is roughly one-third of the conservatively reduced CHF, providing substantial protection against the onset of film boiling under normal operation.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figs/CHF_comparison.png}
+    \caption{Comparison of thermal-hydraulic parameters for the Last Breath Reactor to typical CANDU and PWR designs, including mass flux, peak heat flux, CHF, and DNBR.}
+    \label{fig:CHF_comparison}
+\end{figure}
+
+\subsubsection{Temperature Regime and Fuel Integrity}
+
+The coolant bulk temperature increases from approximately 260~\textdegree C at the core inlet to approximately 310~\textdegree C at the outlet. With turbulent forced convection (Re $\sim 10^{4}$) and Nusselt numbers on the order of $10^{3}$, the convective heat-transfer coefficients are consistent with typical pressurized heavy water reactor subchannels. Under these conditions, the cladding surface temperature is expected to be only tens of degrees above the coolant bulk temperature, placing it well below 400~\textdegree C, the design limit for normal operation.
+
+For UO$_2$ fuel operating at a power density of 30~W/g, centerline temperatures in conventional PWRs are typically on the order of 1000 to 1500~\textdegree C and remain comfortably below the 2000~\textdegree C design limit for this project. The combination of modest linear heat generation rates, efficient convective cooling, and substantial CHF margin implies that both cladding and fuel remain in a safe temperature regime. The calculated peak heat flux is significantly below the CHF for the present low-mass-flux, 10~MPa operating point, and the expected cladding and fuel temperatures are consistent with, or more conservative than, those in established commercial reactor designs, indicating a low risk of fuel integrity breach under the analyzed conditions.
+
+\subsubsection{Subchannel CFD and Nusselt Number Validation}
+
+To support the channel-level analysis, a subchannel-scale CFD model was constructed around a single representative fuel pin. The geometry is simplified to a fuel-pin-only configuration, omitting surrounding rods and structural hardware, and is operated at the same mass flux and heat flux as the scoping case. From the CFD solution, local convective heat-transfer coefficients are extracted and used to compute the Nusselt number,
+
+\begin{equation}
+Nu = \frac{h D_h}{k}
+\end{equation}
+
+For the nominal operating conditions, the computed Nusselt numbers are of order $10^{3}$, in line with standard turbulent-tube correlations evaluated at $Re \sim 10^{4}$ and the corresponding Prandtl numbers. This agreement confirms that the flow is indeed convection dominated and that the assumed heat-transfer regime used in the temperature and CHF comparisons is consistent with detailed subchannel behavior.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figs/subchannel_velocity_temperature.png}
+    \caption{Representative subchannel CFD results showing velocity and temperature fields around a single fuel pin under nominal mass flux and heat flux conditions.}
+    \label{fig:subchannel_CFD}
+\end{figure}
+
+\subsubsection{Meshing Challenges in the Fuel--Clad--Gap Region}
+
+Extending the subchannel model to include the full fuel--gap--cladding system introduces significant meshing challenges. The fuel pellet radius, helium gas gap thickness, and cladding wall thickness differ by roughly an order of magnitude, with the gas gap and cladding thicknesses approximately one-tenth of the minimum coolant cell size used in the simplified fuel-pin-only model. To resolve steep temperature gradients and accurately capture heat transfer across these thin regions, the mesh must employ local refinement such that cell sizes in the gas gap and cladding are approximately one-tenth of the previous minimum cell size, while maintaining acceptable aspect ratios and skewness.
+
+This requirement leads to a rapid increase in overall cell count and tighter element quality constraints, increasing computational cost and complicating mesh generation. As a result, the current fuel-pin-only model provides a practical initial step: it allows validation that the expected turbulent, convection-dominated regime is achieved and that the resulting heat-transfer coefficients yield cladding and fuel temperatures consistent with scoping expectations, before introducing the full solid stack-up.
+
+\newpage
+
+\section{Viability}
+%\input{textContent/reg}
+
+
+
+
+% ===================================================================
+% REFERENCES
+% ===================================================================
+\printbibliography
+
+
+\clearpage
+
+% ===================================================================
+% APPENDICES
+% ===================================================================
+\appendix
+
+
+
+
+
+
+\end{document}
