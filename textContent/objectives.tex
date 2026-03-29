@@ -1,4 +1,36 @@
-\begin{itemize}
-    \item Operate for +10 GWd/t loaded with spent fuel
-    \item At the end of the critical cycle, the distribution of fissile material should be quantified by a coefficient of variance \< 10\%.
-\end{itemize}
+The Last Breath Reactor project is organized around three interdependent primary engineering objectives:
+
+\textbf{Objective 1: Nonproliferation Through Plutonium Reduction}\\
+Reduce total plutonium concentration in spent fuel by $\geq$20\% while increasing the $^{240}$Pu fraction, and remain within the 62\,GWd/tHM NRC discharge burnup limit.
+
+\textbf{Objective 2: Sustained Criticality with Spent Fuel}\\
+Maintain $k_\text{eff} \geq 1.00$ for a critical cycle yielding at least $+$10\,GWd/t of additional burnup beyond the spent fuel starting point ($\sim$52.6\,GWd/tHM), using a D$_2$O-moderated, 6\,cm-pitch lattice loaded with unmodified spent PWR fuel.
+
+\textbf{Objective 3: Thermal Safety at Commercial Scale}\\
+Generate 2.0\,GW$_\text{th}$ while maintaining DNBR $\geq 1.3$, fuel centerline temperature $< 2000\,^\circ$C, and cladding temperature $< 400\,^\circ$C during normal operation.
+
+The status of each objective against preliminary scoping results and the current detailed analyses is summarized in Table~\ref{tab:objectives}.
+
+\begin{table}[H]
+\centering
+\caption{Objective status and key results at each analysis level.}
+\label{tab:objectives}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c l c l}
+\toprule
+\textbf{Obj.} & \textbf{Metric} & \textbf{Status} & \textbf{Result / Basis} \\
+\midrule
+1 & Pu reduction $\geq$20\%          & \checkmark & 21.5\% (0-D scoping)              \\
+  & Within NRC burnup limit          & \checkmark & 52.6 + 9.4 = 62\,GWd/tHM         \\
+  & $^{240}$Pu fraction increase     & \checkmark & +30\% (0-D scoping)               \\
+\midrule
+2 & $k_\text{eff} \geq 1$ for $+$10\,GWd/t  & \checkmark & $\sim$12\,GWd/t (Power Inverter, Serpent) \\
+  & Starting $k_\infty$              & \checkmark & 1.22 (0-D), confirmed by Serpent  \\
+\midrule
+3 & DNBR $\geq 1.3$                  & \checkmark & DNBR $\approx$ 2.8 (TH analysis)  \\
+  & Fuel and cladding temperatures   & \checkmark & Within limits (TH scoping)         \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+These objectives are coupled through design trade-offs. The 6\,cm lattice pitch enables the thermal spectrum required for plutonium burning (Objectives~1 and~2) but yields a low coolant mass flux, which sets the thermal-hydraulic design envelope (Objective~3). The Power Inverter device, described in Section~\ref{sec:neutronics}, satisfies Objective~2 while additionally improving axial fissile uniformity at end of life.

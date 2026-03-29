@@ -108,6 +108,7 @@ Sean A. Yeatts
 
 \vspace{1in}
 
+
 % Team Captain and Date
 {\normalsize
 \textbf{Team Captain:} Dylan J. Frank\\[0.5em]
@@ -135,12 +136,12 @@ Sean A. Yeatts
 \pagestyle{fancy}
 
 \section{Introduction}
-%\input{textContent/introduction}
+\input{textContent/introduction}
 
 % ===================================================================
 % FOM
 % ===================================================================
-\section{Figures of Merritt}
+\section{Figures of Merit}
 \subsection{Nuclear Explosive Utility}
 \input{textContent/FOM}
 
@@ -151,27 +152,37 @@ Sean A. Yeatts
 \input{textContent/objectives}
 
 % ===================================================================
-% OPTIMIZATION
+% SCOPING
 % ===================================================================
-\section{Optimization Strategy}
+\section{Preliminary Scoping and Design Basis}
+\label{sec:scoping-section}
+\input{textContent/optimizationStrategy}
 
 % ===================================================================
 % Design
 % ===================================================================
 \section{Design Concept}
+% TODO: Add a section describing the final LBR design concept:
+%   - Core layout (number of assemblies, moderator tank, pressure vessel)
+%   - Power Inverter device description (geometry, materials)
+%   - Comparison to CANDU baseline (similarities and key differences)
+%   - Reference to materials selection table if adding materialsSelection.tex
 
 % ===================================================================
 % ANALYSIS
 % ===================================================================
 \section{Analysis Approach and Results}
+\label{sec:analysis}
 
 \subsection{Neutronics and Health Physics}
+\label{sec:neutronics}
 \input{textContent/neutronicsAnalysis}
 
 \subsection{Material Integrity}
 %\input{textContent/spectrumOptimization}
 
 \subsection{Thermal Hydraulics}
+\label{sec:thermalhydraulics}
 
 The primary objective of the thermal-hydraulics analysis for the Last Breath Reactor is to confirm that coolant, cladding, and fuel temperatures remain within acceptable limits and that the local surface heat flux stays comfortably below the critical heat flux (CHF), thereby preserving fuel integrity. The analysis combines a scoping-level channel model with subchannel-scale considerations and uses conservative but realistic input parameters matched to the neutronics design.
 
@@ -273,12 +284,13 @@ The Departure from Nucleate Boiling Ratio is then
 
 A DNBR of approximately 2.8 using a realistic peaking factor (1.5 instead of 2.0) indicates a comfortable margin to CHF in the low-mass-flux regime of this design. The peak heat flux is roughly one-third of the conservatively reduced CHF, providing substantial protection against the onset of film boiling under normal operation.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{figs/CHF_comparison.png}
-    \caption{Comparison of thermal-hydraulic parameters for the Last Breath Reactor to typical CANDU and PWR designs, including mass flux, peak heat flux, CHF, and DNBR.}
-    \label{fig:CHF_comparison}
-\end{figure}
+% TODO: Add figs/CHF_comparison.png and uncomment this figure
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.7\textwidth]{figs/CHF_comparison.png}
+%    \caption{Comparison of thermal-hydraulic parameters for the Last Breath Reactor to typical CANDU and PWR designs, including mass flux, peak heat flux, CHF, and DNBR.}
+%    \label{fig:CHF_comparison}
+%\end{figure}
 
 \subsubsection{Temperature Regime and Fuel Integrity}
 
@@ -296,12 +308,13 @@ Nu = \frac{h D_h}{k}
 
 For the nominal operating conditions, the computed Nusselt numbers are of order $10^{3}$, in line with standard turbulent-tube correlations evaluated at $Re \sim 10^{4}$ and the corresponding Prandtl numbers. This agreement confirms that the flow is indeed convection dominated and that the assumed heat-transfer regime used in the temperature and CHF comparisons is consistent with detailed subchannel behavior.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{figs/subchannel_velocity_temperature.png}
-    \caption{Representative subchannel CFD results showing velocity and temperature fields around a single fuel pin under nominal mass flux and heat flux conditions.}
-    \label{fig:subchannel_CFD}
-\end{figure}
+% TODO: Add figs/subchannel_velocity_temperature.png and uncomment this figure
+%\begin{figure}[H]
+%    \centering
+%    \includegraphics[width=0.7\textwidth]{figs/subchannel_velocity_temperature.png}
+%    \caption{Representative subchannel CFD results showing velocity and temperature fields around a single fuel pin under nominal mass flux and heat flux conditions.}
+%    \label{fig:subchannel_CFD}
+%\end{figure}
 
 \subsubsection{Meshing Challenges in the Fuel--Clad--Gap Region}
 

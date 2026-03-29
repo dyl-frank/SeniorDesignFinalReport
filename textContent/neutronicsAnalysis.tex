@@ -2,7 +2,9 @@
 %  NEUTRONICS ANALYSES
 % ============================================================
 
-Neutronics analyses were performed using the Serpent~2 Monte Carlo neutron and photon transport code \cite{Leppanen2025Status2024}. Serpent was selected over deterministic alternatives for its advanced capabilities in coupled burnup calculations, including: burnup-dependent geometry evolution, detailed chemical and radiological toxicity tracking, flexible depletion zone subdivision, universe nesting and reflective symmetry options, efficient parallel processing via domain decomposition, robust material definition transfers between models via binary restart files, fine control of numerical solvers (CRAM, TTA, and substep methods), and a comprehensive Python-based output-parsing library (SerpentTools) \cite{Johnson2020SerpentTools:Serpent}. These features are particularly well-suited to the multi-physics demands of the Lead-cooled Breeder Reactor (LBR) design workflow, where spent fuel material compositions must be reliably transported across successive simulation stages.
+The preliminary scoping studies in Section~\ref{sec:scoping-section} established the physical basis for the LBR design and confirmed feasibility at the level of 0-D infinite lattice calculations. This section presents the high-fidelity neutronics analyses that address the four limitations identified at the close of that section: isotopic validation against measured data, replacement of the infinite lattice approximation with a full assembly geometry, spectral coupling effects, and axial power redistribution. The analyses proceed in three stages --- (1)~benchmarking against TMI-1 post-irradiation examination data, (2)~moderator and pitch confirmation using a full Serpent lattice model, and (3)~iterative design optimization --- each building directly on the scoping conclusions.
+
+All detailed neutronics analyses were performed using the Serpent~2 Monte Carlo neutron and photon transport code \cite{Leppanen2025Status2024}. Serpent was selected for its advanced coupled burnup capabilities, including: burnup-dependent geometry evolution, detailed isotopic and toxicity tracking, flexible depletion zone subdivision, universe nesting with reflective symmetry options, efficient parallel processing via domain decomposition, material definition transfer via binary restart files, fine control of numerical solvers (CRAM, TTA, and substep methods), and a comprehensive Python-based output-parsing library (SerpentTools) \cite{Johnson2020SerpentTools:Serpent}. These features are essential for the multi-physics demands of the LBR workflow, where spatially resolved spent fuel compositions must be reliably propagated across successive simulation stages --- a requirement the 0-D scoping tools could not meet.
 
 % ============================================================
 \subsection{Spent Fuel Characterization: TMI-1 Benchmark}
@@ -10,7 +12,7 @@ Neutronics analyses were performed using the Serpent~2 Monte Carlo neutron and p
 
 Spent fuel material definitions were generated using an axially-resolved model of a fuel assembly from Three Mile Island Unit~1 (TMI-1). TMI-1 was selected as the benchmark case due to the availability of well-documented, spatially resolved isotopic and burnup distribution data for the assembly NJ05YU, which enables rigorous verification and validation (V\&V) of the depletion methodology prior to application in the LBR design iteration \cite{Wolf2000AnalysisReport}. The Serpent model geometry was constructed on the basis of a 1998 MCNP reference calculation \cite{Wright1998CRCI.}.
 
-The assembly geometry, shown in Figure~\ref{fig:tmi_geometry}, is discretized axially into a series of depletion zones to capture the spatially non-uniform burnup profile that results from flux gradients, control rod positioning, and coolant density variation along the rod length. Structural components — including upper and lower grid spacers, flanges, and flow distribution hardware — are explicitly modeled with region-specific material assignments. Key geometric and material parameters are summarized in Table~\ref{tab:figure_labels}.
+The assembly geometry, shown in Figure~\ref{fig:tmi_geometry}, is discretized axially into a series of depletion zones to capture the spatially non-uniform burnup profile that results from flux gradients, control rod positioning, and coolant density variation along the rod length. Structural components --- including upper and lower grid spacers, flanges, and flow distribution hardware --- are explicitly modeled with region-specific material assignments. Key geometric and material parameters are summarized in Table~\ref{tab:tmi_geometry_params}.
 
 \begin{figure}[H]
     \centering
@@ -22,7 +24,7 @@ The assembly geometry, shown in Figure~\ref{fig:tmi_geometry}, is discretized ax
 \begin{table}[H]
 \centering
 \caption{Labeled components of the TMI-1 fuel assembly geometry shown in Figure~\ref{fig:tmi_geometry}. Dimension $t$ denotes axial thickness; $d$, $L$, and $p$ denote diameter, active length, and rod pitch, respectively.}
-\label{tab:figure_labels}
+\label{tab:tmi_geometry_params}
 \renewcommand{\arraystretch}{1.4}
 \begin{tabular}{c l l l}
 \toprule
@@ -69,7 +71,7 @@ The assembly geometry, shown in Figure~\ref{fig:tmi_geometry}, is discretized ax
 
 Burnup simulations followed the irradiation history of Assembly NJ05YU as documented in \cite{Wolf2000AnalysisReport}, comprising: a 666-day first cycle with control rods fully inserted, a 36-day shutdown period, and a 692-day second cycle with control rods fully withdrawn. A constant assembly fission power of 14.508\,MW was maintained throughout all operating periods. The assembly-averaged discharge burnup is approximately 30\,GWd/MTU.
 
-Two independent simulations of the operating history were performed, each using different numerical solver configurations — specifically, different depletion algorithms (CRAM-16 vs.\ a substep method) and timestep discretizations — in order to assess the sensitivity of isotopic predictions to solver parameters. As shown in Figure~\ref{fig:tmi-stability}, solver selection has a non-trivial effect on the predicted nuclide evolution, particularly for short-lived intermediaries and actinide chains that are sensitive to numerical stiffness. The stable configuration, characterized by finer substep divisions and higher-order CRAM, was adopted for all subsequent material generation.
+Two independent simulations of the operating history were performed, each using different numerical solver configurations --- specifically, different depletion algorithms (CRAM-16 vs.\ a substep method) and timestep discretizations --- in order to assess the sensitivity of isotopic predictions to solver parameters. As shown in Figure~\ref{fig:tmi-stability}, solver selection has a non-trivial effect on the predicted nuclide evolution, particularly for short-lived intermediaries and actinide chains that are sensitive to numerical stiffness. The stable configuration, characterized by finer substep divisions and higher-order CRAM, was adopted for all subsequent material generation.
 
 \begin{figure}[H]
     \centering
@@ -91,15 +93,17 @@ The predicted axial distribution of $^{235}$U concentration is shown in Figure~\
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.65\linewidth]{U235_evol_tmi.png}
+    % TODO: Move this file to figs/ directory and update path to {figs/U235_evol_tmi.png}
     \caption{Axial distribution of $^{235}$U concentration from initial loading through discharge, compared against radiochemical assay data. Simulation results (solid lines) fall within the $2\sigma$ experimental uncertainty bounds (shaded) at all irradiation stages, confirming the accuracy of the depletion model for the primary fissile species.}
     \label{fig:U235_evol_tmi}
 \end{figure}
 
-The predicted axial distribution of $^{239}$Pu is shown in Figure~\ref{fig:Pu239_evol_tmi}. Simulated results deviate considerably from the 1999 experimental dataset, but align closely with the 2013 re-evaluation, which incorporated revised cross-section libraries and updated decay data. This discrepancy is attributed to improvements in the nuclear data used for Pu production and capture reactions rather than deficiencies in the transport model itself. The agreement with the 2013 dataset provides confidence that the current simulation correctly captures plutonium buildup — a quantity of central importance to LBR breeding performance.
+The predicted axial distribution of $^{239}$Pu is shown in Figure~\ref{fig:Pu239_evol_tmi}. Simulated results deviate considerably from the 1999 experimental dataset, but align closely with the 2013 re-evaluation, which incorporated revised cross-section libraries and updated decay data. This discrepancy is attributed to improvements in the nuclear data used for Pu production and capture reactions rather than deficiencies in the transport model itself. The agreement with the 2013 dataset provides confidence that the current simulation correctly captures plutonium buildup --- a quantity of central importance to LBR breeding performance.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.65\linewidth]{Pu239_evol_tmi.png}
+    % TODO: Move this file to figs/ directory and update path to {figs/Pu239_evol_tmi.png}
     \caption{Axial distribution of $^{239}$Pu concentration from initial loading through discharge, compared against the 1999 experimental assay and the 2013 re-evaluation. The improved agreement with the 2013 dataset is attributed to updated nuclear data libraries rather than model deficiencies, and provides confidence in predicted plutonium breeding behavior.}
     \label{fig:Pu239_evol_tmi}
 \end{figure}
@@ -107,34 +111,35 @@ The predicted axial distribution of $^{239}$Pu is shown in Figure~\ref{fig:Pu239
 Taken together, the $^{235}$U and $^{239}$Pu validation results demonstrate that the TMI-1 depletion model accurately reproduces the isotopic composition of spent LWR fuel. The validated material definitions are subsequently transferred to the LBR lattice model via Serpent's binary restart file mechanism, eliminating interpolation error and preserving the full nuclide inventory for each axial depletion zone.
 
 % ============================================================
-\subsection{Moderator and Lattice Pitch Selection}
+\subsection{Moderator and Lattice Pitch Confirmation}
 % ============================================================
 
-The choice of moderator material and lattice pitch exerts the strongest influence on the neutron energy spectrum, initial reactivity, and the balance between fission and breeding reactions. Following the approach used in the preliminary 0-D scoping studies, a parametric sweep was conducted over a range of lattice pitches for each candidate moderator material. Candidate moderators considered in this study include light water (H$_2$O), heavy water (D$_2$O), and graphite. Spent fuel material definitions were transferred directly from the validated TMI-1 model via binary restart file, without fuel shuffling, ensuring that the lattice-level neutronics are evaluated using a physically consistent starting composition.
+The 0-D scoping study (Section~\ref{sec:scoping}) identified D$_2$O moderation at a 6\,cm lattice pitch as the design point on the basis of an infinite lattice model with a single tabulated spent fuel composition. That study could not account for the spectral effects of the full assembly geometry, the axially resolved burnup profile from the TMI-1 benchmark, or the inclusion of graphite as an additional candidate moderator. A Serpent-level parametric pitch sweep was therefore conducted to confirm --- or revise --- the scoping selection under physically realistic conditions.
 
-Two figures of merit (FOM) were used to guide pitch selection:
+Spent fuel material definitions were transferred directly from the validated TMI-1 model via binary restart file, without fuel shuffling, preserving the full axially resolved nuclide inventory for each depletion zone. Three moderator candidates were evaluated: light water (H$_2$O), heavy water (D$_2$O), and graphite. Two figures of merit guided pitch selection:
+
 \begin{enumerate}
-    \item \textbf{Initial excess reactivity} ($k_\infty - 1$): a measure of how much reactivity margin is available at the start of the critical cycle, which sets an upper bound on achievable cycle length.
-    \item \textbf{Burn-to-breed ratio of $^{239}$Pu}: defined as the ratio of $^{239}$Pu consumed by fission to $^{239}$Pu produced by $^{238}$U capture, which quantifies the degree to which the assembly operates as a breeder versus a burner.
+    \item \textbf{Initial excess reactivity} ($k_\infty - 1$): the available reactivity margin at start of cycle, which bounds achievable cycle length.
+    \item \textbf{Burn-to-breed ratio of $^{239}$Pu}: ratio of $^{239}$Pu consumed by fission to $^{239}$Pu produced by $^{238}$U capture; values below unity indicate net breeding, above unity indicate net burning.
 \end{enumerate}
 
-The dependence of each FOM on lattice pitch and moderator selection is shown in Figures~\ref{fig:keff_sweep} and~\ref{fig:b2b_sweep}, respectively.
+Results are shown in Figures~\ref{fig:keff_sweep} and~\ref{fig:b2b_sweep}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{figs/absKeffLBR.png}
-    \caption{Infinite multiplication factor $k_\infty$ as a function of lattice pitch for each candidate moderator material. Each curve reflects a constant spent fuel composition transferred from the TMI-1 benchmark model.}
+    \caption{Infinite multiplication factor $k_\infty$ versus lattice pitch for each candidate moderator, computed with the Serpent assembly model using validated TMI-1 spent fuel compositions. This is the high-fidelity counterpart to Figure~\ref{fig:kinf-pitch} from the 0-D scoping study.}
     \label{fig:keff_sweep}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{figs/burnToBreedLBR.png}
-    \caption{Burn-to-breed ratio of $^{239}$Pu as a function of lattice pitch for each candidate moderator. Values below unity indicate net plutonium production (breeding mode); values above unity indicate net consumption (burning mode).}
+    \caption{Burn-to-breed ratio of $^{239}$Pu versus lattice pitch for each candidate moderator. Values below unity indicate net in-situ plutonium production. This FOM has no direct equivalent in the 0-D scoping study, as it requires the spatially resolved flux from the full assembly model.}
     \label{fig:b2b_sweep}
 \end{figure}
 
-Based on the results of the pitch sweep, a lattice pitch of 6\,cm with heavy water moderation was selected as the reference design point. This combination yields a sufficiently positive initial reactivity to support a meaningful critical cycle length while maintaining a burn-to-breed ratio below unity — indicating net in-situ plutonium production. This conclusion is consistent with the findings from the preliminary infinite-lattice scoping studies, providing cross-validation of the methodology across two levels of geometric fidelity.
+The Serpent results confirm the scoping conclusion: D$_2$O at 6\,cm pitch is the only combination that simultaneously achieves positive initial reactivity and a burn-to-breed ratio below unity. Graphite moderation provides moderate thermalization but insufficient criticality margin; H$_2$O remains subcritical at all pitches, consistent with the 0-D finding. The burn-to-breed FOM --- unavailable to the 0-D model --- adds a new dimension: it confirms that the 6\,cm D$_2$O point satisfies the net plutonium burning condition not just at the isotopic cross-section level (as demonstrated in Section~\ref{sec:transmutation-kinetics}) but in an actual spatially resolved assembly geometry with realistic spent fuel compositions.
 
 % ============================================================
 \subsection{Design Iteration}
@@ -164,37 +169,46 @@ Design performance was assessed using two figures of merit evaluated at the end 
 
 \noindent Here, $N$ is the number of equally sized axial depletion nodes, and $w_i$ is the total fissile weight percent (summed over $^{235}$U and $^{239}$Pu) at node $i$. A lower CV at end-of-life indicates a more axially uniform depletion profile, which is beneficial from both neutronics and fuel management perspectives, as it implies more complete utilization of the available fissile inventory and reduced peak-to-average power factors. Note that this metric is valid only for a uniform axial discretization in which each node $w_i$ represents an equal-length segment of the active fuel column.
 
+% ============================================================
+\subsubsection{Design Variants}
+% ============================================================
+
 Four design variants were evaluated, each representing a different strategy for redistributing fission power toward the rod extremities:
 
 \paragraph{Baseline (Spent Fuel As-Is).}
 In this configuration, the LBR assembly is loaded exclusively with spent PWR fuel rods in their as-discharged condition, with no additional devices or structural modifications. This case serves as the reference against which all modified designs are compared.
 
 \paragraph{Beryllium End Reflectors.}
-In this design, each fuel rod is fitted with beryllium ($^9$Be) axial reflector plugs in the upper and lower 70\,cm of the active zone, as illustrated in Figure~\ref{fig:be_caps_sketch}. Beryllium is an effective fast-neutron reflector and moderator due to its low neutron capture cross section and significant scattering cross section, and it is a neutron multiplier via the $^9$Be$(n,2n)$ reaction. The intent is to reflect neutrons that would otherwise stream axially out of the assembly back into the fissile end regions, thereby increasing the local thermal flux and enhancing fission rates in the less-depleted rod extremities.
+In this design, each fuel rod is fitted with beryllium ($^9$Be) axial reflector plugs in the upper and lower 70\,cm of the active zone, as illustrated in Figure~\ref{fig:be_caps_sketch}.
+% TODO: Add a schematic figure of the Be end cap geometry and update the label above.
+Beryllium is an effective fast-neutron reflector and moderator due to its low neutron capture cross section and significant scattering cross section, and it is a neutron multiplier via the $^9$Be$(n,2n)$ reaction. The intent is to reflect neutrons that would otherwise stream axially out of the assembly back into the fissile end regions, thereby increasing the local thermal flux and enhancing fission rates in the less-depleted rod extremities.
 
 \paragraph{Fresh Fuel Rods.}
 In this design, every alternate lattice position is occupied by a fresh fuel rod. These rods have a graded enrichment profile: the central region (coinciding with the high-burnup zone of adjacent spent rods) is loaded with 5\,wt.\%\,UO$_2$, while the end regions are loaded with 10\,wt.\%\,UO$_2$ to compensate for the lower reactivity in the axial periphery and to promote peaked fission power at the rod extremities. This design introduces fresh fissile material as an active power-shaping tool.
 
 \paragraph{Power Inverter Device.}
-In this design, every alternate lattice position is occupied by a novel component designated the \textit{Power Inverter}. In the reference Power Inverter configuration, the upper and lower 70\,cm of each device contain 5\,wt.\%\,UO$_2$ fuel pins, while the central region is occupied by cerium dioxide (CeO$_2$, ceria) pins — all enclosed within a shared Zircaloy-4 cladding tube. The Power Inverter is designed to invert the axial power profile relative to the baseline: fission is concentrated in the end regions (co-located with the under-depleted extremities of the surrounding spent rods), while the central region contributes negligible fission power.
+In this design, every alternate lattice position is occupied by a novel component designated the \textit{Power Inverter}. In the reference Power Inverter configuration, the upper and lower 70\,cm of each device contain 5\,wt.\%\,UO$_2$ fuel pins, while the central region is occupied by cerium dioxide (CeO$_2$, ceria) pins --- all enclosed within a shared Zircaloy-4 cladding tube. The Power Inverter is designed to invert the axial power profile relative to the baseline: fission is concentrated in the end regions (co-located with the under-depleted extremities of the surrounding spent rods), while the central region contributes negligible fission power.
 
-Ceria was selected as the central inert fill material for several reasons: (i) it is largely transparent to thermal neutrons due to its low absorption cross section, allowing the axial neutron flux to diffuse into the end fuel regions without being parasitically absorbed; (ii) it is chemically inert and thermally stable at LWR operating temperatures; and (iii) it shares closely matched thermo-mechanical properties with UO$_2$ — including crystal structure (fluorite), thermal conductivity, and coefficient of thermal expansion — which mitigates stress concentration and material compatibility concerns at the CeO$_2$/UO$_2$ interface.
+Ceria was selected as the central inert fill material for several reasons: (i) it is largely transparent to thermal neutrons due to its low absorption cross section, allowing the axial neutron flux to diffuse into the end fuel regions without being parasitically absorbed; (ii) it is chemically inert and thermally stable at LWR operating temperatures; and (iii) it shares closely matched thermo-mechanical properties with UO$_2$ --- including crystal structure (fluorite), thermal conductivity, and coefficient of thermal expansion --- which mitigates stress concentration and material compatibility concerns at the CeO$_2$/UO$_2$ interface.
 
-The performance of each design variant against the two figures of merit is discussed in Section~\ref{sec:results}. % <-- update cross-ref as needed
+% ============================================================
+\subsubsection{Comparative Performance of Design Variants}
+% ============================================================
 
+The $k_\text{eff}$ evolution and end-of-cycle fissile distribution for all four design variants are shown in Figures~\ref{fig:4designs_keff} and~\ref{fig:4designs_fiss_dist}, respectively. The power distribution at the beginning of the critical cycle for each variant is shown in Figure~\ref{fig:power_dist_all}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{figs/4-designs-keff.png}
-    \caption{Enter Caption}
-    \label{fig:placeholder}
+    \caption{Evolution of $k_\text{eff}$ as a function of total burnup for all four design variants. The shaded green region indicates the design objective: $k_\text{eff} \geq 1$ for at least 10\,GWd/t of additional burnup beyond the spent fuel starting point. The Fresh Fuel Rod design achieves the longest critical cycle ($\sim$14\,GWd/t), followed by the Power Inverter ($\sim$12\,GWd/t). The Baseline and Beryllium End Reflector variants perform nearly identically, achieving marginally shorter cycles ($\sim$10\,GWd/t).}
+    \label{fig:4designs_keff}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{figs/4-designs-fiss-dist.png}
-    \caption{Enter Caption}
-    \label{fig:placeholder}
+    \caption{Axial fissile material ($^{235}$U + $^{239}$Pu) distribution in the spent fuel rod at end of cycle for each design variant. CV values --- a measure of axial non-uniformity --- are: Power Inverter (11.25\%), Beryllium End Reflectors (15.77\%), Baseline (16.43\%), and Fresh Fuel Rods (23.78\%). The Power Inverter achieves the most uniform end-of-cycle fissile distribution, indicating that fission power was most effectively redistributed toward the under-depleted rod extremities.}
+    \label{fig:4designs_fiss_dist}
 \end{figure}
 
 \newpage
@@ -204,13 +218,15 @@ The performance of each design variant against the two figures of merit is discu
     \begin{subfigure}[t]{0.48\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figs/powerdist-donothing.png}
-        \caption{Baseline}
+        \caption{Baseline --- cosine-shaped power profile peaked at the axial midplane, with reduced flux at the rod extremities due to neutron leakage.}
+        \label{fig:powerdist_baseline}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.48\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figs/powerdist-becaps.png}
-        \caption{Beryllium End Reflectors}
+        \caption{Beryllium End Reflectors --- minimal redistribution relative to the baseline; the cosine shape is largely preserved, indicating limited effectiveness of passive end-reflection.}
+        \label{fig:powerdist_becaps}
     \end{subfigure}
 
     \medskip
@@ -218,63 +234,87 @@ The performance of each design variant against the two figures of merit is discu
     \begin{subfigure}[t]{0.48\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figs/powerdist-freshrods.png}
-        \caption{Fresh Fuel Rods}
+        \caption{Fresh Fuel Rods --- elevated and asymmetric power distribution driven by the graded enrichment of the interleaved fresh rods; power remains center-heavy with a shifted axial profile.}
+        \label{fig:powerdist_freshrods}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{0.48\linewidth}
         \centering
         \includegraphics[width=\linewidth]{figs/powerdist-powerinverter.png}
-        \caption{Power Inverter Device}
+        \caption{Power Inverter Device --- distinctly inverted power profile. The UO$_2$ end regions of the Power Inverter rods produce localized high-flux zones at the axial extremities, while the CeO$_2$ central region yields a dark (low-power) band in the core midplane.}
+        \label{fig:powerdist_powerinverter}
     \end{subfigure}
 
-    \caption{Power distribution profiles under each mitigation strategy.}
+    \caption{Axial power distribution maps for each design variant, rendered as Serpent flux tallies over the assembly cross-section. Brighter color indicates higher local neutron flux and power density. Each image is normalized independently.}
+    \label{fig:power_dist_all}
 \end{figure}
 
-\usepackage{makecell} % in preamble
+% ============================================================
+\subsubsection{Design Selection}
+% ============================================================
+
+The performance of each design variant is summarized in Table~\ref{tab:decision_matrix} using a weighted decision matrix. Three criteria are applied: critical cycle length (weight 0.4), reliance on spent fuel as the primary fissile source (weight 0.3), and utilization of the under-depleted rod extremities (weight 0.3). Scores are assigned on a scale of 1 (worst) to 4 (best).
 
 \begin{table}[H]
     \centering
+    \caption{Weighted decision matrix for LBR design variant selection. Scores are assigned on a scale of 1--4 per criterion; the weighted total determines the preferred design.}
+    \label{tab:decision_matrix}
     \renewcommand{\arraystretch}{1.8}
-    \begin{tabular}{>{\bfseries\raggedright\arraybackslash}m{3.8cm} 
-                    >{\centering\arraybackslash}m{1.2cm} 
-                    >{\centering\arraybackslash}m{1.8cm} 
-                    >{\centering\arraybackslash}m{1.5cm} 
-                    >{\centering\arraybackslash}m{1.8cm} 
+    \begin{tabular}{>{\bfseries\raggedright\arraybackslash}m{3.8cm}
+                    >{\centering\arraybackslash}m{1.2cm}
+                    >{\centering\arraybackslash}m{1.8cm}
+                    >{\centering\arraybackslash}m{1.5cm}
+                    >{\centering\arraybackslash}m{1.8cm}
                     >{\centering\arraybackslash}m{1.5cm}}
     \toprule
-    \textbf{Criteria} & \textbf{Weight} & \textbf{Do Nothing} & \textbf{Be Caps} & \textbf{Fresh Fuel} & \textbf{Power Inv.} \\
+    \textbf{Criteria} & \textbf{Weight} & \textbf{Baseline} & \textbf{Be Caps} & \textbf{Fresh Fuel} & \textbf{Power Inv.} \\
     \midrule
-    Critical Cycle Length        & 0.4 & 1 & 1 & 4 & 3 \\
-    Reliance on Spent Fuel       & 0.3 & 4 & 3 & 1 & 2 \\
-    Utilization of lesser-depleted regions & 0.3 & 2 & 3 & 1 & 4 \\
+    Critical Cycle Length                    & 0.4 & 1 & 1 & 4 & 3 \\
+    Reliance on Spent Fuel                   & 0.3 & 4 & 3 & 1 & 2 \\
+    Utilization of Under-Depleted Regions    & 0.3 & 2 & 3 & 1 & 4 \\
     \midrule
     \textbf{Total} & \textbf{1.0} & \textbf{2.2} & \textbf{2.2} & \textbf{2.2} & \textbf{3.0} \\
     \bottomrule
     \end{tabular}
-    \caption{Weighted decision matrix for mitigation strategies.}
 \end{table}
 
-Based upon the results of the 4 designs, it is justified to continue iterating upon the power inverter design. Because each simulation requires \>24 hours of wall time, a simplified model of the assembly was made using periodic boundary conditions -- as shown in Figure \ref{}. Although there are large discrepancies between the simplified model and higher-fidelity results, the simplified model completes the burnup simulation in \< 1 hour and provides general insight allowing for a large parametric sweep.
+The Power Inverter design achieves the highest weighted score (3.0) across all variants. While the Fresh Fuel Rod design yields the longest critical cycle, it does so by introducing substantial quantities of fresh fissile material, thereby reducing the mission's reliance on spent fuel reuse --- a primary design objective. The Beryllium End Reflector and Baseline designs score equally and underperform on cycle length. The Power Inverter offers the best balance: it meaningfully extends cycle length relative to the baseline, achieves the lowest end-of-cycle CV (11.25\%), and accomplishes this by redistributing fission power within the existing spent fuel inventory rather than supplementing it with fresh material.
+
+The power distribution maps in Figure~\ref{fig:power_dist_all} provide qualitative confirmation of this conclusion. The Power Inverter is the only design to visibly invert the axial flux profile, producing localized high-flux zones at the rod extremities that directly overlap with the under-depleted fissile regions identified in the TMI-1 discharge analysis.
+
+% ============================================================
+\subsubsection{Power Inverter Parametric Optimization}
+% ============================================================
+
+Having selected the Power Inverter as the preferred design concept, a parametric sweep was conducted to optimize the two free geometric parameters of the device: the axial height of the UO$_2$ end-fuel regions, and the enrichment of those regions. Because each high-fidelity full-assembly simulation requires in excess of 24 hours of wall-clock time, a computationally reduced model was constructed using periodic (reflective) boundary conditions, as shown in Figure~\ref{fig:simplified_lbr}. The simplified model reduces simulation time to under one hour per case, enabling a broad parameter sweep at the cost of some geometric fidelity.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{figs/simplified-lbr.png}
-    \caption{Enter Caption}
-    \label{fig:placeholder}
+    \caption{Radial cross-section of the simplified Power Inverter lattice model with periodic boundary conditions (dashed red). The unit cell contains one Power Inverter rod (center, gray) surrounded by eight spent fuel rods (purple). Black markers indicate the rods included within the repeating unit cell boundary.}
+    \label{fig:simplified_lbr}
 \end{figure}
 
-The parametric sweep was conducted for the length and enrichment of the fuel regions of the Power Inverter. Results for the CV and critical cycle length are shown in Figures \ref{} and \ref{} respectively.
+% TODO: Quantify and briefly discuss the magnitude of discrepancy between the simplified and high-fidelity models (e.g., difference in k-eff or CV) to justify using the simplified model for trend identification rather than absolute optimization.
+
+The parametric sweep varied the UO$_2$ fuel height from 20 to 180\,cm and the enrichment from 2.5 to 8.5\,wt.\%. Results for the two figures of merit --- end-of-cycle CV and critical cycle length --- are presented as heat maps in Figures~\ref{fig:sweep_cv} and~\ref{fig:sweep_length}, respectively.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figs/power-inverter-sweep-cv.png}
-    \caption{Coefficient of variance results from power inverter parametric sweep. The length of fuel regions varied in height and enrichment. The study reveals that optimal length is between 60 and 80 cm}
-    \label{fig:placeholder}
+    \caption{End-of-cycle coefficient of variation (CV) of fissile concentration in the spent fuel rod as a function of Power Inverter fuel height and enrichment. Lower CV indicates more uniform axial depletion. The minimum CV ($\approx$21\%) is achieved at fuel heights between 60 and 70\,cm across a wide range of enrichments, with modest improvement at higher enrichment. Very short ($\leq$40\,cm) and very tall ($\geq$120\,cm) fuel regions both produce significantly higher CV, indicating insufficient or excessive power redistribution, respectively.}
+    \label{fig:sweep_cv}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figs/power-inverter-sweep-length.png}
-    \caption{Enter Caption}
-    \label{fig:placeholder}
+    \caption{Critical cycle length (GWd/t at $k_\text{eff} = 1$) as a function of Power Inverter fuel height and enrichment. Cycle length increases monotonically with both fuel height and enrichment, reaching a maximum of $\approx$25\,GWd/t at 180\,cm and 8.5\,wt.\%. However, these tall, highly enriched configurations correspond to the worst CV performance, illustrating a fundamental tradeoff between cycle length and axial fissile uniformity.}
+    \label{fig:sweep_length}
 \end{figure}
+
+The sweep reveals a clear tradeoff between the two figures of merit. Maximizing cycle length favors tall, highly enriched UO$_2$ end regions (top-right of Figure~\ref{fig:sweep_length}), while minimizing CV --- and thus achieving the flattest end-of-cycle fissile profile --- favors moderate heights in the 60--70\,cm range (Figure~\ref{fig:sweep_cv}). At very large fuel heights, the Power Inverter begins to resemble a conventional fuel rod, and the benefit of power inversion at the spent-fuel extremities diminishes. At very small heights, insufficient fission power is deposited in the end regions to meaningfully flatten the spent fuel depletion profile.
+
+% TODO: Identify and justify the selected design point (fuel height and enrichment) based on the tradeoff above. For example, a height of 70 cm at 6.5 wt.% achieves CV $\approx$ 22.7\% and cycle length $\approx$ 13.2\,GWd/t --- state the final selected values and the rationale (e.g., Pareto-optimal point, minimum CV subject to cycle length $\geq X$\,GWd/t).
+
+% TODO: Report the final Power Inverter design point and discuss how its performance compares to the preliminary 4-design comparison (Figure~\ref{fig:4designs_keff} and \ref{fig:4designs_fiss_dist}), noting any improvements achieved through parameter optimization.
