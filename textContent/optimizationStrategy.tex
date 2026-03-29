@@ -27,7 +27,7 @@ with $\Phi_0$ the scalar neutron flux and $\langle \sigma_* \rangle$ denoting fl
     N_\text{U238}(t) = N_\text{U238}(0)\,e^{-\lambda_1 t}
 \end{equation}
 
-Substituting into \eqref{eq:Pu239-ode} yields a first-order linear ODE. The necessary condition for net plutonium burning --- a monotonically decreasing $^{239}$Pu inventory --- requires:
+Substituting into \eqref{eq:Pu239-ode} yields a first-order linear ODE. The necessary condition for net plutonium burning (a monotonically decreasing $^{239}$Pu inventory) requires:
 \begin{equation}
     \lambda_3 N_\text{Pu239}(t) > \lambda_2 N_\text{U238}(0)\,e^{-\lambda_1 t} \qquad \forall\, t \geq 0
     \label{eq:burn-condition}
@@ -53,16 +53,16 @@ Figure~\ref{fig:breed-burn-xs} shows the energy-dependent cross sections for bot
 \label{sec:scoping}
 % ============================================================
 
-The cross-section analysis establishes the need for a highly thermalized spectrum but does not by itself determine the moderator material or lattice geometry. A series of preliminary scoping calculations was performed --- progressing from infinite lattice models to 0-D depletion analyses --- to translate the spectrum requirement into concrete design parameters.
+The cross-section analysis establishes the need for a highly thermalized spectrum but does not by itself determine the moderator material or lattice geometry. A series of preliminary scoping calculations was performed, progressing from infinite lattice models to 0-D depletion analyses, to translate the spectrum requirement into concrete design parameters.
 
 \subsubsection{Moderator and Lattice Pitch: Infinite Lattice Study}
 
-An infinite lattice model was constructed using a representative high-burnup TMI-1 spent fuel composition (52.6\,GWd/tHM --- one of the highest-burnup samples available in the SFCOMPO-2.0 database \cite{Michel-Sendis2017SFCOMPO-2.0:Data}), chosen as a conservative baseline that maximizes the challenge of sustaining criticality with degraded fuel. Three moderator candidates were evaluated --- light water (H$_2$O), heavy water (D$_2$O), and helium --- across a range of lattice pitches from 1.5 to 15\,cm.
+An infinite lattice model was constructed using a representative high-burnup TMI-1 spent fuel composition (52.6\,GWd/tHM, one of the highest-burnup samples available in the SFCOMPO-2.0 database \cite{Michel-Sendis2017SFCOMPO-2.0:Data}), chosen as a conservative baseline that maximizes the challenge of sustaining criticality with degraded fuel. Three moderator candidates were evaluated: light water (H$_2$O), heavy water (D$_2$O), and helium, across a range of lattice pitches from 1.5 to 15\,cm.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.73\linewidth]{figs/KinfVsPitch.png}
-    \caption{Infinite multiplication factor $k_\infty$ at startup versus lattice pitch for H$_2$O, D$_2$O, and He moderation, using a representative TMI-1 spent fuel composition (52.6\,GWd/tHM). Light water and helium fail to achieve criticality at any pitch; D$_2$O reaches $k_\infty > 1$ for pitches above $\sim$3\,cm and plateaus near 1.27 at 6--15\,cm.}
+    \caption{Infinite multiplication factor $k_\infty$ at startup versus lattice pitch for H$_2$O, D$_2$O, and He moderation, using a representative TMI-1 spent fuel composition (52.6\,GWd/tHM). Light water and helium fail to achieve criticality at any pitch; D$_2$O reaches $k_\infty > 1$ for pitches above $\sim$3\,cm and plateaus near 1.27 at pitches of 6 to 15\,cm.}
     \label{fig:kinf-pitch}
 \end{figure}
 
@@ -95,7 +95,7 @@ The NRC regulatory burnup limit is 62\,GWd/tHM. Starting from an initial burnup 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figs/kinfVsBurn.png}
-    \caption{Infinite multiplication factor $k_\infty$ versus operating time at 30\,W/gHM for the D$_2$O / 6\,cm pitch infinite lattice. Criticality is maintained for 300 days --- 13 days short of the NRC burnup limit --- demonstrating near-optimal utilization of available reactivity margin. The shaded region indicates operation beyond the regulatory burnup ceiling.}
+    \caption{Infinite multiplication factor $k_\infty$ versus operating time at 30\,W/gHM for the D$_2$O / 6\,cm pitch infinite lattice. Criticality is maintained for 300 days, which is 13 days short of the NRC burnup limit, demonstrating near-optimal utilization of available reactivity margin. The shaded region indicates operation beyond the regulatory burnup ceiling.}
     \label{fig:kinf-burn}
 \end{figure}
 
@@ -106,7 +106,7 @@ Figure~\ref{fig:kinf-burn} shows that $k_\infty \geq 1$ is maintained for 300 da
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figs/concVsBurn.png}
-    \caption{Fissile isotope weight fractions versus operating time. $^{235}$U depletes from 0.74\% to 0.30\% (59\% reduction) while $^{239}$Pu depletes from 0.59\% to 0.39\% (34\% reduction). Total plutonium decreases from 1.26\% to 0.99\% --- a 21.5\% reduction, exceeding the 20\% design target. Continuous breeding from $^{238}$U partially replenishes the $^{239}$Pu inventory, consistent with the $\lambda_3/\lambda_2 > 1$ condition.}
+    \caption{Fissile isotope weight fractions versus operating time. $^{235}$U depletes from 0.74\% to 0.30\% (59\% reduction) while $^{239}$Pu depletes from 0.59\% to 0.39\% (34\% reduction). Total plutonium decreases from 1.26\% to 0.99\%, a 21.5\% reduction exceeding the 20\% design target. Continuous breeding from $^{238}$U partially replenishes the $^{239}$Pu inventory, consistent with the $\lambda_3/\lambda_2 > 1$ condition.}
     \label{fig:conc-burn}
 \end{figure}
 
@@ -134,7 +134,7 @@ The 0-D infinite lattice analysis confirms that all three primary design objecti
 These results assume spatially uniform depletion and an ideal infinite lattice. Several critical phenomena are outside the scope of 0-D analysis and require higher-fidelity treatment before the design can be considered credible:
 
 \begin{enumerate}
-    \item \textbf{Axially non-uniform spent fuel burnup.} Real PWR assemblies discharge with a spatially varying burnup profile --- the rod extremities retain substantially more fissile material than the axial midplane. A 0-D model cannot capture this, so the isotopic starting conditions for the LBR differ significantly from those of a single-composition infinite lattice.
+    \item \textbf{Axially non-uniform spent fuel burnup.} Real PWR assemblies discharge with a spatially varying burnup profile, where the rod extremities retain substantially more fissile material than the axial midplane. A 0-D model cannot capture this, so the isotopic starting conditions for the LBR differ significantly from those of a single-composition infinite lattice.
     \item \textbf{Isotopic validation.} The 0-D model uses a single tabulated composition from a database. Before those compositions can be trusted as LBR fuel inputs, the depletion code must be benchmarked against measured post-irradiation examination (PIE) data.
     \item \textbf{Spectral coupling between moderator and fuel.} The interaction between the D$_2$O moderator and spatially distributed fuel regions in a real assembly changes both the effective pitch and the flux-weighted cross sections relative to the infinite lattice assumption.
     \item \textbf{Axial power redistribution.} The non-uniform fissile profile drives an axially peaked power distribution that is invisible to 0-D models but directly impacts cycle length, thermal margins, and fuel utilization efficiency.
