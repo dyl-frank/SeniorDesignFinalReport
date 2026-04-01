@@ -44,6 +44,12 @@
 \usepackage[justification=centering]{caption}
 
 % Header and Footer
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
 
 \fancyhf{}
 \rhead{NUEN 410 Project Review}
@@ -121,13 +127,22 @@ Sean A. Yeatts
 
 \clearpage
 
+\newpage
+% ===================================================================
+% EXECUTIVE SUMMARY
+% ===================================================================
+\section*{Executive Summary}
 
+\clearpage
+
+\newpage
 % ===================================================================
 % TABLE OF CONTENTS
 % ===================================================================
 \tableofcontents
 
 \clearpage
+\newpage
 % ===================================================================
 % INTRODUCTION
 % ===================================================================
@@ -138,19 +153,16 @@ Sean A. Yeatts
 \section{Introduction}
 \input{textContent/introduction}
 
-% ===================================================================
-% FOM
-% ===================================================================
-\section{Figures of Merit}
-\subsection{Nuclear Explosive Utility}
-\input{textContent/FOM}
-
+\clearpage
+\newpage
 % ===================================================================
 % OBJECTIVES
 % ===================================================================
 \section{Objectives}
 \input{textContent/objectives}
 
+\clearpage
+\newpage
 % ===================================================================
 % SCOPING
 % ===================================================================
@@ -158,16 +170,8 @@ Sean A. Yeatts
 \label{sec:scoping-section}
 \input{textContent/optimizationStrategy}
 
-% ===================================================================
-% Design
-% ===================================================================
-\section{Design Concept}
-% TODO: Add a section describing the final LBR design concept:
-%   - Core layout (number of assemblies, moderator tank, pressure vessel)
-%   - Power Inverter device description (geometry, materials)
-%   - Comparison to CANDU baseline (similarities and key differences)
-%   - Reference to materials selection table if adding materialsSelection.tex
-
+\clearpage
+\newpageW
 % ===================================================================
 % ANALYSIS
 % ===================================================================
@@ -324,8 +328,22 @@ This requirement leads to a rapid increase in overall cell count and tighter ele
 
 \newpage
 
-\section{Viability}
-%\input{textContent/reg}
+% ===================================================================
+% Design
+% ===================================================================
+\section{Design Concept Summary}
+% TODO: Add a section describing the final LBR design concept:
+%   - Core layout (number of assemblies, moderator tank, pressure vessel)
+%   - Power Inverter device description (geometry, materials)
+%   - Comparison to CANDU baseline (similarities and key differences)
+%   - Reference to materials selection table if adding materialsSelection.tex
+
+% 
+
+\newpage
+
+\section{Conclusions and Practical Suggestions}
+\input{textContent/viability}
 
 
 

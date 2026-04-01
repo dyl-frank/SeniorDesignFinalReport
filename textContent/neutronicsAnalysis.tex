@@ -104,7 +104,7 @@ The predicted axial distribution of $^{239}$Pu is shown in Figure~\ref{fig:Pu239
     \centering
     \includegraphics[width=0.65\linewidth]{Pu239_evol_tmi.png}
     % TODO: Move this file to figs/ directory and update path to {figs/Pu239_evol_tmi.png}
-    \caption{Axial distribution of $^{239}$Pu concentration from initial loading through discharge, compared against the 1999 experimental assay and the 2013 re-evaluation. The improved agreement with the 2013 dataset is attributed to updated nuclear data libraries rather than model deficiencies, and provides confidence in predicted plutonium breeding behavior.}
+    \caption{Axial distribution of $^{239}$Pu concentration from initial loading through discharge, compared against the 1999 experimental assay and the 2013 re-evaluation. The improved agreement with the 2013 dataset is attributed to updated fuel assay libraries rather than model deficiencies, and provides confidence in predicted plutonium breeding behavior.}
     \label{fig:Pu239_evol_tmi}
 \end{figure}
 
@@ -191,6 +191,13 @@ In this design, every alternate lattice position is occupied by a novel componen
 
 Ceria was selected as the central inert fill material for several reasons: (i) it is largely transparent to thermal neutrons due to its low absorption cross section, allowing the axial neutron flux to diffuse into the end fuel regions without being parasitically absorbed; (ii) it is chemically inert and thermally stable at LWR operating temperatures; and (iii) it shares closely matched thermo-mechanical properties with UO$_2$ --- including crystal structure (fluorite), thermal conductivity, and coefficient of thermal expansion --- which mitigates stress concentration and material compatibility concerns at the CeO$_2$/UO$_2$ interface.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{figs/fourdesigns.png}
+    \caption{Enter Caption}
+    \label{fig:placeholder}
+\end{figure}
+
 % ============================================================
 \subsubsection{Comparative Performance of Design Variants}
 % ============================================================
@@ -270,7 +277,7 @@ The performance of each design variant is summarized in Table~\ref{tab:decision_
     \textbf{Criteria} & \textbf{Weight} & \textbf{Baseline} & \textbf{Be Caps} & \textbf{Fresh Fuel} & \textbf{Power Inv.} \\
     \midrule
     Critical Cycle Length                    & 0.4 & 1 & 1 & 4 & 3 \\
-    Reliance on Spent Fuel                   & 0.3 & 4 & 3 & 1 & 2 \\
+    Reliance on Fresh Fuel                   & 0.3 & 4 & 3 & 1 & 2 \\
     Utilization of Under-Depleted Regions    & 0.3 & 2 & 3 & 1 & 4 \\
     \midrule
     \textbf{Total} & \textbf{1.0} & \textbf{2.2} & \textbf{2.2} & \textbf{2.2} & \textbf{3.0} \\
@@ -278,7 +285,7 @@ The performance of each design variant is summarized in Table~\ref{tab:decision_
     \end{tabular}
 \end{table}
 
-The Power Inverter design achieves the highest weighted score (3.0) across all variants. While the Fresh Fuel Rod design yields the longest critical cycle, it does so by introducing substantial quantities of fresh fissile material, thereby reducing the mission's reliance on spent fuel reuse --- a primary design objective. The Beryllium End Reflector and Baseline designs score equally and underperform on cycle length. The Power Inverter offers the best balance: it meaningfully extends cycle length relative to the baseline, achieves the lowest end-of-cycle CV (11.25\%), and accomplishes this by redistributing fission power within the existing spent fuel inventory rather than supplementing it with fresh material.
+The Power Inverter design achieves the highest weighted score (3.0) across all variants. While the Fresh Fuel Rod design yields the longest critical cycle, it does so by introducing relatively large quantities of fresh fissile material, thereby deviating away from the mission of reusing spent fuel. The Beryllium End Reflector and Baseline designs score equally and underperform on cycle length. The Power Inverter offers the best balance: it meaningfully extends cycle length relative to the baseline, achieves the lowest end-of-cycle CV (11.25\%), and accomplishes this by redistributing fission power without relying too heavily on freshly enriched fuel.
 
 The power distribution maps in Figure~\ref{fig:power_dist_all} provide qualitative confirmation of this conclusion. The Power Inverter is the only design to visibly invert the axial flux profile, producing localized high-flux zones at the rod extremities that directly overlap with the under-depleted fissile regions identified in the TMI-1 discharge analysis.
 
