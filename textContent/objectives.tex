@@ -4,10 +4,10 @@ The Last Breath Reactor project is organized around three interdependent primary
 Reduce total plutonium concentration in spent fuel by $\geq$20\% while increasing the $^{240}$Pu fraction, and remain within the 62\,GWd/tHM NRC discharge burnup limit.
 
 \textbf{Objective 2: Sustained Criticality with Spent Fuel}\\
-Maintain $k_\text{eff} \geq 1.00$ for a critical cycle yielding at least $+$10\,GWd/t of additional burnup beyond the spent fuel starting point ($\sim$52.6\,GWd/tHM), using a D$_2$O-moderated, 6\,cm-pitch lattice loaded with unmodified spent PWR fuel.
+Maintain $k_\text{eff} \geq 1.00$ for a critical cycle yielding an accumulated burnup of $\geq$60 GWd/t for an initial enrichment of $4.5$ wt.\%.
 
 \textbf{Objective 3: Thermal Safety at Commercial Scale}\\
-Generate 2.0\,GW$_\text{th}$ while maintaining DNBR $\geq 1.3$, fuel centerline temperature $< 2000\,^\circ$C, and cladding temperature $< 400\,^\circ$C during normal operation.
+Generate 2.0\,GW$_\text{th}$ while maintaining DNBR $\geq 1.3$, fuel centerline temperature $< 2000\,^\circ$C, and cladding temperature $< 400\,^\circ$C during normal operation. Acheive a Power Peaking Factor (PPF) of $\le$ 2.5.
 
 The status of each objective against preliminary scoping results and the current detailed analyses is summarized in Table~\ref{tab:objectives}.
 
@@ -24,44 +24,14 @@ The status of each objective against preliminary scoping results and the current
   & Within NRC burnup limit          & \checkmark & 52.6 + 9.4 = 62\,GWd/tHM         \\
   & $^{240}$Pu fraction increase     & \checkmark & +30\% (0-D scoping)               \\
 \midrule
-2 & $k_\text{eff} \geq 1$ for $+$10\,GWd/t  & \checkmark & $\sim$12\,GWd/t (Power Inverter, Serpent) \\
-  & Starting $k_\infty$              & \checkmark & 1.22 (0-D), confirmed by Serpent  \\
+2 & $k_\text{eff} \geq 1$ for $\geq$60\,GWd/t  &  \\
 \midrule
 3 & DNBR $\geq 1.3$                  & \checkmark & DNBR $\approx$ 2.8 (TH analysis)  \\
   & Fuel and cladding temperatures   & \checkmark & Within limits (TH scoping)         \\
+  & PPF $\le$ 2.5   & \checkmark    \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 These objectives are coupled through design trade-offs. The 6\,cm lattice pitch enables the thermal spectrum required for plutonium burning (Objectives~1 and~2) but yields a low coolant mass flux, which sets the thermal-hydraulic design envelope (Objective~3). The Power Inverter device, described in Section~\ref{sec:neutronics}, satisfies Objective~2 while additionally improving axial fissile uniformity at end of life.
 
-\subsection{Figures of Merit}
-
-\paragraph{Nuclear Explosives Utility}
-
-The following figure of merit (FOM) for nuclear material attractiveness is taken directly from a paper by Lawrence Livermore National Laboratory \cite{King2010TheScenario}. 
-
-\begin{equation}
-    \text{FOM}_1 = 1-\log\left( M\left[\frac{1}{800} + \frac{h}{4500}\right] +\frac{M}{50}\left[\frac{D}{500}\right]^{1/\log2}\right)
-\end{equation}
-
-\begin{displayquote}
-Where M is the bare critical mass of the metal product material (impure plutonium) that is intended for the nuclear explosive in kg, h is the heat content in W/kg, and D is the dose rate of a 0.2M sphere evaluated at 1 m from the surface in rad/h. Table 1 correlates the result for the FOM calculation with the material's nuclear explosive utility (Bathke et al., 2009). In this FOM, the heat source h and the dose rate D are those that result directly from the isotopic composition of the metal in its transformed state after removal of fission products. The bare critical mass M is the critical mass after the same transformation. bare critical mass (kg) of the separated element of interest \cite{King2010TheScenario}.
-\end{displayquote}
-
-\begin{table}[H]
-\centering
-\caption{Correlation between FOM$_1$ and nuclear explosives utility \cite{King2010TheScenario}}
-\label{tab:figure_labels}
-\renewcommand{\arraystretch}{1.4}
-\begin{tabular}{c l}
-\toprule
-\textbf{FOM$_1$} & \textbf{Nuclear explosives utility} \\
-\midrule
-$>$2 & Preferred \\
-1-2 & Usable \\
-0-1 & Unsable \\
-$<$0 & Unsable \\
-\bottomrule
-\end{tabular}
-\end{table}
