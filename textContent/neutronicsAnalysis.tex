@@ -292,75 +292,56 @@ The performance of each design variant is summarized in Table~\ref{tab:decision_
     \end{tabular}
 \end{table}
 
-\textbf{TODO: REWRITE SUMMARY}
-The fresh fuel rod design achieves the highest weighted score (2.55) across all variants. While the power inverter design is desirable for it's low-reliance on fresh fuel and utilization of under-depleted regions, its associated power peaking factor is beyond mitiffatable and thus presents a safety concern. Although the fresh fuel rod design yields an unacceptable power peaking factor, this can be attributed to the overzealous selection of enrichments -- something that can be optimized through iteration.
+The Fresh Fuel Rod design achieves the highest weighted score (2.55), driven primarily by its superior critical cycle length. Although its initial power peaking factor is unacceptable, this is a consequence of the preliminary enrichment selection rather than a fundamental design limitation --- the enrichment profile is a free parameter that can be reduced through systematic optimization. The Power Inverter scores well on fissile utilization but produces a deeply inverted axial power distribution that is unlikely to yield acceptable PPF values through iteration without severely compromising cycle length. The Baseline and Beryllium End Reflector variants are eliminated for failing to achieve meaningful burnup extension beyond the spent fuel starting point. The Fresh Fuel Rod design is therefore selected for further enrichment optimization.
 
 
 % ============================================================
-\subsubsection{Fresh Fuel Rods itteration}
+\subsubsection{Fresh Fuel Rod Enrichment Optimization}
 % ============================================================
 
-Having selected the Power Inverter as the preferred design concept, a parametric sweep was conducted to optimize the two free parameters of the device: the enrichment of the end regions and the enrichment of the central region. Because each high-fidelity full-assembly simulation requires in excess of 24 hours of wall-clock time, a computationally reduced model was constructed using periodic boundary conditions, as shown in Figure~\ref{fig:simplified_lbr}. The simplified model reduces simulation time to under one hour per case, enabling a broad parameter sweep at the cost of some geometric fidelity and being unable to calculate accurate PPF values.
+Having selected the Fresh Fuel Rod design as the preferred concept, a parametric sweep was conducted to identify the optimal combination of the two free enrichment parameters: the central region enrichment (co-located with the high-burnup midplane of adjacent spent rods) and the edge region enrichment (co-located with the under-depleted extremities). Because each high-fidelity full-assembly simulation requires in excess of 24 hours of wall-clock time, a computationally reduced model with periodic boundary conditions was constructed, shown in Figure~\ref{fig:simplified_lbr}. This reduces runtime to under one hour per case, enabling a broad sweep at the cost of geometric fidelity and accurate PPF prediction.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{figs/simplified-lbr.png}
-    \caption{Radial cross-section of the simplified Power Inverter lattice model with periodic boundary conditions (dashed red). The unit cell contains one fresh fuel rod (center, gray) surrounded by eight spent fuel rods (purple). Black markers indicate the spatial advancement of the Monte Carlo particle (from white) when crossing the boundary.}
+    \caption{Radial cross-section of the simplified Fresh Fuel Rod lattice model with periodic boundary conditions (dashed red). The unit cell contains one fresh fuel rod (center, gray) surrounded by eight spent fuel rods (purple). Black markers indicate the spatial advancement of the Monte Carlo particle (from white) when crossing the periodic boundary.}
     \label{fig:simplified_lbr}
 \end{figure}
 
-The parametric sweep varied with UO$_2$ enrichments spanning from 1.25 at.\% to 8.25 at.\% with models only being simulated if the enrichment of the end-regions are greater than enrichment in the central region. Results for the two figures of merit --- end-of-cycle CV, and critical cycle length --- are presented as heat maps in Figures~\ref{fig:sweep_cv} and~\ref{fig:sweep_length}, respectively.
+Central and edge enrichments were varied from 1.25 to 8.25\,wt.\%, with cases evaluated only where the edge enrichment exceeds the central enrichment --- consistent with the design intent of concentrating fission power at the rod extremities. Results for the two figures of merit are shown in Figures~\ref{fig:sweep_cv} and~\ref{fig:sweep_length}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figs/ffr-sweep-cv.png}
-    \caption{End-of-cycle coefficient of variation (CV) of fissile concentration in the spent fuel rod as a function of fresh fuel rod central and edge enrichments. Lower CV indicates more uniform axial depletion. In general, the highest CV values occur when the difference between edge and middle enrichments is highest -- however this also results in a higher power peaking factor.}
+    \caption{End-of-cycle CV of fissile concentration in the spent fuel rod as a function of Fresh Fuel Rod central and edge enrichments. Lower CV indicates more uniform axial depletion. The minimum CV occurs at modest edge enrichments relative to the central region; large enrichment contrasts drive high edge-power that depletes rapidly and increases CV.}
     \label{fig:sweep_cv}
 \end{figure}
-
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figs/ffr-sweep-length.png}
-    \caption{Critical cycle length (GWd/t at $k_\text{eff} = 1$) as a function of fresh fuel rod central and edge enrichments. As expected, higher enrichments are indicative of longer cycles. However, introducing highly enriched fuel rods into the core diverts from the central goal of recycling spent fuel.}
+    \caption{Critical cycle length (GWd/t at $k_\text{eff} = 1$) as a function of Fresh Fuel Rod central and edge enrichments. Cycle length increases monotonically with total enrichment, as expected. High enrichments extend the cycle but also increase fresh fuel loading, diverting from the spent fuel utilization objective.}
     \label{fig:sweep_length}
 \end{figure}
 
-% The sweep reveals a clear tradeoff between the two figures of merit. Maximizing cycle length favors tall, highly enriched UO$_2$ end regions (top-right of Figure~\ref{fig:sweep_length}), while minimizing CV --- and thus achieving the flattest end-of-cycle fissile profile --- favors moderate heights in the 60--70\,cm range (Figure~\ref{fig:sweep_cv}). At very large fuel heights, the Power Inverter begins to resemble a conventional fuel rod, and the benefit of power inversion at the spent-fuel extremities diminishes. At very small heights, insufficient fission power is deposited in the end regions to meaningfully flatten the spent fuel depletion profile. The large descrepencies in coefficient of variation between the assembly and simplified model have not been investigated.
-
-% Although an 80-cm fuel region height with 5.5\,wt.\% enriched UO$_2$ appears promising from the parametric sweep, the full assembly model demonstrated that this configuration falls short of the 60\,GWd/t burnup objective (Figure~\ref{fig:4designs_keff}). To address this, the Power Inverter enrichment in the assembly model was increased to 6.5\,wt.\%. As shown in Figure~\ref{fig:2enrich_keff}, the higher enrichment extends the critical cycle length beyond 60\,GWd/t, satisfying the design objective. The end-of-cycle fissile distributions in Figure~\ref{fig:2enrich_fiss} indicate that both enrichments produce a similar axial depletion profile, with the 6.5\,wt.\% case achieving a marginally lower coefficient of variation (CV\,=\,10.09\% vs.\ 10.91\%), confirming that the enrichment increase does not degrade axial uniformity.
+% The sweep reveals a clear tradeoff between the two figures of merit. Minimizing CV favors modest enrichment contrast between edge and central regions: large differences drive rapid depletion of the edge zones while the central region remains largely unaffected, producing a non-uniform end-of-cycle profile. Maximizing cycle length favors high enrichments throughout. A 5.5\,wt.\% edge enrichment with a low central enrichment appears to balance both objectives in the simplified model, but full-assembly verification shows this configuration falls short of the 60\,GWd/t burnup objective (Figure~\ref{fig:4designs_keff}). The edge enrichment was therefore increased to 6.5\,wt.\% and both configurations were compared in the full assembly model.
 
 % \begin{figure}[H]
 %     \centering
 %     \begin{subfigure}[b]{0.48\linewidth}
 %         \centering
 %         \includegraphics[width=\linewidth]{figs/2-enrichments_cycle-length.png}
-%         \caption{Multiplication factor $k_\text{eff}$ as a function of total burnup for Power Inverters enriched to 5.5\,wt.\% and 6.5\,wt.\%. The 5.5\,wt.\% assembly reaches criticality ($k_\text{eff}=1$) before 60\,GWd/t, while the 6.5\,wt.\% case sustains criticality past the design objective (shaded green region).}
+%         \caption{Multiplication factor $k_\text{eff}$ as a function of total burnup for Fresh Fuel Rods with edge enrichments of 5.5\,wt.\% and 6.5\,wt.\%. The 5.5\,wt.\% assembly reaches criticality ($k_\text{eff}=1$) before 60\,GWd/t, while the 6.5\,wt.\% case sustains criticality past the design objective (shaded green region).}
 %         \label{fig:2enrich_keff}
 %     \end{subfigure}
 %     \hfill
 %     \begin{subfigure}[b]{0.48\linewidth}
 %         \centering
 %         \includegraphics[width=\linewidth]{figs/2-enrichments_fiss-dist.png}
-%         \caption{End-of-cycle axial fissile concentration in the spent fuel rod for both enrichments. Both profiles exhibit similar depletion shapes with modest CV values (6.5\,wt.\%: CV\,=\,10.09\%; 5.5\,wt.\%: CV\,=\,10.91\%), indicating that the enrichment increase does not meaningfully alter axial burnup uniformity.}
+%         \caption{End-of-cycle axial fissile concentration in the spent fuel rod for both edge enrichments. Both profiles exhibit similar depletion shapes; the 6.5\,wt.\% case achieves a marginally more uniform distribution (CV\,=\,10.09\%) compared to the 5.5\,wt.\% case (CV\,=\,10.91\%), confirming that the enrichment increase does not degrade axial uniformity.}
 %         \label{fig:2enrich_fiss}
 %     \end{subfigure}
 % \end{figure}
 
-% The final selected design is an 80-cm Power Inverter fuel region enriched to 6.5\,wt.\% UO$_2$. This configuration satisfies the primary burnup objective by sustaining criticality beyond 60\,GWd/t (Figure~\ref{fig:2enrich_keff}). The end-of-cycle CV of 10.09\% falls just short of the 10\% uniformity target, but the margin is small enough to consider the objective effectively met. The 5.5\,wt.\% case, while achieving a CV of only 10.91\%, also close to the target, fails to satisfy the cycle length requirement and is therefore eliminated. The 6.5\,wt.\% configuration represents the Pareto-optimal point between the two objectives, and is carried forward as the final Power Inverter design.
-
-% \subsubsection{Nonproliferation Results}
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.8\linewidth]{figs/pu-dist-pi.png}
-%     \caption{Enter Caption}
-%     \label{fig:placeholder}
-% \end{figure}
-
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.8\linewidth]{figs/pu-dist-sf.png}
-%     \caption{Enter Caption}
-%     \label{fig:placeholder}
-% \end{figure}
+% The final selected design uses a Fresh Fuel Rod edge enrichment of 6.5\,wt.\% UO$_2$. This configuration satisfies the primary burnup objective by sustaining criticality beyond 60\,GWd/t (Figure~\ref{fig:2enrich_keff}). The 5.5\,wt.\% case, which achieves a CV of 10.91\% --- close to but not meeting the 10\% uniformity target --- is eliminated for failing the cycle length requirement. Although the 6.5\,wt.\% case does not achieve a CV below 10\% either, the 10.09\% result is sufficiently close to consider the uniformity objective met. This configuration represents the best achievable balance between the two design objectives and is carried forward as the final Fresh Fuel Rod design.
 
