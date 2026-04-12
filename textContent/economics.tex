@@ -1,0 +1,169 @@
+The closest parallel to the Last Breath Reactor concept is the \textit{Direct Use of PWR Fuel In CANDU Reactors} (DUPIC) fuel cycle, first proposed in 1997 by J.~Lee et al.~\cite{LeeTHEHWR}. Both LBR and DUPIC require dedicated facilities capable of receiving and processing spent PWR assemblies at scale under full hot-cell shielding. The principal distinction is that LBR bypasses the chemically and thermally intensive OREOX--pelletisation--sintering overall capital and operating costs are consequently projected to be substantially lower.
+
+%------------------------------------------------------------------
+\subsection{Process Step Comparison}
+%------------------------------------------------------------------
+
+\noindent\textbf{DUPIC.}\;
+Spent PWR assemblies are disassembled and mechanically decladded to
+produce loose pellet fragments, which are subjected to repeated
+\textit{OREOX} cycling
+(UO$_2\!\to$U$_3$O$_8$ at 400 \textdegree C,
+U$_3$O$_8\!\to$UO$_2$ at 600 \textdegree C, three cycles),
+milled, cold-pressed, sintered at 1,650--1,850\textdegree C, ground, and loaded into fresh Zircaloy-4 rods to form
+43-element CANFLEX bundles for use in CANDU heavy-water reactors.
+
+\medskip
+\noindent\textbf{LBR.}\;
+Spent PWR assemblies are accepted as-is---the original cladding is never breached. Each fuel rod is slid into a close-fitting Zircaloy-4 overclad sleeve (described in \S\ref{sec:overclad-design}), whose end-caps are remote-welded and helium-backfilled, leak-tested, and NDA-assayed. 192 overcladded rods are then integrated into a 15$\times$15 structural skeleton at a 6-cm lattice pitch for use in a heavy-water-moderated reactor.
+
+\medskip
+\renewcommand{\arraystretch}{1.20}
+\begin{tabularx}{\linewidth}{L{4.8cm} C{1.55cm} C{1.55cm} L{5.6cm}}
+\toprule
+\textbf{Step} & \textbf{DUPIC} & \textbf{LBR} & \textbf{Note} \\
+\midrule
+Receiving \& characterisation    & \checkmark & \checkmark
+  & Identical requirements \\
+Disassembly (rod extraction)     & \checkmark & \checkmark
+  & Both require hot-cell remote ops \\
+Decladding                       & \checkmark & ---
+  & \textbf{Eliminated in LBR} \\
+OREOX cycling                    & \checkmark & ---
+  & \textbf{Eliminated in LBR} \\
+Powder milling, blending, pressing & \checkmark & ---
+  & \textbf{Eliminated in LBR} \\
+Sintering (1,650--1,850 \textdegree C) & \checkmark & ---
+  & \textbf{Eliminated in LBR} \\
+Pellet centreless grinding       & \checkmark & ---
+  & \textbf{Eliminated in LBR} \\
+New Zircaloy-4 pin loading       & \checkmark & ---
+  & Replaced by overclad step \\
+Overclad sleeve installation     & ---        & \checkmark
+  & \textbf{Added in LBR} \\
+Assembly integration             & \checkmark & \checkmark
+  & CANFLEX 43-element vs.\ 15$\times$15 \\
+\bottomrule
+\end{tabularx}
+
+%------------------------------------------------------------------
+\subsection{Cost Methodology}
+%------------------------------------------------------------------
+
+LBR fabrication costs are estimated by applying scaling factors to the detailed, compartmentalised economic analysis of DUPIC published by Ko, Choi, and Yang in 2001~\cite{Ko2001EconomicCost}. All figures in that study are reported in December~1999 USD; a U.S.\ CPI escalation factor of 1.96 is applied throughout to convert to March~2026 USD. The original study amortises capital expenditures over a 40-year plant life at a 5\% discount rate with a 25\% contingency allowance. Six scaling rules are applied to derive LBR costs:
+
+\begin{enumerate}
+    \item \textbf{Capital at 35\% of DUPIC.}
+          OREOX oven banks, sintering furnaces, and powder-handling
+          cells represent $\approx$65\% of the \$326.6M
+          process-systems direct capital; these are entirely absent
+          in LBR.
+
+    \item \textbf{Labour at 50\% of DUPIC.}
+          LBR requires $\approx$250 staff versus $\approx$500 for
+          DUPIC; OREOX, powder, and sintering operators are
+          not needed.
+
+    \item \textbf{Utilities at 33\% of DUPIC.}
+          A conservative estimate of the savings achieved by
+          eliminating the OREOX and high-temperature sintering loads.
+
+    \item \textbf{Process radwaste at 9\% of DUPIC.}
+          The Zircaloy cladding-hull stream
+          (0.29 t/tHM,$\approx$116 t/yr at reference throughput)
+          is entirely eliminated; only the structural hardware waste
+          stream (0.07 t/tHM) remains.
+
+    \item \textbf{Back-end costs retained at the DUPIC rate.}
+          Spent LBR assemblies carry a comparable fission-product
+          inventory and decay-heat profile to spent CANDU-DUPIC fuel;
+          interim storage and geological disposal requirements are
+          essentially unchanged.
+
+    \item \textbf{Materials at 150\% of DUPIC.}
+          A conservative premium to account for the fuelled
+          power-inverter rods (PI-F) specific to LBR.
+          Both systems require fresh cladding and structural
+          assembly components; DUPIC additionally requires dysprosium
+          poison rods.
+\end{enumerate}
+
+%------------------------------------------------------------------
+\subsection{Compartmentalised Cost Breakdown}
+%------------------------------------------------------------------
+
+\renewcommand{\arraystretch}{1.22}
+\begin{tabularx}{\linewidth}{L{7.5cm} R{2.2cm} R{2.2cm} R{1.6cm}}
+\toprule
+\textbf{Cost element}
+  & \textbf{DUPIC} & \textbf{LBR}
+  & \textbf{LBR \%} \\
+  & \textbf{(\$/kgHM)} & \textbf{(\$/kgHM)} & \\
+\midrule
+Capital --- site preparation, process systems,
+  hot-cell building, indirect costs
+  & 563 & 197 & 35\% \\
+Labour --- 500 vs.\ 250 staff
+  & 118 & 59  & 50\% \\
+Utilities --- electricity, steam, chemicals
+  & 49  & 16  & 33\% \\
+Materials --- cladding, structural skeleton, PI-F rods
+  & 98  & 196 & 200\% \\
+Process radwaste --- cladding hulls, off-gas,
+  structural, miscellaneous LLW
+  & 367 & 33  & 9\%  \\
+\midrule
+\textbf{Fabrication total}
+  & \textbf{1,195} & \textbf{501} & \textbf{42\%} \\
+\midrule
+Back-end --- transport, fuel handling, interim
+  storage, geological disposal
+  & 1,158 & 1,158 & 100\% \\
+\midrule
+\textbf{Grand total}
+  & \textbf{2,353} & \textbf{1,659} & \textbf{71\%} \\
+\bottomrule
+\end{tabularx}
+
+%------------------------------------------------------------------
+\subsection{Specific Cost Comparison}
+%------------------------------------------------------------------
+
+Table~\ref{tab:specific-cost} compares the three fuel concepts on a specific-cost basis. The average LBR power density of 13.45 kW/kgHM follows from the 30 kW/kgHM peak limit (\S\ref{sec:temp-limits}) and the power-peaking factor of 2.23 (\S\ref{sec:pi-f-final}). CANDU reactors (used for DUPIC) operate at $\approx$25 kW/kgHM, and the conventional PWR reference case uses 40 kW/kgHM as specified by the user.
+
+For the cost per unit of energy (\$/MWd), only the incremental burnup extracted in the heavy-water reactor is attributed to the refabrication cost, since the feedstock fuel has already produced approximately 45 MWd/kgHM during its original PWR irradiation. DUPIC extends total accumulated burnup to 58 MWd/kgHM~\cite{Mohamed2016EffectParameters}, yielding 13 MWd/kgHM additional; LBR reaches 60 MWd/kgHM (\S\ref{sec:pi-f-final}), yielding 15 MWd/kgHM additional. The conventional PWR figure uses the full 45 MWd/kgHM discharge burnup against the complete front- and back-end fuel cycle cost of \$2,982/kgHM~\cite{TheCosts}.
+
+\begin{table}[H]
+\centering
+\caption{Specific fuel cost comparison across the three reactor
+  concepts (March~2026 USD).
+  For DUPIC and LBR the \$/MWd figure uses only the incremental
+  burnup achieved in the heavy-water reactor; for the conventional
+  PWR it uses the full discharge burnup.}
+\label{tab:specific-cost}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabularx}{\linewidth}{L{4.6cm}
+                              R{2.2cm} R{2.2cm} R{2.2cm}}
+\toprule
+\textbf{Metric}
+  & \textbf{Conv.\ PWR}
+  & \textbf{DUPIC}
+  & \textbf{LBR} \\
+\midrule
+Total fuel cost (\$/kgHM)
+  & 2,982 & 2,353 & 1,659 \\
+Specific power (kW/kgHM)
+  & 40     & 25     & 13.45  \\
+Incremental burnup (MWd/kgHM)
+  & 45     & 13     & 15     \\
+\midrule
+\textbf{Cost per unit power (\$/kW)}
+  & \textbf{74.6} & \textbf{94.1} & \textbf{123.3} \\
+\textbf{Cost per unit energy (\$/MWd)}
+  & \textbf{66.3} & \textbf{181.0} & \textbf{110.6} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\noindent
+The conventional PWR achieves the lowest cost on both metrics because it burns a large fraction of its fissile loading at high specific power with no refabrication overhead. LBR outperforms DUPIC on \$/MWd (110.6 vs.\ 181.0) because it extracts slightly more incremental energy (15 vs.\ 13 MWd/kgHM) at substantially lower fabrication cost; however, its lower operating power density (13.45 vs.\ 25 kW/kgHM) results in a higher \$/kW figure. The \$/MWd figures for DUPIC and LBR do not include the cost of the original PWR fuel cycle; the relevant economic comparison is against the \emph{avoided} direct-disposal cost of $\approx$\$1,195/kgHM, which represents the back-end cost the utility would otherwise incur for the spent PWR assemblies. On that basis the net marginal cost of extracting additional energy from spent fuel is \$1,158/13 $=$ \$89/MWd for DUPIC and \$464/15$=$\$31/MWd for LBR, both substantially below the conventional PWR reference of \$66/MWd.

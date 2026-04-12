@@ -270,6 +270,7 @@ The \textit{Fueled Power Inverter} design achieves the highest weighted score (2
 
 % ============================================================
 \subsubsection{Iteration and Optimization}
+\label{sec:pi-f-final}
 % ============================================================
 
 Having selected the \textit{Fueled Power Inverter} design as the preferred concept, a parametric sweep was conducted to identify the optimal combination of the two free enrichment parameters: the central region enrichment (co-located with the high-burnup midplane of adjacent spent rods) and the edge region enrichment (co-located with the under-depleted extremities). Because each high-fidelity full-assembly simulation requires in excess of 24 hours of wall-clock time, a computationally reduced model with periodic boundary conditions was constructed, shown in Figure~\ref{fig:simplified_lbr}. This reduces runtime to under one hour per case, enabling a broad sweep at the cost of geometric fidelity and accurate PPF prediction.
@@ -346,6 +347,7 @@ The sweep reveals a clear tradeoff between the two figures of merit. Minimizing 
 The final selected design is the originally tested \textit{Fueled Power Inverter} with an edge enrichment of 4.5\,wt.\% and a central enrichment of 3.5\,wt.\%. This configuration satisfies the primary burnup objective by sustaining criticality beyond 60\,GWd/t and obtaining a power peaking factor $<2.5$. The CV value of 15.28\% does not meet the objective of $\le10\%$, though it is an improvement from the baseline result of 17.98\%.  This configuration represents the best achievable balance between the three design objectives as weighted by the same criterion in Table \ref{tab:decision_matrix}.
 
 \subsection{Non-proliferation Analysis }
+\label{sec:nonpro}
 
 Inserting fresh nuclear fuel into a heavy water reactor obviously poses some risk of proliferation -- as this is the typical procedure for breeding plutonium. 
 % THESE ARE THE RESULTS:
@@ -367,7 +369,7 @@ Inserting fresh nuclear fuel into a heavy water reactor obviously poses some ris
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\linewidth]{figs/pu-populations.png}
+    \includegraphics[width=0.9\linewidth]{figs/pu-populations.png}
     \caption{Evolution of plutonium quality fractions (left axis) and total assembly plutonium inventory (right axis) as a function of core-averaged burnup. Total Pu (red dashed) decreases monotonically as the spent fuel burns. Weapons-grade and fuel-grade fractions produced in the power-inverter elements peak transiently at intermediate burnup ($\sim$52–54\,GWd/t) before being consumed, leaving reactor-grade plutonium as the dominant residual at end of cycle.}
     \label{fig:placeholder}
 \end{figure}

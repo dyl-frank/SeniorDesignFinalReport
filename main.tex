@@ -10,6 +10,18 @@
 % Packages
 \usepackage[margin=1in]{geometry}
 \usepackage{setspace}
+\usepackage{tabularx}
+
+% --- column types --------------------------------------------
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% --- markers -------------------------------------------------
+\newcommand{\Src}{\,\textcolor{NavyBlue}{\textsuperscript{\textbf{[S]}}}}
+\newcommand{\Est}{\,\textcolor{Amber}{\textsuperscript{\textbf{[E]}}}}
+\newcommand{\Elim}{\textbf{---}}
+
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{makecell}
@@ -34,6 +46,7 @@
 \usepackage{longtable}
 \usepackage[backend=biber,style=ieee]{biblatex}
 \addbibresource{references.bib}
+\addbibresource{references-2.bib}
 \usepackage{pdfpages}
 
 
@@ -61,6 +74,13 @@
 \newcommand{\projecttitle}[1]{{\Large\bfseries\centering #1\par}}
 \newcommand{\sectionheading}[1]{{\large\bfseries #1}\par\medskip}
 
+% --- colours -------------------------------------------------
+\definecolor{NavyBlue}{RGB}{24,95,165}
+\definecolor{ForestGreen}{RGB}{15,110,86}
+\definecolor{Amber}{RGB}{155,65,10}
+\definecolor{RowGray}{RGB}{246,246,246}
+\definecolor{RowMid}{RGB}{218,218,218}
+\definecolor{HeaderBar}{RGB}{24,95,165}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT BEGINS HERE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -220,13 +240,13 @@ Sean A. Yeatts
 % ===================================================================
 % NEUTRONICS
 % ===================================================================
-\section{Neutronics Analysis (D. Frank)}
+\section{Neutronics Design and Analysis (D. Frank)}
 \label{sec:neutronics}
 \input{textContent/neutronicsAnalysis}
 
 \clearpage
 % ============================================================
-\section{Thermal--Hydraulics and CFD Analysis}
+\section{Thermal--Hydraulics and CFD Analysis (S. Yeatts)}
 \label{sec:thermal-hydraulics}
 % ============================================================
 
@@ -389,7 +409,34 @@ A radial cut through the fuel at a fixed axial location near the outlet shows a 
 \subsection{Hydraulic Conditions, Reynolds Number, and Comparison to Typical Reactors}
 \label{sec:hydraulics}
 % ============================================================
+The coolant mass flow rate and mass flux in the representative channel are obtained from an energy balance and the geometric flow area of the 6\,cm lattice. First, the total core thermal power $Q$ and the specified coolant temperature rise $\Delta T = T_{\text{out}} - T_{\text{in}}$ define the required mass flow rate through
+\[
+\dot{m} = \frac{Q}{c_p \,\Delta T},
+\]
+where $c_p$ is the specific heat of heavy water at 10\,MPa evaluated at the average coolant temperature. The corresponding total coolant flow area is computed from the rod pitch and fuel-rod radius as
+\[
+A_{\text{flow}} = N_{\text{rods}}\left(P^{2} - \pi R^{2}\right),
+\]
+with $N_{\text{rods}}$ the number of rods per assembly, $P$ the lattice pitch, and $R$ the fuel-rod radius. The mass flux in the average channel is then
+\[
+G = \frac{\dot{m}}{A_{\text{flow}}}
+= \frac{Q}{c_p \,\Delta T \, A_{\text{flow}}},
+\]
+which evaluates to the design value
+\[
+G = 102.6~\text{kg m}^{-2}\text{s}^{-1}.
+\]
 
+Using the heavy-water density $\rho$ and dynamic viscosity $\mu$ at inlet conditions together with the hydraulic diameter $D_h$ for the 6\,cm lattice subchannel, the Reynolds number is
+\[
+\mathrm{Re} = \frac{\rho u D_h}{\mu}
+= \frac{G D_h}{\mu},
+\]
+where $u = G/\rho$ is the bulk coolant velocity at the inlet. Substituting the design values yields
+\[
+\mathrm{Re} \gg 4\times10^{3}
+\]
+(numerically, $\mathrm{Re} \sim \mathcal{O}(10^{5})$), which lies well above the canonical transition threshold $\mathrm{Re} \approx 2300$ for internal flows. This confirms that the coolant flow in the representative channel is turbulent, justifying the use of a near-wall-resolved RANS turbulence model for the thermal--hydraulic analysis.
 \subsubsection{Effect of the 6~cm Pitch on Mass Flux and Heat Transfer}
 
 The 6~cm pitch selected by the neutronics optimization is far larger than the rod pitches of conventional light-water reactor fuel bundles. This larger pitch increases coolant flow area per rod and therefore reduces the mass flux for a given total flow rate. In the scoping thermal--hydraulic calculation, the resulting average-channel mass flux is
@@ -635,13 +682,19 @@ The thermal--hydraulic results suggest that the principal path to improvement is
 More broadly, the thermal analysis demonstrates the principal tradeoff at the heart of the LBR concept. The large moderator pitch selected to achieve favorable breeding and operating lifetime also weakens coolant heat transfer. The spent-fuel loading strategy that improves fissile utilization also raises power peaking. These choices are not independent: the thermal design is constrained by the neutronic objectives, and the reactor cannot be judged on neutronics alone. The analytical model, once validated to the V5 CFD case, provides the practical tool needed to carry this coupled optimization forward in future iterations.
 
 
-
 \clearpage
 
-% ===================================================================
+% ============================================================
+\section{Materials Design and Analysis (R. Imam)}
+\label{sec:Materials}
+% ============================================================
+\input{textContent/materials}
+\clearpage
+% ================================
+===================================
 % ECONOMICS
 % ===================================================================
-\section{Economic Analysis}
+\section{Economic and Infrastructure Analysis (D. Frank)}
 \input{textContent/economics}
 
 \clearpage
@@ -666,6 +719,8 @@ More broadly, the thermal analysis demonstrates the principal tradeoff at the he
 \section{Conclusions and Practical Suggestions}
 \input{textContent/viability}
 
+\clearpage
+\newpage
 
 
 
@@ -682,7 +737,7 @@ More broadly, the thermal analysis demonstrates the principal tradeoff at the he
 % ===================================================================
 \appendix
 
-\section{Power Inverter Details}
+\section{Power Inverter Details (D. Frank)}
 \label{sec:app_A}
 \input{appendices/power-inverters}
 
