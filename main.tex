@@ -202,7 +202,23 @@ Sean A. Yeatts
 % ===================================================================
 % EXECUTIVE SUMMARY
 % ===================================================================
-\section*{Executive Summary}
+\section*{Executive Summary (All)}
+
+The U.S. commercial nuclear fleet has discharged over 90,000 metric tons of spent PWR fuel, most of which sits in interim storage with no clear disposal pathway. The \textit{Last Breath Reactor} (LBR) is a heavy-water-moderated reactor concept designed to take that spent fuel --- as-is, without decladding or chemical reprocessing --- and extract an additional 15\,MWd/kgHM of energy from it while reducing its $^{239}$Pu inventory. The core idea is simple: heavy water's near-zero thermal absorption cross section ($\sigma_a \approx 0.001$\,b) is what makes criticality on deeply depleted fuel possible at all. Light water cannot do this at any lattice geometry; D$_2$O can.
+
+The design was driven by three requirements: a $\geq$20\% reduction in per-assembly $^{239}$Pu, sustained criticality through 60\,GWd/tHM of accumulated burnup, and a 2\,GW$_\text{th}$ thermal output within regulatory safety margins. All three have been met.
+
+The 6\,cm square lattice pitch emerged from an OpenMC parametric sweep as the design point that best balances spectrum thermalization, initial excess reactivity, and thermal-hydraulic feasibility. It is a large pitch by any reactor standard, and that has consequences --- the coolant mass flux drops to about 102.6\,kg/m$^2$s, roughly an order of magnitude below a conventional PWR, which cuts the convective heat transfer coefficient to $\sim$757\,W/m$^2$K. Managing heat removal at this pitch is the central engineering challenge of the concept.
+
+The bigger neutronics problem turned out to be the axial burnup profile of spent PWR rods. The midplane is deeply depleted; the rod ends are not. A uniform lattice depletes unevenly as a result, and criticality is lost well before 60\,GWd/t. The solution developed here is the \textit{Fueled Power Inverter} (PI-F): a fresh UO$_2$ rod with a graded enrichment profile (3.5\,wt.\% center / 4.5\,wt.\% edge) placed at 25 of 225 positions per assembly. The higher-enrichment ends sit adjacent to the under-depleted rod extremities and shift fission power toward them, effectively flattening the axial depletion profile. With PI-F rods, the design reaches 60.1\,GWd/t at a power peaking factor of 2.23.
+
+Serpent~2 depletion calculations show the per-assembly $^{239}$Pu inventory falling from 2.41\,kg to 1.53\,kg over the LBR cycle (--36.6\%), while the $^{240}$Pu fraction rises from 25.6\% to 33.4\%. The isotopic shift matters because elevated $^{240}$Pu increases spontaneous fission rates and decay heat, making the material less attractive for weapons use even if it were separated.
+
+On the thermal side, ANSYS Fluent conjugate CFD (the V5 single-pin model) gives DNBR\,$= 6.5$ on the average channel and 2.95 at the PPF-scaled hot channel, both above the 1.3 regulatory minimum. The hot-channel cladding temperature approaches its limit at PPF\,$= 2.23$. Because of the low mass flow rate indicative of a 6-cm lattice pitch, average thermal power-density is limited to $\sim$13.5 W/g making LBR far from compact. This realization highlights a need for future work to focus on optimizing reloading patterns rather than relying on fresh fuel rods to meet cycle-length requirements.
+
+MOOSE thermomechanical analysis shows the original spent fuel cladding cracks under LBR operating conditions due to corrosion embrittlement and creep accumulated during PWR service. A Zircaloy-4 overclad sleeve provides the necessary secondary containment. Its von Mises stress under LBR conditions is 0.555\,MPa --- well below the $\sim$100--150\,MPa yield strength at operating temperature --- and oxide growth over the 300-day cycle (0.046\,mm) is less than what the original cladding accumulated in PWR service.
+
+LBR fabrication is estimated at \$501/kgHM, compared to \$1,195/kgHM for the DUPIC reference cycle. The difference comes almost entirely from eliminating OREOX processing, high-temperature sintering, and the Zircaloy cladding-hull waste stream. On an incremental energy basis, LBR comes in at \$110.6/MWd versus DUPIC's \$181.0/MWd. Neither matches conventional PWR economics (\$66.3/MWd), but the right comparison is the avoided cost of direct spent fuel disposal --- on that basis LBR's marginal energy cost is about \$31/MWd.
 
 \clearpage
 % ===================================================================
@@ -218,25 +234,30 @@ Sean A. Yeatts
 \pagenumbering{arabic}
 \pagestyle{fancy}
 
-\section{Introduction (D. Frank)}
+\section{Introduction}
 \input{textContent/introduction}
 
 \clearpage
 % ===================================================================
 % OBJECTIVES
 % ===================================================================
-\section{Objectives (All)}
+\section{Objectives}
 \input{textContent/objectives}
 
 \clearpage
 % ===================================================================
 % SCOPING
 % ===================================================================
-\section{Preliminary Scoping and Design Basis}
+\section{Scoping Analysis and Design Basis}
 \label{sec:scoping-section}
-\input{textContent/optimizationStrategy}
+\input{textContent/scoping-neutronics}
+
+\subsection{Preliminary Thermal-Hydraulic Scoping (S. Yeatts)}
+\label{sec:th-scoping}
+
 
 \clearpage
+
 % ===================================================================
 % NEUTRONICS
 % ===================================================================
@@ -245,453 +266,26 @@ Sean A. Yeatts
 \input{textContent/neutronicsAnalysis}
 
 \clearpage
+
 % ============================================================
-\section{Thermal--Hydraulics and CFD Analysis (S. Yeatts)}
+% THERMAL HYDRAULICS
+% ============================================================
+\section{Thermal-Hydraulics and CFD Analysis (S. Yeatts)}
 \label{sec:thermal-hydraulics}
-% ============================================================
-
-The thermal--hydraulic analysis for the Last Breath Reactor (LBR) couples a high-fidelity CFD model of a representative coolant subchannel with an analytical radial conduction model for the fuel pin. The objective is to (i) quantify cladding and fuel temperatures at the design power density of 30~W/g, (ii) assess thermal margin relative to boiling crisis and material temperature limits, and (iii) establish a computationally inexpensive analytical surrogate that can be used to iterate over power density and operating conditions once validated against CFD. This section complements the neutronics and design-iteration sections by quantifying the thermal penalty associated with the 6~cm pitch selected for breeding performance and cycle length.
-
-The authoritative thermal--hydraulic reference case is CFD case V5. This case corresponds to the average coolant channel in the 6~cm D$_2$O lattice at 10~MPa and 30~W/g, with the ANSYS Fluent energy equation enabled and thermophysical properties selected to represent irradiated spent fuel behavior rather than fresh-fuel PWR operation. The resulting area-averaged wall heat flux and heat transfer coefficient are consistent with the values adopted in the analytical conduction model, namely
-\[
-\bar{q}'' \approx 6.39\times 10^5\ \text{W/m}^2,
-\qquad
-\bar{h} \approx 757\ \text{W/m}^2\text{K}.
-\]
-These values are used throughout this section unless otherwise noted.
-
-% ============================================================
-\subsection{CFD Model Setup and Numerical Methodology}
-\label{sec:cfd-setup}
-% ============================================================
-
-\subsubsection{Geometry and Progression of CFD Models}
-
-A sequence of CFD models was developed to balance physical fidelity against computational cost. Case V3 is the final 4-pin subchannel model, in which four rods and the surrounding heavy-water coolant are modeled explicitly with symmetry applied at the outer boundaries. Cases V4 and V5 exploit single-pin symmetry to reduce computational expense while preserving the thermal and hydraulic environment of the repeated lattice. The purpose of the V3 $\rightarrow$ V4 transition was therefore to validate the use of geometric symmetry as a surrogate for the more expensive 4-pin calculation, while the V4 $\rightarrow$ V5 transition isolated the effect of introducing an explicit cladding region.
-
-In V4, the pin was treated as a homogeneous solid with fuel properties only. In V5, the single-pin geometry was retained, but the solid domain was split into fuel and cladding regions, allowing cladding temperatures to be predicted more realistically. This distinction is important because the parameters of interest in the present study include cladding surface temperature and the radial distribution of temperature through the pin, both of which depend on whether the cladding is modeled explicitly.
-
-The modeled pin geometry is based on the dimensions used throughout the project: a cladding outer radius of 5.46~mm, a fuel radius of 4.79~mm, and an active heated length of 3.60172~m. Although an analytical gas-gap model was later developed for comparison to fresh-fuel behavior, the CFD model does \emph{not} include an explicit gas gap. This is intentional. In spent fuel, pellet swelling, fission-product-induced relocation, cladding creep-down, and long-term thermo-mechanical contact can reduce or effectively eliminate the distinct helium gap that is present in fresh fuel. Accordingly, the spent-fuel CFD model represents the more realistic limiting configuration for this reactor concept, in which a distinct low-conductivity gas layer is no longer present between the pellet and cladding.
-
-\subsubsection{Boundary Conditions, Fluid Model, and Solver Setup}
-
-All CFD cases were performed in ANSYS Fluent using the pressure-based, steady-state solver with the energy equation enabled. The SST \(k\)-\(\omega\) turbulence model was selected because it provides robust near-wall treatment in internal flows and is well suited to predicting wall shear and convective heat transfer in conjugate thermal problems. The coolant was modeled as heavy water at 10~MPa with representative thermophysical properties of \(\rho = 874\ \text{kg/m}^3\), \(c_p = 4670\ \text{J/kg-K}\), \(k = 0.53\ \text{W/m-K}\), and \(\mu = 1.14\times10^{-4}\ \text{kg/m-s}\).
-
-For the V5 case, the fuel properties were taken as \(\rho = 10{,}196\ \text{kg/m}^3\), \(c_p = 330\ \text{J/kg-K}\), and \(k = 2.5\ \text{W/m-K}\), while the cladding properties were \(\rho = 6500\ \text{kg/m}^3\), \(c_p = 300\ \text{J/kg-K}\), and \(k = 9.2\ \text{W/m-K}\). These values intentionally represent degraded spent-fuel thermal conductivities rather than fresh-fuel PWR values. Their use is conservative in the sense that they increase radial conduction resistance within the solid, thereby increasing predicted temperatures for a given heat generation rate.
-
-The fuel heat source in case V5 was prescribed as a volumetric energy generation of 305.88~MW/m\(^3\), corresponding to the nominal power density of 30~W/g for UO\(_2\) at the specified density. A mass-flow inlet was applied at 533.15~K, and the mass flow rate was chosen such that the average channel outlet temperature was 582.15~K, consistent with the scoping thermal--hydraulic calculation. Symmetry boundaries were applied on the lateral faces, and the outlet was prescribed as a pressure outlet at 0~Pa gauge relative to the 10~MPa operating pressure.
-
-\subsubsection{Mesh Strategy and Near-Wall Resolution}
-
-The final V5 mesh was generated using hexcore meshing with local refinement around the cladding and near-wall coolant region. Local sizing around the cladding used a target size on the order of the cladding thickness, together with boundary-layer inflation to resolve near-wall gradients. The resulting mesh contained approximately 17.8~million cells, 38.3~million faces, and 4.6~million nodes. The overwhelming computational cost arose from the need to simultaneously resolve the full axial length of 3.6~m and the thin solid layers at the rod surface, particularly the 0.67~mm cladding thickness.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{figs/Mesh_SideProfile.png}
-    \caption{Overall CFD mesh of the V5 single-pin conjugate heat transfer model, showing the full computational domain, symmetry boundaries, and the relative scale of the coolant, fuel, and cladding regions.}
-    \label{fig:placeholder}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.48\linewidth]{figs/Mesh_Inlet.png}
-    \hfill
-    \includegraphics[width=0.48\linewidth]{figs/Mesh_FaceZoom.png}
-    \caption{Detailed mesh views. Left: inlet mesh showing variable mesh sizing. Right: magnified inlet cross-section through the cladding and near-wall coolant region showing the mesh resolution used to capture thermal and velocity gradients at the wall via inflation layers and local sizing.}
-    \label{fig:mesh_detail}
-\end{figure}
-
-A formal Grid Convergence Index (GCI) study was not practical for the final conjugate mesh. The dynamic length scale between the full subchannel length and the thin cladding region is extremely large, and the limiting factor in mesh refinement was the number of cells required inside and around the cladding. Increasing wall-normal resolution sufficiently to perform multiple systematically refined meshes would have increased cell count far beyond the already expensive 17~million-cell baseline, preventing meaningful design iteration within the available time and compute budget. For that reason, the CFD model was instead validated by comparing quantities of interest against reduced-domain CFD models and against an analytical radial conduction solution, as discussed below.
-
-Near-wall resolution was assessed using the non-dimensional wall coordinate \(y^+\). In the final V5 model, the area-weighted-average cladding surface value was on the order of \(y^+ \approx 1.5\), and remained below 3 across the surface. This is desirable for the SST \(k\)-\(\omega\) model because it places the first grid point inside the viscous sublayer, allowing the wall-adjacent velocity and temperature gradients to be directly resolved rather than reconstructed through empirical wall functions. In the context of Reynolds-averaged Navier--Stokes (RANS) models, \(y^+\) provides a measure of whether the near-wall mixing-length behavior is being modeled in an appropriate regime; low \(y^+\) values indicate that the wall treatment is suitable for accurate heat transfer prediction.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figs/V5_YplusConv.png}
-    \caption{Convergence of the area-weighted-average cladding-surface \(y^+\) for case V5, approaching a final value of about 1.85.}
-    \label{fig:yplus_conv}
-\end{figure}
-
-\subsubsection{Why the CFD Model Omits an Explicit Gas Gap}
-
-The omission of a gas gap in the CFD model is deliberate and physically motivated. In fresh PWR fuel, the helium-filled pellet--cladding gap is one of the dominant thermal resistances in the radial heat path, typically second only to the fuel itself. This gap produces a strong temperature drop between the fuel surface and the cladding inner wall. In spent fuel, however, irradiation-driven swelling, relocation, cracking, and cladding creep-down tend to reduce or close the original gap, producing direct or near-direct contact over substantial fractions of the interface. As a result, an explicit gas layer is not necessarily the best representation of the spent-fuel thermal state relevant to the LBR concept.
-
-This has two competing effects on the radial temperature distribution. First, the degraded thermal conductivity of irradiated fuel and conservative cladding conductivity values increase solid-phase thermal resistance, tending to raise fuel centerline and cladding temperatures. Second, the absence of the gas gap removes what is normally one of the most influential thermal resistances in fresh-fuel PWR operation. This reduction in interfacial insulation tends to increase conductive coupling between the hot fuel and the cladding, which can raise cladding temperatures even while reducing the sharp temperature drop that would otherwise occur across the gap. The temperature field in spent fuel therefore differs qualitatively from that of fresh fuel: the profile becomes more tightly coupled between fuel and cladding, with larger fractions of the total temperature drop occurring within the degraded fuel itself.
-
-A thin exterior coating on the cladding was also considered qualitatively. However, the materials technical expert on the project indicated that the coating thermal conductivity is sufficiently high that its effect on the temperatures of interest is negligible compared to the dominant resistances in the fuel, cladding, coolant-side convection, and, where applicable, the gas gap. The coating was therefore omitted from the CFD and analytical models without loss of fidelity for the present scoping-level objectives.
-
-% ============================================================
-\subsection{Analytical Radial Conduction Model and Comparison to CFD}
-\label{sec:analytic-vs-cfd}
-% ============================================================
-
-\subsubsection{Closed-Form Radial Conduction Model}
-
-To enable rapid iteration over heat generation rates and material properties, an analytical radial conduction model was developed for concentric cylindrical regions under steady, axisymmetric conditions. The base form includes a fuel region with uniform volumetric heat generation and a cladding region with no internal heat generation. The governing equation is
-\[
-\frac{1}{r}\frac{d}{dr}\left(k\,r\,\frac{dT}{dr}\right) + \dot{q} = 0,
-\]
-with the usual parabolic solution in the fuel and logarithmic solution in the cladding.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{figs/nominal_case.png}
-    \caption{Analytical radial heat conduction for the nominal case at 30~W/g. Left: radial temperature distribution in fuel and cladding with bulk coolant temperature indicated. Right: 2-D cross-section temperature map showing the parabolic fuel and logarithmic cladding profile.}
-    \label{fig:nominal_analytic}
-\end{figure}
-
-A more detailed version of the model was then extended to include an explicit gas gap and higher fresh-fuel thermal conductivities for comparison to normal PWR behavior. This analytical model does not represent the CFD case directly, since the CFD omits the gap, but it is useful for understanding the relative roles of degraded thermal conductivity and gas-gap resistance. In particular, it shows that adding a gas gap introduces a large additional temperature drop between fuel and cladding, while increasing fuel and cladding conductivities reduces the temperature rise required to conduct a given heat load. The spent-fuel case considered here is therefore characterized by two simultaneous changes relative to fresh fuel: increased conduction resistance in the fuel and cladding due to degraded conductivity, and removal of a major resistance due to gap closure. These effects partially offset one another in terms of centerline temperature, but they tend to increase cladding temperature because the cladding is more directly thermally coupled to the hotter fuel.
-
-\subsubsection{Boundary Conditions and CFD-Calibrated Comparison}
-
-Two outer boundary-condition strategies were evaluated in the analytical model. In the first, the cladding outer surface was assigned a uniform heat flux equal to the CFD-derived average value,
-\[
-q'' \approx 6.3904866\times10^5\ \text{W/m}^2,
-\]
-and the surface temperature was then obtained through the convective closure
-\[
-q'' = h(T_\text{surf} - T_\text{bulk}),
-\]
-using the CFD-derived average \(h \approx 757.46\ \text{W/m}^2\text{K}\) and
-\[
-T_\text{bulk} = \frac{T_\text{in} + T_\text{out}}{2}
-= \frac{533.15 + 582.15}{2}
-= 557.65\ \text{K}.
-\]
-
-In the second strategy, the CFD surface-averaged cladding temperature itself was imposed directly as a Dirichlet boundary condition in the analytical model. This was done because the conjugate CFD solution intrinsically captures local variations in convection coefficient, circumferential heat flux, and coolant temperature, whereas a single average heat flux and average heat transfer coefficient cannot fully represent those three-dimensional effects.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{figs/V5_CompareRadialTemp_Flux.png}
-    \caption{Comparison between analytical and CFD radial temperature distributions for case V5 using a flux-based outer boundary condition. The flux-based analytical model overpredicts temperatures relative to CFD because it cannot capture the spatially varying convection present in the full conjugate solution.}
-    \label{fig:radial_compare_flux}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{figs/V5CompareRadialTemp_Temp.png}
-    \caption{Comparison between analytical and CFD radial temperature distributions for case V5 when the outer boundary is set by the CFD surface-averaged cladding temperature. Using the CFD surface temperature as a Dirichlet boundary condition yields much closer agreement with the CFD radial profile.}
-    \label{fig:radial_compare_temp}
-\end{figure}
-
-The comparison shows that the prescribed heat-flux boundary condition over-predicts the radial temperature distribution relative to CFD. This result is consistent with the large implied convective temperature rise,
-\[
-\Delta T_\text{conv} = \frac{q''}{h}
-\approx \frac{6.39\times10^5}{757}
-\approx 844\ \text{K},
-\]
-which is unrealistically severe when interpreted as a uniformly applied condition over the entire rod perimeter. In the CFD model, by contrast, the coupled solution with the energy equation enabled distributes temperature and heat transfer more realistically in space, producing lower and more credible wall temperatures for the average channel. Consequently, using the CFD surface-averaged temperature as the outer boundary condition in the analytical model provides substantially better agreement with the CFD radial temperature profile than using the average surface heat flux.
-
-This observation is important for design iteration. The flux-based analytical model is conservative and therefore useful for screening and bounding calculations. However, because it overestimates the temperature profile relative to the CFD solution, it is not the best tool for iterating over power density once a CFD reference state is available. The temperature-prescribed analytical model is more appropriate for interpolation and sensitivity studies around the validated CFD operating point.
-
-\subsubsection{Radial and Axial Temperature Behavior in V5}
-
-The V5 CFD solution also provides detailed information about axial trends. At the fuel centerline, the temperature rises from roughly 1500~K near the inlet to about 1900~K near the outlet, with a global mean of approximately 1857~K.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figs/V5FuelCenterTemp.png}
-    \caption{Fuel centerline temperature along the heated length for case V5, with the global mean indicated by the dashed line.}
-    \label{fig:v5_centerline_temp}
-\end{figure}
-
-A radial cut through the fuel at a fixed axial location near the outlet shows a monotonic decrease from centerline temperature to the fuel--cladding interface, where the temperature is approximately 1400--1450~K depending on the exact axial position.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figs/V5RadialFuelTemp.png}
-    \caption{Radial fuel temperature near the outlet for case V5, extracted along a line from the fuel centerline to the fuel--cladding interface.}
-    \label{fig:v5_radial_cut}
-\end{figure}
-
-% ============================================================
-\subsection{Hydraulic Conditions, Reynolds Number, and Comparison to Typical Reactors}
-\label{sec:hydraulics}
-% ============================================================
-The coolant mass flow rate and mass flux in the representative channel are obtained from an energy balance and the geometric flow area of the 6\,cm lattice. First, the total core thermal power $Q$ and the specified coolant temperature rise $\Delta T = T_{\text{out}} - T_{\text{in}}$ define the required mass flow rate through
-\[
-\dot{m} = \frac{Q}{c_p \,\Delta T},
-\]
-where $c_p$ is the specific heat of heavy water at 10\,MPa evaluated at the average coolant temperature. The corresponding total coolant flow area is computed from the rod pitch and fuel-rod radius as
-\[
-A_{\text{flow}} = N_{\text{rods}}\left(P^{2} - \pi R^{2}\right),
-\]
-with $N_{\text{rods}}$ the number of rods per assembly, $P$ the lattice pitch, and $R$ the fuel-rod radius. The mass flux in the average channel is then
-\[
-G = \frac{\dot{m}}{A_{\text{flow}}}
-= \frac{Q}{c_p \,\Delta T \, A_{\text{flow}}},
-\]
-which evaluates to the design value
-\[
-G = 102.6~\text{kg m}^{-2}\text{s}^{-1}.
-\]
-
-Using the heavy-water density $\rho$ and dynamic viscosity $\mu$ at inlet conditions together with the hydraulic diameter $D_h$ for the 6\,cm lattice subchannel, the Reynolds number is
-\[
-\mathrm{Re} = \frac{\rho u D_h}{\mu}
-= \frac{G D_h}{\mu},
-\]
-where $u = G/\rho$ is the bulk coolant velocity at the inlet. Substituting the design values yields
-\[
-\mathrm{Re} \gg 4\times10^{3}
-\]
-(numerically, $\mathrm{Re} \sim \mathcal{O}(10^{5})$), which lies well above the canonical transition threshold $\mathrm{Re} \approx 2300$ for internal flows. This confirms that the coolant flow in the representative channel is turbulent, justifying the use of a near-wall-resolved RANS turbulence model for the thermal--hydraulic analysis.
-\subsubsection{Effect of the 6~cm Pitch on Mass Flux and Heat Transfer}
-
-The 6~cm pitch selected by the neutronics optimization is far larger than the rod pitches of conventional light-water reactor fuel bundles. This larger pitch increases coolant flow area per rod and therefore reduces the mass flux for a given total flow rate. In the scoping thermal--hydraulic calculation, the resulting average-channel mass flux is
-\[
-G = 102.6\ \text{kg/m}^2\text{s},
-\]
-for heavy water at 10~MPa. This is substantially lower than mass fluxes typical of commercial PWR rod bundles, which are often on the order of \(10^3\) to \(4\times10^3\ \text{kg/m}^2\text{s}\).
-
-The reduced mass flux has a direct thermal consequence: it lowers the Reynolds number and therefore reduces the convective heat transfer coefficient. That is the dominant reason the CFD-reported average heat transfer coefficient for the LBR channel is only about \(757\ \text{W/m}^2\text{K}\), whereas typical PWR channels often exhibit values one order of magnitude higher. In other words, the same large pitch that improves neutronic breeding potential also degrades heat removal capability.
-
-Using the hydraulic diameter associated with the 6~cm pitch channel and the V5 fluid properties, the Reynolds number remains in the turbulent regime, but at the low end relative to commercial LWR practice. This is sufficient to justify turbulence modeling, but it also explains why the LBR coolant channel behaves less like a tightly packed high-flux PWR bundle and more like a relatively open moderated passage with modest wall heat transfer.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figs/V5Velocity.png}
-    \caption{Coolant centerline velocity along the heated length for case V5, illustrating the low but still turbulent mass flux associated with the 6~cm pitch.}
-    \label{fig:v5_velocity}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figs/V5Pressure.png}
-    \caption{Coolant centerline static pressure for case V5, showing the pressure drop along the heated length.}
-    \label{fig:v5_pressure}
-\end{figure}
-
-\subsubsection{Surface Heat Flux and Heat Removal Capability}
-
-For the 30~W/g average channel, the relevant surface heat flux is approximately
-\[
-\bar{q}'' \approx 639\ \text{kW/m}^2.
-\]
-This is not exceptionally large compared to commercial reactor practice; what makes it thermally challenging in the present design is the low coolant-side heat transfer coefficient caused by the low mass flux and large pitch. A moderate heat flux combined with a weak convective sink can still produce high cladding temperatures. This distinction is important: the temperature challenge in the LBR is driven less by unusually extreme heat flux and more by the fact that the pitch required for neutronic performance inherently weakens heat removal.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figs/V5_FluxConv.png}
-    \caption{Convergence history of the surface-averaged heat flux in case V5, approaching a final value of approximately 639~kW/m\(^2\).}
-    \label{fig:v5_flux_conv}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figs/V5_hConv.png}
-    \caption{Surface-averaged heat transfer coefficient convergence for case V5, with a final value near 757~W/m\(^2\)K.}
-    \label{fig:v5_h_conv}
-\end{figure}
-
-% ============================================================
-\subsection{DNBR and Thermal Margin}
-\label{sec:dnbr}
-% ============================================================
-
-To assess margin to departure from nucleate boiling, DNBR was evaluated using the specified conditions of 10~MPa, heavy water coolant, 6~cm pitch, and a mass flux of \(102.6\ \text{kg/m}^2\text{s}\), with the power peaking factor applied to obtain a hot-channel estimate. The average-channel wall heat flux at 30~W/g is approximately \(639\ \text{kW/m}^2\). Applying the project-relevant power peaking factor of approximately 2.2 yields a peak heat flux of
-\[
-q''_\text{peak} \approx 2.2 \times 639\ \text{kW/m}^2
-\approx 1.41\ \text{MW/m}^2.
-\]
-
-Because the power peaking factor is elevated by the introduction of spent fuel for burnup redistribution, the hot channel is the more relevant thermal-limiting case. In the neutronics-driven design iteration, the PPF increased from values near 1.7 in the more conventional baseline configurations to values above 2.2 in the spent-fuel power-shaping configurations. This improves fissile utilization and cycle behavior but directly increases the local thermal burden, since peak temperature and DNBR scale much more strongly with local power than with assembly-average power. The thermal analysis therefore links the neutronics benefit of spent-fuel insertion to a thermal penalty that must be carefully managed.
-
-The final DNBR should be reported using the Groeneveld 2006 LUT value extracted at the operating pressure, mass flux, and quality corresponding to the V5 average-channel condition. The governing definition is
-\[
-\text{DNBR} = \frac{q''_\text{CHF}}{q''_\text{local}},
-\]
-with \(q''_\text{local}\) taken as either the average-channel heat flux or the PPF-scaled hot-channel heat flux. Using a simple linear interpolation of the Groeneveld LUT, the resulting DNBR values are greater than 2.9 for both the average-channel and peak-channel conditions, which provides more than adequate thermal margin:
-\[
-q''_\text{CHF, Groeneveld} = \text{4.163}\ \text{MW/m}^2,
-\]
-\[
-\text{DNBR}_\text{avg} = \frac{q''_\text{CHF, Groeneveld}}{0.639\ \text{MW/m}^2} = 6.5,
-\qquad
-\text{DNBR}_\text{peak} = \frac{q''_\text{CHF, Groeneveld}}{1.41\ \text{MW/m}^2} = 2.95.
-\]
-
-% ============================================================
-\subsection{Comparison of 4-Pin and Single-Pin Models}
-\label{sec:v3-v5-comparison}
-% ============================================================
-
-Because the final conjugate CFD mesh was computationally expensive, the single-pin symmetric models were validated against the final 4-pin model before being adopted for the rest of the thermal workflow. The V3 model represents the last 4-pin calculation, while V4 and V5 are both single-pin models. The V3 $\rightarrow$ V4 comparison isolates the effect of exploiting symmetry for computational savings, while the V4 $\rightarrow$ V5 comparison isolates the effect of explicitly modeling cladding.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{figs/V3V4_Nu.png}
-    \caption{Fuel pin innermost-edge Nusselt number for V3 versus V4. The mean Nusselt numbers agree within about 0.5\%, validating the use of single-pin symmetry for convective heat transfer prediction.}
-    \label{fig:v3v4_nu}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{figs/V3V4CladHeatFlux.png}
-    \caption{Fuel pin innermost-edge surface heat flux for V3 versus V4. Mean heat fluxes differ by only a few kW/m\(^2\), indicating that the single-pin model reproduces the 4-pin heat-transfer behavior.}
-    \label{fig:v3v4_q}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{figs/V3V4_h.png}
-    \caption{Fuel pin innermost-edge heat transfer coefficient for V3 versus V4, again showing excellent agreement between the 4-pin and single-pin geometries.}
-    \label{fig:v3v4_h}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{figs/V3V4CladTemp.png}
-    \caption{Cladding temperature at the innermost fuel pin edge for V3 versus V4, demonstrating that the single-pin model preserves the axial temperature distribution of the 4-pin reference.}
-    \label{fig:v3v4_cladT}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.48\linewidth]{figs/V3V4Pressure.png}
-    \hfill
-    \includegraphics[width=0.48\linewidth]{figs/V3V4Velocity.png}
-    \caption{Coolant centerline static pressure (left) and velocity (right) for V3 versus V4, confirming that the single-pin geometry reproduces the hydraulic behavior of the full 4-pin model.}
-    \label{fig:v3v4_flow}
-\end{figure}
-
-The results indicate that the quantities of interest for this study---including wall temperature, outlet coolant temperature, and the radial temperature distribution---are preserved to acceptable accuracy when the 4-pin model is reduced to a single-pin representation. The major effect of transitioning from V4 to V5 is not hydraulic but solid-thermal: explicitly introducing cladding changes the radial temperature partitioning and allows the cladding surface temperature to be evaluated directly, while leaving the bulk coolant response comparatively unchanged. This validates the use of the V5 single-pin conjugate model as the authoritative CFD case for comparison against the analytical conduction model.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{figs/V3V4CenterTemp.png}
-    \caption{Coolant centerline temperature for V3 versus V4. The differences are small and confined mainly near the outlet, further supporting the use of the single-pin approximation.}
-    \label{fig:v3v4_coolT}
-\end{figure}
-
-After validating that the single-pin geometry reproduces the V3 four-pin Nusselt number and heat-transfer coefficient distributions, it was observed that reducing the model to a single pin slightly overpredicts the coolant temperature near the outlet. This behavior is consistent with expectations from Reynolds-averaged turbulence modeling: when geometric complexity is reduced, the resolved large-scale mixing between subchannels is diminished and the turbulence model must represent more of the cross-flow and swirl through its closure alone. In the full 4-pin geometry, small lateral pressure imbalances and geometric asymmetries promote cross-channel mixing that enhances convective heat removal and damps the axial growth of coolant temperature. In the symmetric single-pin domain, those mechanisms are suppressed, so the turbulence model predicts a somewhat weaker effective mixing and correspondingly higher bulk coolant temperature for the same power and mass flow. The resulting overprediction is modest and acceptable for this study, but it is important to recognize that the single-pin model is slightly conservative with respect to coolant temperature, especially toward the hot end of the channel.
-
-% ============================================================
-\subsection{Radial Temperature Maps from the Analytical Model}
-\label{sec:radial-maps}
-% ============================================================
-
-To understand how material properties and the presence or absence of a gas gap affect temperature, the analytical model was evaluated across a power sweep from 15 to 60~W/g for several material and gap configurations. The resulting 2-D cross-section temperature maps show how fuel centerline temperature and cladding temperature increase with power.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{figs/crosssection_grid_higher_k.png}
-    \caption{2-D cross-section temperature maps for the power sweep using higher fuel and cladding thermal conductivities but no gas gap. Each panel shows the fuel centerline temperature \(T_c\) for a given specific power.}
-    \label{fig:cs_higherk}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{figs/crosssection_grid_gg.png}
-    \caption{2-D cross-section temperature maps for the power sweep including a gas gap with base thermal conductivities. The gas gap introduces an additional temperature drop between fuel and cladding, raising the fuel centerline temperature relative to the no-gap case.}
-    \label{fig:cs_gg}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{figs/crosssection_grid_gg_k.png}
-    \caption{2-D cross-section temperature maps for the power sweep including both a gas gap and higher fuel/cladding thermal conductivities.}
-    \label{fig:cs_gg_higherk}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{figs/crosssection_grid.png}
-    \caption{2-D cross-section temperature maps for the power sweep using the spent-fuel conductivity values and no gas gap, corresponding to the configuration most representative of the V5 CFD case.}
-    \label{fig:cs_nominal}
-\end{figure}
-
-% ============================================================
-\subsection{V5 Wall Quantities and \(y^+\) Distributions}
-\label{sec:v5-wall}
-% ============================================================
-
-Beyond the area-averaged convergence metrics, spatial distributions of wall quantities provide additional insight into the thermal environment. Along the innermost edge of the fuel pin, the V5 solution shows Nusselt number, heat transfer coefficient, and wall heat flux that are relatively uniform over much of the heated length, with stronger variation only near the inlet.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.58\linewidth]{figs/V5_CladNu.png}
-    \caption{Fuel pin innermost-edge Nusselt number for case V5, with a mean value of approximately 1189.}
-    \label{fig:v5_nusselt}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figs/V5Clad_h.png}
-    \caption{Fuel pin innermost-edge heat transfer coefficient for case V5, with a mean of about 630~W/m\(^2\)K.}
-    \label{fig:v5_htc}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figs/V5CladHeatFlux.png}
-    \caption{Fuel pin innermost-edge surface heat flux for case V5, with a mean of about 531~kW/m\(^2\).}
-    \label{fig:v5_q_axial}
-\end{figure}
-
-The \(y^+\) distribution along the same axial line remains in the desired near-wall–resolved regime for the SST \(k\)\(-\)\(\omega\) model. In wall-resolved simulations, \(y^+\) is typically maintained below about 5 (and ideally near 1) so that the viscous sublayer is directly resolved, whereas wall-modeled approaches place the first cell in the logarithmic layer with \(y^+ \gtrsim 30\) and rely on empirical wall functions for near-wall behavior. In this simulation the cladding-surface \(y^+\) values are clustered around 1–2, well within the wall-resolved range, so the SST \(k\)\(-\)\(\omega\) model is resolving the viscous sublayer rather than relying on wall functions for the heat-transfer prediction.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figs/V5Yplus.png}
-    \caption{Fuel pin edge \(y^+\) for case V5, with a global mean value of about 1.5, indicating that the first grid point lies within the viscous sublayer.}
-    \label{fig:v5_yplus_axial}
-\end{figure}
-
-The corresponding cladding temperature along the same edge rises from roughly 780~K near the inlet to around 1170~K near the outlet.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\linewidth]{figs/V5CladTemp.png}
-    \caption{Fuel pin innermost-edge cladding temperature for case V5.}
-    \label{fig:v5_cladT_axial}
-\end{figure}
-
-% ============================================================
-\subsection{Regulatory and Design-Relevant Temperature Limits}
-\label{sec:temp-limits}
-% ============================================================
-
-The purpose of the present thermal analysis is not only to report temperatures, but also to interpret them relative to accepted material limits. For Zircaloy-based cladding in water-cooled reactors, excessive cladding temperature is undesirable because it accelerates oxidation, hydriding, and mechanical degradation; regulatory guidance associated with light-water reactor safety analyses typically places strong attention on maintaining cladding temperatures well below high-temperature oxidation regimes. Likewise, for UO$_2$ fuel, the centerline temperature must remain below the melting range and should retain adequate margin to account for uncertainty in conductivity, cracking, and local peaking.
-
-Regulatory limits provide a quantitative benchmark for interpreting these temperatures. For large-break loss-of-coolant accidents, 10~CFR~50.46(b)(1) specifies that the calculated maximum fuel element cladding temperature shall not exceed
-\[
-T_{\text{clad,peak}} \leq 2200~^{\circ}\text{F} \; (1204~^{\circ}\text{C}),
-\]
-together with auxiliary limits on cladding oxidation and hydrogen generation.\footnote{See 10~CFR~50.46 and associated NRC guidance on emergency core cooling system (ECCS) acceptance criteria.} Under normal operation and anticipated operational occurrences, the Standard Review Plan for fuel systems (NUREG--0800, Section~4.2) does not assign a single numeric centerline temperature limit; instead, it requires that UO$_2$ fuel remain below its melting temperature, and any rod that experiences centerline melting in postulated accidents is conservatively treated as failed for radiological analyses. In other words, the regulatory constraint for fuel is effectively a ``no centerline melting'' requirement during normal operation and AOOs, rather than a fixed temperature threshold.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.90\linewidth]{figs/power_sweep.png} % <-- replace with your actual power-sweep figure filename
-    \caption{Fuel centerline and cladding surface temperature as functions of specific power for the average channel. The nominal design point at 30~W/g is highlighted for comparison against regulatory cladding and fuel temperature constraints.}
-    \label{fig:temp_vs_power}
-\end{figure}
-
-Figure~\ref{fig:temp_vs_power} summarizes the behavior of the LBR average channel over the 15--60~W/g power sweep by plotting both cladding surface temperature and fuel centerline temperature versus specific power. At the nominal 30~W/g design point, the CFD-calibrated analytical model predicts a maximum-channel cladding temperature of approximately 1250~K, which lies below the 1204~$^{\circ}$C peak-cladding temperature limit. The corresponding fuel centerline temperature is approximately 1900~K, below the UO$_2$ melting range (2800~K - 2900~K), however providing insubstantial margin to the ``no melting'' criterion when the power peaking factor is applied (resulting in greater than 60 W/g power density which can be seen on the figure above). However, when the same sweep is interpreted with the power peaking factor applied to obtain a hot-channel estimate, the cladding and centerline temperatures are higher than their respective constraints. This illustrates that the thermal constraint on the LBR concept is driven less by the average 30~W/g channel and more by the combination of elevated peaking, degraded spent-fuel conductivity, and weak convective heat transfer associated with the 6~cm lattice pitch.
-
-In the LBR concept, the average channel at 30~W/g may remain thermally manageable when interpreted through the CFD-calibrated analytical model. However, the corresponding hot-channel condition obtained by multiplying by the power peaking factor can drive cladding and centerline temperatures much higher. This is the central thermal design concern of the reactor: not the average channel itself, but the combination of wide pitch, low mass flux, degraded spent-fuel conductivity, and elevated PPF required by the neutronics-driven loading strategy.
-
-% ============================================================
-\subsection{Implications for Design Improvement}
-\label{sec:th-improvement}
-% ============================================================
-
-The thermal--hydraulic results suggest that the principal path to improvement is not necessarily a reduction in average heat flux, but an increase in coolant-side heat removal capacity. The most direct lever is mass flow rate: increasing coolant flow would raise mass flux, increase Reynolds number, improve the convective heat transfer coefficient, and therefore reduce cladding temperature and increase DNBR margin. This would partly offset the thermal penalty imposed by the 6~cm pitch. A second lever is reduction of the power peaking factor through further neutronic and geometric optimization, since the hot-channel condition is clearly more limiting than the average channel.
-
-More broadly, the thermal analysis demonstrates the principal tradeoff at the heart of the LBR concept. The large moderator pitch selected to achieve favorable breeding and operating lifetime also weakens coolant heat transfer. The spent-fuel loading strategy that improves fissile utilization also raises power peaking. These choices are not independent: the thermal design is constrained by the neutronic objectives, and the reactor cannot be judged on neutronics alone. The analytical model, once validated to the V5 CFD case, provides the practical tool needed to carry this coupled optimization forward in future iterations.
-
+\input{textContent/thermal}
 
 \clearpage
 
+% ============================================================
+% MATERIALS
 % ============================================================
 \section{Materials Design and Analysis (R. Imam)}
 \label{sec:Materials}
-% ============================================================
 \input{textContent/materials}
+
 \clearpage
-% ================================
-===================================
+
+% ===================================================================
 % ECONOMICS
 % ===================================================================
 \section{Economic and Infrastructure Analysis (D. Frank)}
@@ -702,21 +296,16 @@ More broadly, the thermal analysis demonstrates the principal tradeoff at the he
 % ===================================================================
 % DESIGN CONCEPT SUMMARY
 % ===================================================================
-\section{Design Concept Summary}
-% TODO: Add a section describing the final LBR design concept:
-%   - Core layout (number of assemblies, moderator tank, pressure vessel)
-%   - Power Inverter device description (geometry, materials)
-%   - Comparison to CANDU baseline (similarities and key differences)
-%   - Reference to materials selection table if adding materialsSelection.tex
+\section{Design Concept Summary (All)}
+\input{textContent/designConceptSummary}
 
-% 
 
 \clearpage
 
 % ===================================================================
 % CONCLUSIONS
 % ===================================================================
-\section{Conclusions and Practical Suggestions}
+\section{Conclusions and Recommendations (All)}
 \input{textContent/viability}
 
 \clearpage
@@ -741,8 +330,10 @@ More broadly, the thermal analysis demonstrates the principal tradeoff at the he
 \label{sec:app_A}
 \input{appendices/power-inverters}
 
-
-
+\clearpage
+\section{TMI-1 NJ05YU Spent Fuel Reference Data (D. Frank)}
+\label{sec:app_C}
+\input{appendices/spentFuelRef}
 
 
 \end{document}

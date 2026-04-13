@@ -1,13 +1,145 @@
-\textbf{Neutronics}
+% ============================================================
+%  CONCLUSIONS AND PRACTICAL SUGGESTIONS
+% ============================================================
 
-The LBR concept has demonstrated, up to this point, the technical feasibility of sustaining criticality on spent nuclear fuel while achieving net plutonium reduction and isotopic quality degradation. The \textit{Power Inverter} strategy extends the achievable cycle length by inverting the axial burnup profile, enabling the reactor to reach an average discharge burnup of 61.6\,GWd/tHM within NRC regulatory limits. However, the Power Inverter relies on a fresh-fuel driver zone to supply the additional reactivity required at end of cycle, which introduces two concerns: it partially contradicts the design objective of operating exclusively on spent fuel, and the fresh-fuel zone accumulates weapons-grade plutonium by end of cycle, creating a proliferation-relevant material stream that must be managed.
+This report has presented the full design and analysis of the Last Breath
+Reactor, from initial transmutation kinetics through Monte Carlo depletion,
+thermal-hydraulic and structural qualification, and economic benchmarking.
+All three primary design objectives have been satisfied at the analysis
+level attained:
 
-A more proliferation-resistant and fuel-cycle-consistent path forward would be the development of an optimized spent-fuel reloading scheme. By strategically inserting lower-burnup spent fuel assemblies as the cycle progresses, it may be possible to sustain criticality beyond the current 62-GWd/t baseline without resorting to fresh fuel. Such a scheme is a constrained combinatorial optimization problem: the reloading pattern must simultaneously satisfy reactivity hold-down requirements, respect the NRC burnup ceiling on any individual assembly, maintain acceptable power peaking factors, and avoid excessive fission product buildup in the highest-burnup regions. Techniques such as in-core fuel management optimization, genetic algorithms, or adjoint-based sensitivity methods could be applied to this problem.
+\begin{itemize}
+    \item \textbf{Objective 1 (Nonproliferation)}: Per-assembly $^{239}$Pu
+    inventory reduced by 36.6\% (2.41\,$\to$\,1.53\,kg), exceeding the
+    $\geq$20\% target; $^{240}$Pu fraction increased from 25.6\% to 33.4\%,
+    degrading weapons attractiveness.
+    \item \textbf{Objective 2 (Sustained criticality)}: $k_\text{eff} \geq 1$
+    maintained to 60.1\,GWd/tHM with the Fueled Power Inverter, exceeding
+    the $\geq$60\,GWd/t target.
+    \item \textbf{Objective 3 (Thermal safety)}: DNBR$_\text{peak}$ = 2.95
+    ($>$1.3 minimum); average-channel cladding and centerline temperatures
+    within regulatory limits; PPF = 2.23 ($\leq$2.5).
+\end{itemize}
+
+The following sections identify the principal remaining limitations and the
+most productive paths forward for each discipline.
+
+% ============================================================
+\subsection{Neutronics}
+% ============================================================
+
+The Power Inverter strategy successfully extends the achievable critical cycle
+length by inverting the axial burnup profile and directing fission power into
+the under-depleted rod extremities. However, two limitations of the current
+design warrant attention.
+
+First, the fresh-fuel driver zone occupies 25 of 225 assembly positions and
+accumulates weapons-grade plutonium by end of cycle. This partially
+contradicts the spent-fuel-only design intent and creates a proliferation-
+relevant material stream that must be managed under safeguards. A more
+proliferation-resistant path forward is an optimized spent-fuel reloading
+scheme in which lower-burnup spent assemblies are inserted at specific axial
+or radial positions as the cycle progresses, sustaining reactivity without
+introducing fresh fissile material. This is a constrained combinatorial
+optimization problem amenable to genetic algorithms or adjoint-based
+sensitivity methods.
+
+Second, the end-of-cycle coefficient of variation of the axial fissile
+distribution (CV\,=\,15.28\%) does not meet the $\leq$10\% uniformity
+objective. Further reduction requires either enrichment gradient optimization
+beyond the parameter range explored here, a modified PI-F geometry with a
+more gradual enrichment transition, or the reloading strategy described above.
+Meeting the CV target would also reduce the PPF, relaxing the hot-channel
+thermal margin constraint.
+
+% ============================================================
+\subsection{Thermal-Hydraulics}
+% ============================================================
 
 
-\textbf{Structural \& Operational}
+The thermal--hydraulic results suggest that the principal path to improvement is not necessarily a reduction in average heat flux, but an increase in coolant-side heat removal capacity. The most direct lever is mass flow rate: increasing coolant flow would raise mass flux, increase Reynolds number, improve the convective heat transfer coefficient, and therefore reduce cladding temperature and increase DNBR margin. This would partly offset the thermal penalty imposed by the 6~cm pitch. A second lever is reduction of the power peaking factor through further neutronic and geometric optimization, since the hot-channel condition is clearly more limiting than the average channel.
 
-The 6\,cm lattice pitch required for adequate D$_2$O moderation results in a core that is substantially larger than a conventional PWR of equivalent thermal output. At 2\,GW$_\text{th}$ with approximately 19\,400 fuel rods on a 6\,cm square pitch, the active core footprint is on the order of several meters in each lateral dimension, posing challenges for pressure vessel fabrication and reactor building design. To reduce the physical size of the core while maintaining neutron economy, the power density should be pushed toward the upper bound permitted by thermal-hydraulic and materials limits. A higher specific power reduces the required heavy metal inventory for a given thermal output, but accelerates fuel depletion and narrows the available operating window before the burnup ceiling is reached.
+More broadly, the thermal analysis demonstrates the principal tradeoff at the heart of the LBR concept. The large moderator pitch selected to achieve favorable breeding and operating lifetime also weakens coolant heat transfer. The spent-fuel loading strategy that improves fissile utilization also raises power peaking. These choices are not independent: the thermal design is constrained by the neutronic objectives, and the reactor cannot be judged on neutronics alone. The analytical model, once validated to the V5 CFD case, provides the practical tool needed to carry this coupled optimization forward in future iterations.
 
-This tension between core compactness and cycle length motivates a design philosophy centered on continuous or semi-continuous on-line refueling, analogous to the approach used in CANDU reactors. On-line refueling eliminates the need to carry large initial excess reactivity, allowing the core to operate closer to criticality throughout the cycle and reducing the control burden on soluble boron or burnable poisons. Key engineering decisions that follow from this include the choice of vessel orientation (vertical versus horizontal), the use of pressure tubes rather than a single pressure vessel to enable individual channel access, and the development of a remote fuel handling system compatible with the D$_2$O coolant and elevated radiation environment. Each of these choices carries significant implications for primary system layout, maintenance dose, and capital cost, and represents a major area of future design work.
+% ============================================================
+\subsection{Structural and Materials}
+% ============================================================
 
+
+
+% ============================================================
+\subsection{Infrastructure and Operational Architecture}
+% ============================================================
+
+The 6\,cm lattice pitch required for adequate D$_2$O moderation results in a
+core that is substantially larger than a conventional PWR of equivalent
+thermal output. At 2\,GW$_\text{th}$ with approximately 19\,400 fuel rods,
+the active core footprint poses challenges for pressure vessel fabrication
+and reactor building layout. Adopting a pressure-tube architecture analogous
+to CANDU, in which individual fuel channels are contained within their own
+pressure tubes inside a low-pressure moderator tank (calandria), would
+distribute the pressure boundary over many smaller components, making
+fabrication more tractable and enabling individual channel access for online
+or near-online refueling.
+
+Online refueling eliminates the large initial excess reactivity inherent to
+batch refueling and reduces the control burden on soluble boron or burnable
+poisons. It also supports the spent-fuel reloading optimization strategy
+described above. The engineering decisions that follow from this architecture
+--- vessel orientation, pressure tube and calandria material selection, remote
+fuel handling system design --- represent the principal scope of future
+conceptual design work.
+
+% ============================================================
+\subsection{Economic Viability}
+% ============================================================
+
+At the assembly-processing level, the LBR is economically competitive with
+DUPIC and substantially cheaper to fabricate, at \$501/kgHM versus
+\$1,195/kgHM for DUPIC. The all-in lifecycle cost of \$1,659/kgHM compares
+favorably to the \$2,353/kgHM DUPIC reference. On a marginal energy basis,
+the incremental energy extracted from spent fuel costs \$110.6/MWd, less
+than DUPIC (\$181.0/MWd) but not yet matching the conventional PWR reference
+(\$66.3/MWd). Closing this gap to the conventional PWR would require
+extracting an additional $\sim$25\,MWd/kgHM of incremental burnup --- a
+target that is likely unachievable with the current design and would require
+significantly higher spent fuel enrichment or an entirely different fuel
+management strategy.
+
+The economically compelling case for LBR is not direct competition with
+the conventional fuel cycle, but rather the avoided cost of spent fuel
+disposal. Utilities currently face a back-end cost of $\approx$\$1,195/kgHM
+for direct disposal of spent PWR assemblies. By comparison, the net marginal
+cost of extracting 15\,MWd/kgHM of additional energy through LBR processing
+is \$464/15\,$=$\,\$31/MWd --- well below the avoided direct-disposal
+benchmark. At the system level, however, these figures apply only to assembly
+processing; the full cost of licensing, constructing, and operating the LBR
+plant would substantially change the economic picture and is the primary area
+requiring further analysis before commercial viability can be claimed.
+
+% ============================================================
+\subsection{Overall Assessment and Path Forward}
+% ============================================================
+
+The Last Breath Reactor concept is technically feasible at the analysis level
+demonstrated in this report. The fundamental physics enabling the design ---
+D$_2$O neutron economy and the thermal cross-section advantage of
+$^{239}$Pu absorption over $^{238}$U capture --- have been rigorously
+established and quantitatively verified. The Power Inverter device provides a
+practical engineering solution to the axial burnup non-uniformity problem that
+would otherwise cap the achievable cycle length well short of the 60\,GWd/t
+target.
+
+The most consequential unresolved constraint is the hot-channel thermal
+margin: the same lattice geometry that enables plutonium burning also
+degrades heat removal, and the power peaking introduced by the PI-F loading
+pattern amplifies local thermal loads. Closing this gap --- through coolant
+flow optimization, PPF reduction, or both --- is the single highest-priority
+engineering task before the concept can advance to a detailed design phase.
+
+The combination of reduced fabrication cost, meaningful incremental energy
+extraction, and demonstrated plutonium isotopic degradation positions the LBR
+as a credible alternative to both direct disposal and chemically intensive
+reprocessing strategies. With continued development of the reloading
+optimization, hot-channel management, and overclad qualification program, the
+design provides a viable pathway toward commercial deployment.

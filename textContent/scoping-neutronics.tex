@@ -81,30 +81,27 @@ A lattice pitch of 6\,cm was selected as the baseline design point, balancing th
 \begin{enumerate}
     \item Sufficient spectrum thermalization to maintain $\lambda_3/\lambda_2 > 1$ (Objective~1: plutonium burning).
     \item Adequate initial excess reactivity ($k_\infty \approx 1.22$) to sustain criticality throughout the fuel cycle (Objective~2).
-    \item An acceptable moderator-to-fuel ratio from a thermal-hydraulic standpoint (Objective~3), discussed further in \S~\ref{sec:thermalhydraulics}.
+    \item An acceptable moderator-to-fuel ratio from a thermal-hydraulic standpoint (Objective~3), discussed further in \S~\ref{sec:thermalhydraulics}. %FIND THIS
 \end{enumerate}
 
 \subsubsection{Zero-Dimensional Depletion Analysis}
 
-Having established D$_2$O moderation at a 6\,cm pitch as the design point, a zero-dimensional (0-D) depletion analysis was performed to assess cycle length, plutonium burndown, and isotopic quality evolution under continuous irradiation at constant power. A specific power of 30\,W/gHM was assumed, consistent with typical PWR operation, yielding a total heavy metal inventory of approximately 67\,tonnes at 2\,GW$_\text{th}$ across $\sim$19\,400 fuel rods.
+Having established D$_2$O moderation at a 6\,cm pitch as the design point, a zero-dimensional (0-D) depletion analysis was performed to assess achievable burnup, plutonium burndown, and isotopic quality evolution under continuous irradiation at constant power. A specific power of 30\,W/gHM was assumed, consistent with typical PWR operation, yielding a total heavy metal inventory of approximately 67\,tonnes at 2\,GW$_\text{th}$ across $\sim$19\,400 fuel rods.
 
-\paragraph{Burnup Constraint.}
-The NRC regulatory burnup limit of 62\,GWd/tHM, combined with the initial burnup of 52.6\,GWd/tHM, leaves a remaining margin of 9.4\,GWd/tHM. At 30\,W/gHM, this corresponds to a maximum permissible operating time of:
-\begin{equation}
-    T_\text{max} = \frac{9.4\ \text{GWd/tHM}}{30\ \text{W/gHM}} = 313\ \text{days}
-\end{equation}
+\paragraph{Burnup Performance.}
+Objective~2 requires $k_\text{eff} \geq 1$ through an accumulated discharge burnup of $\geq$60\,GWd/tHM. The 0-D model uses the TMI-1 C2B spent fuel composition, which enters the LBR at 52.6\,GWd/tHM. The NRC regulatory ceiling of 62\,GWd/tHM therefore leaves 9.4\,GWd/tHM of available margin before the fuel must be discharged regardless of its reactivity state.
 
-As shown in Figure~\ref{fig:kinf-burn}, $k_\infty \geq 1$ is maintained for 300 days --- 13 days (4\%) short of the burnup-limited maximum --- indicating near-optimal fissile utilization within regulatory constraints. The initial excess reactivity ($k_\infty = 1.22$) would be managed in the finite reactor through soluble boron, control rods, or burnable poisons.
+As shown in Figure~\ref{fig:kinf-burn}, $k_\infty \geq 1$ is maintained through an additional 9.0\,GWd/tHM of irradiation, bringing the total accumulated burnup to $\sim$61.6\,GWd/tHM --- within 0.4\,GWd/tHM of the regulatory ceiling and exceeding the 60\,GWd/tHM design objective. The initial excess reactivity ($k_\infty = 1.22$) would be managed in the finite reactor through soluble boron, control rods, or burnable poisons.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figs/kinfVsBurn.png}
-    \caption{Infinite multiplication factor $k_\infty$ versus operating time at 30\,W/gHM for the D$_2$O / 6\,cm pitch infinite lattice. Criticality is maintained for 300 days, 13 days short of the NRC burnup limit, demonstrating near-optimal utilization of the available reactivity margin. The shaded region indicates operation beyond the regulatory burnup ceiling.}
+    \caption{Infinite multiplication factor $k_\infty$ versus accumulated burnup at 30\,W/gHM for the D$_2$O / 6\,cm pitch infinite lattice, starting from the TMI-1 C2B composition at 52.6\,GWd/tHM. Criticality is maintained through an additional 9.0\,GWd/tHM, reaching a total of $\sim$61.6\,GWd/tHM and exceeding the 60\,GWd/tHM design objective. The shaded region indicates operation beyond the NRC regulatory burnup ceiling of 62\,GWd/tHM.}
     \label{fig:kinf-burn}
 \end{figure}
 
 \paragraph{Fissile Inventory Evolution.}
-The evolution of key fissile isotopes is shown in Figure~\ref{fig:conc-burn}. Over the 300-day cycle, $^{235}$U depletes from 0.74\,wt\% to 0.30\,wt\% (a 59\% reduction), while $^{239}$Pu depletes from 0.59\,wt\% to 0.39\,wt\% (a 34\% reduction). Total plutonium decreases from 1.26\,wt\% to 0.99\,wt\%, a 21.5\% reduction that exceeds the 20\% design target. Continuous breeding from $^{238}$U partially replenishes the $^{239}$Pu inventory, consistent with the $\lambda_3/\lambda_2 > 1$ condition established earlier: net destruction proceeds, but is partially offset by in-situ production. Integrating over the full core, this corresponds to the destruction of approximately 16\,kg of plutonium per tonne of heavy metal processed, or $\sim$1\,070\,kg total.
+The evolution of key fissile isotopes is shown in Figure~\ref{fig:conc-burn}. Over the 9.0\,GWd/tHM LBR irradiation, $^{235}$U depletes from 0.74\,wt\% to 0.30\,wt\% (a 59\% reduction), while $^{239}$Pu depletes from 0.59\,wt\% to 0.39\,wt\% (a 34\% reduction). Total plutonium decreases from 1.26\,wt\% to 0.99\,wt\%, a 21.5\% reduction that exceeds the 20\% design target. Continuous breeding from $^{238}$U partially replenishes the $^{239}$Pu inventory, consistent with the $\lambda_3/\lambda_2 > 1$ condition established earlier: net destruction proceeds, but is partially offset by in-situ production. Integrating over the full core, this corresponds to the destruction of approximately 16\,kg of plutonium per tonne of heavy metal processed, or $\sim$1\,070\,kg total.
 
 \begin{figure}[H]
     \centering
@@ -124,11 +121,10 @@ Beyond total mass reduction, the isotopic composition of the remaining plutonium
 \end{figure}
 
 \paragraph{0-D Scoping Summary.}
-The 0-D infinite lattice analysis confirms that all three primary design objectives are achievable at the scoping level:
+The 0-D infinite lattice analysis confirms that the two neutronics-driven design objectives are achievable at the scoping level:
 \begin{itemize}
-    \item \textbf{Plutonium reduction}: 21.5\% total Pu mass decrease, exceeding the $\geq$20\% target.
-    \item \textbf{Cycle length}: 300 days at full power, exceeding the $\geq$270-day target.
-    \item \textbf{Isotopic degradation}: $^{240}$Pu fraction increased by 30\%, substantially reducing weapons attractiveness.
+    \item \textbf{Objective 1 --- Plutonium reduction}: $^{239}$Pu decreases by 34\% and total Pu by 21.5\%, both exceeding the $\geq$20\% target; $^{240}$Pu fraction increases by 30\%, degrading weapons attractiveness.
+    \item \textbf{Objective 2 --- Sustained criticality}: $k_\infty \geq 1$ through 9.0\,GWd/tHM of additional irradiation, reaching a total accumulated burnup of $\sim$61.6\,GWd/tHM and exceeding the $\geq$60\,GWd/tHM target.
 \end{itemize}
 
 These results assume spatially uniform depletion in an ideal infinite lattice. Several phenomena lie outside the scope of this approximation and require higher-fidelity treatment before the design can be considered credible:

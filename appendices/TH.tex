@@ -1,8 +1,9 @@
 
 
-This appendix documents the detailed methodology for the Critical Heat Flux (CHF) scoping analysis presented in Section 3.3.
+The following subsections document the detailed methodology for the Critical Heat Flux (CHF) scoping analysis; key results are summarized in Section~\ref{sec:dnbr}.
 
-\subsubsection*{A.1.1 Pressure Selection: CANDU vs. PWR}
+\subsubsection{Scoping Assumptions}
+\paragraph{Pressure Selection: CANDU vs.\ PWR}
 
 The choice of 10 MPa operating pressure, characteristic of CANDU reactors, represents a conservative approach compared to the 15.5 MPa typical of PWR designs (e.g., AP1000). While lower pressure reduces CHF margins, this choice offers several advantages:
 
@@ -16,7 +17,7 @@ The choice of 10 MPa operating pressure, characteristic of CANDU reactors, repre
 
 The pressure-dependent nature of CHF is captured in the Groeneveld correlation, where higher pressures generally yield higher CHF values. By designing to meet CHF criteria at 10 MPa, the system maintains conservative margins if future optimization increases pressure.
 
-\subsubsection*{A.1.2 Saturated Liquid Assumption}
+\paragraph{Saturated Liquid Assumption}
 
 The assumption of saturated liquid ($x = 0$) at the reactor outlet, rather than the subcooled condition expected in actual operation, provides additional conservatism. In reality, CANDU and PWR primary systems operate with significant subcooling (typically 10-20°C below saturation). The saturated condition represents:
 
@@ -28,7 +29,7 @@ The assumption of saturated liquid ($x = 0$) at the reactor outlet, rather than 
     \item \textbf{Bounding analysis}: This assumption ensures the design remains safe even if subcooling is lost during transient conditions
 \end{itemize}
 
-\subsubsection*{A.1.3 Outlet Condition Evaluation}
+\paragraph{Outlet Condition Evaluation}
 
 Evaluating all thermal-hydraulic parameters at outlet conditions represents the most thermally challenging location in the core, where:
 
@@ -41,9 +42,9 @@ Evaluating all thermal-hydraulic parameters at outlet conditions represents the 
 
 This outlet-based analysis ensures that if CHF margins are adequate at this location, they will be sufficient throughout the entire fuel channel length.
 
-\subsection*{A.2 Critical Heat Flux Calculation Methodology}
+\subsubsection{Critical Heat Flux Calculation Methodology}
 
-\subsubsection*{A.2.1 Overview of CHF}
+\paragraph{Overview of CHF}
 
 Critical Heat Flux represents the thermal limit at which nucleate boiling transitions to film boiling, causing a dramatic reduction in heat transfer efficiency and potentially leading to fuel cladding failure. The CHF is a function of:
 
@@ -54,7 +55,7 @@ Critical Heat Flux represents the thermal limit at which nucleate boiling transi
     \item Channel geometry (hydraulic diameter, heated length)
 \end{itemize}
 
-\subsubsection*{A.2.2 Calculation Procedure}
+\paragraph{Calculation Procedure}
 
 The CHF analysis follows this systematic procedure:
 
@@ -75,7 +76,7 @@ The CHF analysis follows this systematic procedure:
     \item \textbf{Compare to limits}: Ensure peak heat flux with safety margin remains below CHF
 \end{enumerate}
 
-\subsection*{A.3 Governing Equations}
+\subsubsection{Governing Equations}
 
 The governing equation for coolant mass flow rate is:
 
@@ -124,7 +125,7 @@ q''_{\text{peak}} = F_q \cdot q''_{\text{avg}}
 
 where $F_q$ is the power peaking factor.
 
-\subsection*{A.4 Power Peaking Factor Selection}
+\subsubsection{Power Peaking Factor Selection}
 
 The power peaking factor $F_q = 2.0$ represents the ratio of maximum local heat flux to core-average heat flux. This conservative value accounts for:
 
@@ -145,7 +146,7 @@ The power peaking factor $F_q = 2.0$ represents the ratio of maximum local heat 
 
 The value of 2.0 is extremely conservative compared to typical CANDU designs, which exhibit lower peaking factors (1.3-1.5) due to on-power refueling and continuous flux flattening. This choice ensures the design can accommodate power distribution perturbations arising from the non-uniform burnup of spent fuel feed material.
 
-\subsection*{A.5 Safety Margin Application}
+\subsubsection{Safety Margin Application}
 
 The safety margin factor of 0.9 is applied to buffer the CHF limit obtained from the Groeneveld tables:
 
@@ -179,7 +180,7 @@ The typical regulatory criterion used in PWRs requires DNBR $\geq$ 1.3-2.0 (depe
     \item \textbf{CHF correlation uncertainty}: The 0.9 factor provides margin for correlation uncertainty without excessive over-design at preliminary stages
 \end{itemize}
 
-\subsection*{A.6 Detailed Calculation Results}
+\subsubsection{Detailed Calculation Results}
 
 \begin{table}[H]
 \centering
@@ -236,7 +237,7 @@ Margin & 12-72\% & above minimum \\
 \end{tabular}
 \end{table}
 
-\subsection*{A.7 Comparison Analysis}
+\subsubsection{Comparison to Typical Reactor Values}
 
 Several parameters deviate from typical reactor values, as expected for this novel design:
 
@@ -258,7 +259,7 @@ Several parameters deviate from typical reactor values, as expected for this nov
     \end{itemize}
 \end{itemize}
 
-\subsection*{A.8 Uncertainty and Sensitivity}
+\subsubsection{Uncertainty and Sensitivity}
 
 Key uncertainties and their expected impact:
 
@@ -279,7 +280,7 @@ Mass flux & 102.6 kg/m$^2$/s & $\pm$10\% & $\pm$3\% \\
 
 The analysis shows that DNBR is most sensitive to subcooling (which was conservatively neglected) and pressure (which could be increased in future optimization). Both factors would improve thermal margins.
 
-\subsection*{A.9 Path Forward to NUEN 410}
+\subsubsection{Path Forward to Detailed Analysis}
 
 Detailed thermal-hydraulics analysis in NUEN 410 will address:
 

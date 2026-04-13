@@ -12,7 +12,7 @@ All detailed neutronics analyses were performed using the Serpent~2 Monte Carlo 
 
 Spent fuel material definitions were generated using an axially-resolved model of a fuel assembly from Three Mile Island Unit~1 (TMI-1). TMI-1 was selected as the benchmark case due to the availability of well-documented, spatially resolved isotopic and burnup distribution data for the assembly NJ05YU, which enables rigorous verification and validation (V\&V) of the depletion methodology prior to application in the LBR design iteration \cite{Wolf2000AnalysisReport}. The Serpent model geometry was constructed on the basis of a 1998 MCNP reference calculation \cite{Wright1998CRCI.}.
 
-The assembly geometry, shown in Figure~\ref{fig:tmi_geometry}, is discretized axially into a series of depletion zones to capture the spatially non-uniform burnup profile that results from flux gradients, control rod positioning, and coolant density variation along the rod length. Structural components --- including upper and lower grid spacers, flanges, and flow distribution hardware --- are explicitly modeled with region-specific material assignments. Key geometric and material parameters are summarized in Table~\ref{tab:tmi_geometry_params}.
+The assembly geometry, shown in Figure~\ref{fig:tmi_geometry}, is discretized axially into a series of depletion zones to capture the spatially non-uniform burnup profile that results from flux gradients, control rod positioning, and coolant density variation along the rod length. Structural components --- including upper and lower grid spacers, flanges, and flow distribution hardware --- are explicitly modeled with region-specific material assignments. Key geometric and material parameters are summarized in Table~\ref{tab:tmi_geometry_params}. The reference nuclide mass fractions, rod characteristics, and axial burnup distribution for the NJ05YU assembly are tabulated in Appendix~\ref{sec:app_C}.
 
 \begin{figure}[H]
     \centering
@@ -114,6 +114,7 @@ Taken together, the $^{235}$U and $^{239}$Pu validation results demonstrate that
 
 % ============================================================
 \subsection{Moderator and Lattice Pitch Confirmation }
+\label{sec:mod-and-pitch}
 % ============================================================
 
 The 0-D scoping study (\S~\ref{sec:scoping}) identified D$_2$O moderation at a 6\,cm lattice pitch as the design point on the basis of an infinite lattice model with a single tabulated spent fuel composition. That study could not account for the spectral effects of the full assembly geometry, the axially resolved burnup profile from the TMI-1 results established in. An assembly-level parametric pitch sweep was therefore conducted using the TMI-1 results in \S~\ref{sec:isotopic-validation} to confirm (or revise) the scoping selection under physically realistic conditions.
