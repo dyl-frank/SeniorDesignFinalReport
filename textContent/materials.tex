@@ -1,9 +1,10 @@
-The structural integrity of fuel and cladding materials under irradiation, thermal cycling, and corrosion is a critical constraint in reactor design. While neutronics performance governs reactivity and fuel utilization, material degradation ultimately limits safety margins and operational lifetime. This section presents a multiphysics modeling framework used to evaluate fuel–cladding behavior in the Last Breath Reactor (LBR), with emphasis on thermal gradients, stress evolution, and damage mechanisms
+The structural integrity of fuel and cladding materials under irradiation, thermal cycling, and corrosion is a critical constraint in reactor design. Neutronics performance controls reactivity and the effective use of fuel; however, material damage affects safety margins and operational lifetime. This section of the report presents the use of a multiphysics modeling framework to simulate fuel-cladding performance in the Last Breath Reactor (LBR) with the primary focus being on thermal gradients, stress evolution and damage mechanisms.
 
 \subsection{Modeling Framework: Use of MOOSE}
-The Multiphysics Object-Oriented Simulation Environment (MOOSE), developed by Idaho National Laboratory, was used to model the coupled thermomechanical and fracture behavior of the fuel–cladding system. MOOSE enables the solution of strongly coupled nonlinear partial differential equations using the finite element method within a modular and extensible framework.
+The Multiphysics Object-Oriented Simulation Environment (MOOSE), developed by Idaho National Laboratory, was used to model the coupled thermomechanical and fracture behavior of the fuel–cladding system. MOOSE enables the solution of strongly coupled nonlinear partial differential equations using the finite element method within a modular, extensible framework.
 
-MOOSE was selected due to its ability to simultaneously couple heat conduction, solid mechanics, and phase-field fracture within a single simulation environment. This is essential for accurately capturing feedback mechanisms between temperature gradients, stress development, and material degradation. Additionally, MOOSE allows for custom material models, including corrosion-induced property degradation and eigenstrain contributions, making it well-suited for reactor materials analysis.
+MOOSE was chosen primarily for its ability to simulate coupled heat conduction and solid mechanics within a single simulation environment. Moreover, MOOSE supports custom material models, including corrosion-induced property degradation and eigenstrain contributions. This was essential, as it enabled the simulation of accurate estimates of material property degradation caused by the extreme thermo-mechanical stresses that PWR fuel generally experiences during heating and cooling. Afterward, a realistic variant of a damaged spent fuel pin was simulated through a reheating cycle in the Last Breath Reactor to test its survivability and failure limits.
+
 
 \subsection{Governing Physics and Equations}
 Using the Multiphysics framework of MOOSE the thermo-mechanical behavior of the fuel cladding system was modeled. The coupled framework integrated heat conduction, solid mechanics, creep deformation, corrosion and fracture. Below are the governing equations and corresponding assumptions that modeled this simulation
@@ -87,14 +88,14 @@ where:
 \begin{itemize}
 	\item ${\dot{\varepsilon}}_{cr}$ is the creep strain rate (1/s),
 	\item $A$ is a material constant,
-	\item $\sigma_{vm}$ is the von Mises equivalent stress (Pa),
+	\item $\sigma_{vm}$ is the Von Mises equivalent stress (Pa),
 	\item $n$ is the stress exponent,
 	\item $Q$ is the activation energy (J/mol),
 	\item $R$ is the universal gas constant (J/mol$\cdot$K),
 	\item $T$ is temperature (K).
 \end{itemize}
 
-The von Mises stress, $\sigma_{vm}$, is an equivalent stress derived from the distortion energy in a material. In this study, it is an overall stress state contributed by the hoop and radial stresses that drives the creep mechanism in the material.
+The Von Mises stress, $\sigma_{vm}$, is an equivalent stress derived from the distortion energy in a material. In this study, it is an overall stress state contributed by the hoop and radial stresses that drives the creep mechanism in the material.
 
 \begin{equation}
     \sigma_{\text{vm}} = \sqrt{\sigma_r^2 - \sigma_r \sigma_\theta + \sigma_\theta^2}
@@ -102,7 +103,7 @@ The von Mises stress, $\sigma_{vm}$, is an equivalent stress derived from the di
 
 where:
 \begin{itemize}
-	\item $\sigma_{\text{vm}}$ is the von Mises equivalent stress (Pa),
+	\item $\sigma_{\text{vm}}$ is the Von Mises equivalent stress (Pa),
 	\item $\sigma_r$ is the radial stress (Pa),
 	\item $\sigma_\theta$ is the hoop (circumferential) stress (Pa).
 \end{itemize}
@@ -195,6 +196,13 @@ The hoop stresses and the radial stresses together contribute an overall stress 
     \label{fig:placeholder}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{figs/hoop_strain_TMI.png}
+    \caption{Hoop strain profile at steady state during the operation of TMI-1.}
+    \label{fig:placeholder}
+\end{figure}
+
 Displacement fields demonstrate outward radial expansion of the fuel, driven by thermal expansion. The magnitude of displacement is highest near the outer radius, indicating mechanical interaction with the cladding.
 
 \begin{figure}[H]
@@ -232,16 +240,13 @@ These effects together result in a structurally weaker cladding before it is reh
     \label{tab:clad-props}
     \renewcommand{\arraystretch}{1.8}
     \begin{tabular}{>{\bfseries\raggedright\arraybackslash}m{3.8cm}
-                    >{\centering\arraybackslash}m{1.2cm}
-                    >{\centering\arraybackslash}m{4.8cm}
-                    >{\centering\arraybackslash}m{1.5cm}
-                    >{\centering\arraybackslash}m{1.8cm}
-                    >{\centering\arraybackslash}m{1.5cm}}
+                    >{\centering\arraybackslash}m{2.5cm}
+                    >{\centering\arraybackslash}m{2.8cm}}
     \toprule
     \makecell[l]{State} & \textbf{Conductivity (W/m-K)} & \textbf{Young's Modulus (Pa)}  \\
     \midrule
       Fresh & 17.0 & $1.0\times 10^{11}$ \\
-      Degraded & 9.2 & & $6.9\times 10^{10}$  \\
+      Degraded & 9.2 &  $6.9\times 10^{10}$  \\
     \bottomrule
     \end{tabular}
 \end{table}
@@ -250,14 +255,14 @@ These effects together result in a structurally weaker cladding before it is reh
 
 After the long heating and cooling periods, the spent fuel was subjected to the operating conditions of the Last Breath Reactor (LBR). The spent fuel was subjected to a volumetric heat of 305 MW/m$^3$ as derived from the thermalhydrauclics calculations, degraded conductivities of 2.5 and 9.2 W/(m-K) for the fuel and clad respectively, and a clad stiffness of 69 GPa, as obtained from the degradation mechanisms of prior simulations. Initially, for this part of the simulation, the Allen-Cahn phase field was turned on for the cladding to ensure it could survive the LBR cycle after extreme thermo-mechanical stresses. This is a genuine concern, as the LBR cycle uses a higher volumetric heat with poorer material properties, which hinders sufficient heat removal from the system, ramping up the thermal gradient and increasing the induced stresses even further.
 
- The thermal expansion, reduced stiffness, induced creep, and pre-existing corrosion damage cause the cladding to undergo severe thermomechanical loading. As observed by the fracture model, cracks propagate rapidly within a few days of operation. Normally, cracks are expected to propagate from the outer surface of the fuel, as shown in Figure B for the TMI cycle, since ceramics tend to crack easily. However, cracking in Zircaloy-4, a metallic alloy, is an uncommon phenomenon that occurs directly. However, due to corrosion embrittlement and creep buildup, the cladding loses its structural integrity as a metal and begins to fracture or rupture.  
+ The thermal expansion, reduced stiffness, induced creep, and pre-existing corrosion damage cause the cladding to undergo severe thermomechanical loading. As observed by the fracture model, cracks propagate rapidly within a few days of operation. Normally, cracks are expected to propagate from the outer surface of the fuel, as shown in Figure 61 (b) for the TMI cycle, since ceramics tend to crack easily. However, cracking in Zircaloy-4, a metallic alloy, is an uncommon phenomenon that occurs directly. However, due to corrosion embrittlement and creep buildup, the cladding loses its structural integrity as a metal and begins to fracture or rupture.  
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.49\linewidth]{figs/spent-fuel-cracks.png}
     \hfill
     \includegraphics[width=0.49\linewidth]{figs/fresh-fuel-cracks.png}
-    \caption{Crack propagation of spent fuel (left) and fresh fuel (right).}
+    \caption{Crack propagation of (a) spent fuel (left) and (b) fresh fuel (right).}
     \label{fig:fuel-cracks}
 \end{figure}
 
@@ -268,11 +273,11 @@ These results demonstrate that reuse of spent fuel without structural reinforcem
 \subsection{Failure Criteria and Safety Implications}
 
 The structural integrity of the fuel–cladding system was evaluated using multiple failure criteria based on stress, creep deformation, and fracture mechanics.
-Ductile failure in the cladding is assessed using the von Mises yield criterion:
+Ductile failure in the cladding is assessed using the Von Mises yield criterion:
 \begin{equation}
     \sigma_{vm}\geq\sigma_y
 \end{equation}
-where $\sigma_{vm}$ is the equivalent von Mises stress and $\sigma_y$ is the yield strength of the material. When this condition is satisfied, plastic deformation and time-dependent creep mechanisms become dominant.
+where $\sigma_{vm}$ is the equivalent Von Mises stress and $\sigma_y$ is the yield strength of the material. When this condition is satisfied, plastic deformation and time-dependent creep mechanisms become dominant.
 Creep rupture is further governed by the strong dependence of strain rate on stress and temperature, as previously described by the Norton–Arrhenius relation. Under elevated temperatures in the LBR cycle, even moderate stresses can lead to accelerated creep deformation, significantly reducing structural lifetime.
 
 Meanwhile, a saturation-type corrosion model governs progressive oxide growth on the sleeve outer surface. This modulates both the elasticity and the conductivity of the sleeve. As corrosion progresses, the sleeve's conductivity degrades and raises local temperatures which accelerates creep. additionally, The degradation of conductivity and Young's modulus, substantially alters the stress redistribution at the fuel--clad interface.
@@ -338,14 +343,14 @@ The matrix weighs structural integrity as the highest (0.4) since cladding failu
 
 \subsubsection{Materials testing for overclad}
 
-In order to able to properly use fresh Zircaloy as the overclad, it must be ensured that it survives the conditions of the Last Breath Reactor cycle. It must be able to act as a secondary containment once the clad ruptures and holds back the fission products and the fuel particles from flowing into the coolant. Conservative guesses would assume that the overclad survives, since it is the same material as the original cladding, and since Zircaloy-4 is known to survive for an operating cycle of 5 years (which is also backed by previous simulations), it should be able to survive the smaller 300-day LBR cycle.
+In order to able to use fresh Zircaloy as the overclad, it must be ensured that it survives the conditions of the Last Breath Reactor cycle. It must be able to act as a secondary containment once the clad ruptures and holds back the fission products and the fuel particles from flowing into the coolant. Conservative guesses would assume that the overclad survives, since it is the same material as the original cladding, and since Zircaloy-4 is known to survive for an operating cycle of 5 years (which is also backed by previous simulations), it should be able to survive the smaller 300-day LBR cycle.
 
 However, in this scenario, there is essentially no gas gap in between overclad and the cladding, and the ruptured cladding might exert additional pressure from the inside. Moreover, as the thermal simulations suggest higher temperatures for the cladding, the temperature coupled corrosion would be accelerated as well. Hence it was necessary to do the following simulations on MOOSE to make sure the overclad does not lose its structural integrity due to creep and corrosion.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figs/hoop_stress_LBR.png}
-    \caption{Hoop stress across the radial axis for the spent fuel with overclad at steady state in the Last Breath Reactor.}
+    \caption{Hoop stress (MPa) across the radial axis for the spent fuel with overclad at steady state in the Last Breath Reactor.}
     \label{fig:placeholder}
 \end{figure}
 
@@ -370,7 +375,7 @@ The hoop stress in the overclad is several orders of magnitude below that of the
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figs/radial_stress_LBR.png}
-    \caption{Radial stress across the radial axis for the spent fuel with overclad at steady state in the Last Breath Reactor.}
+    \caption{Radial stress (kPa) across the radial axis for the spent fuel with overclad at steady state in the Last Breath Reactor.}
     \label{fig:placeholder}
 \end{figure}
 
@@ -420,7 +425,7 @@ The hoop strain may appear concerning at first, as its magnitude in the overclad
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figs/vonmises_LBR.png}
-    \caption{Von Mises Stress across the radial axis for the spent fuel with overclad at steady state in the Last Breath Reactor.}
+    \caption{Von Mises Stress (MPa) across the radial axis for the spent fuel with overclad at steady state in the Last Breath Reactor.}
     \label{fig:von-mises-overclad}
 \end{figure}
 
@@ -445,7 +450,7 @@ The Von Mises stress is substantially lower for the overclad. Being the combined
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figs/temp_LBR.png}
-    \caption{Radial temperature profile for the spent fuel with overclad at steady state in the Last Breath Reactor.}
+    \caption{Radial temperature profile (K) for the spent fuel with overclad at steady state in the Last Breath Reactor.}
     \label{fig:placeholder}
 \end{figure}
 
@@ -465,12 +470,12 @@ The Von Mises stress is substantially lower for the overclad. Being the combined
     \end{tabular}
 \end{table}
 
-The overclad temperature is roughly three times higher than the clad temperature in TMI. This is due to a higher volumetric heat source being used with a poorer model of heat removal than that present in the TMI cycle. As corrosion is significantly sped up in higher temperatures, and operating in a long cycle would generally worsen the materials elasticity, the high temperature does raise a doubt in terms of overclad safety. However, these spent fuel rods will be under operation for 300 days in comparison to 5 years long years, so it would undergo less corrosion which is backed by the simulations data. On the other hand, the 1306K is under the NRC limit of 10 CFR 50.46, so no regulatory limits are being breached in this scenario. However it must be noted that Zircaloy undergoes significant strength reduction at high temperatures. At room temperatures, the material has a yield strength of 500 MPa while reducing down to 100-150 MPa in the 1300 K temperature range \cite{NUREG/CR-6739Rods.}. Nevertheless, the Von Mises stress is on 0.555 MPa in the overclad, quite significantly below the yield strength ensuring the material is well within its elastic limit and is not in the risk of plastic collapse.%(Geelhood, K.J. and Luscher, W.G., FRAPTRAN-2.0: A Computer Code for the Transient Analysis of Oxide Fuel Rods, PNNL-19400, NRC, 2015. The material property models in this code document the temperature-dependent yield strength of Zircaloy-4. https://www.nrc.gov/docs/ML1611/ML16118A413.pdf)
+The overclad temperature is roughly three times higher than the clad temperature in TMI. This is due to a higher volumetric heat source being used with a poorer model of heat removal than that present in the TMI cycle. As corrosion is significantly sped up in higher temperatures, and operating in a long cycle would generally worsen the materials elasticity, the high temperature does raise a doubt in terms of overclad safety. However, these spent fuel rods will be under operation for 300 days in comparison to 5 years, so it would undergo less corrosion which is backed by the simulations data. On the other hand, the 1306K is under the NRC limit of 10 CFR 50.46, so no regulatory limits are being breached in this scenario \cite{NRC_50_46}. However, it must be noted that Zircaloy undergoes significant strength reduction at high temperatures. At room temperatures, the material has a yield strength of 500 MPa while reducing down to 100-150 MPa in the 1300 K temperature range \cite{NUREG/CR-6739Rods.}. Nevertheless, the Von Mises stress is only 0.555 MPa in the overclad, quite significantly below the yield strength ensuring the material is well within its elastic limit and is not in the risk of plastic collapse.%(Geelhood, K.J. and Luscher, W.G., FRAPTRAN-2.0: A Computer Code for the Transient Analysis of Oxide Fuel Rods, PNNL-19400, NRC, 2015. The material property models in this code document the temperature-dependent yield strength of Zircaloy-4. https://www.nrc.gov/docs/ML1611/ML16118A413.pdf)
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figs/corrosion_LBR.png}
-    \caption{Oxide growth across the radial axis for the spent fuel with overclad at steady state in the Last Breath Reactor.}
+    \caption{Oxide growth (mm) across the radial axis for the spent fuel with overclad at steady state in the Last Breath Reactor.}
     \label{fig:placeholder}
 \end{figure}
 
@@ -496,7 +501,7 @@ Although the elevated overclad temperature accelerates corrosion kinetics, the s
 
 The introduction of a Zircaloy-4 overclad fundamentally alters the stress distribution within the fuel system by acting as a secondary structural barrier. In the absence of a gap, mechanical loads from the degraded cladding are directly transferred to the overclad, resulting in increased contact stresses. However, due to its intact mechanical properties, the overclad is capable of redistributing these stresses and preventing catastrophic failure.
 
-Despite elevated temperatures and ongoing corrosion, the overclad maintains structural integrity throughout the LBR cycle, as indicated by the relatively low von Mises stress compared to expected yield limits. This demonstrates that the overclad effectively compensates for the loss of strength in the original cladding.
+Despite elevated temperatures and ongoing corrosion, the overclad maintains structural integrity throughout the LBR cycle, as indicated by the relatively low Von Mises stress compared to expected yield limits. This demonstrates that the overclad effectively compensates for the loss of strength in the original cladding.
 
 These results suggest that the use of a Zircaloy-4 sleeve is a viable strategy for extending the operational lifetime of spent fuel under high-power conditions, provided that manufacturing and assembly challenges can be addressed.
 
@@ -506,13 +511,13 @@ These results suggest that the use of a Zircaloy-4 sleeve is a viable strategy f
 
 To ensure the reliability of the simulation results, key outputs were compared against expected physical behavior and values reported in the literature.
 
-The predicted centerline temperatures of $\sim$1100~K during the primary cycle are consistent with typical PWR fuel operating conditions, as reported in the nominal value of 1070~K in the Westinghouse PWR Systems Manual \cite{WestinghouseLimits},%(NRC/Westinghouse Technology Systems Manual, Section 2.2, ML11223A208. https://www.nrc.gov/docs/ml1122/ML11223A208.pdf). 
+The predicted centerline temperatures of $\sim$1100~K during the primary cycle are consistent with typical PWR fuel operating conditions, as reported in the nominal value of 1070~K in the Westinghouse PWR Systems Manual \cite{WestinghouseLimits}, %(NRC/Westinghouse Technology Systems Manual, Section 2.2, ML11223A208. https://www.nrc.gov/docs/ml1122/ML11223A208.pdf). 
  and are comparable to the 950--1150~K range validated by the FRAPCON-4.0 fuel performance code at similar power densities %(Geelhood, K.J. et al., FRAPCON-4.0: A Computer Code for the Calculation of Steady-State Thermal-Mechanical Behavior of Oxide Fuel Rods, PNNL-19418 Vol. 2 Rev. 2, NRC. https://www.nrc.gov/docs/ML1611/ML16118A434.pdf)
  \cite{2015FRAPCON-4.0Assessment.}. Likewise, the hoop stress distributions agree with the established PCMI behavior reported in the ORNL fuel cracking analysis \cite{Sweet2018AnalysisRelocation}, %(ORNL/TM-2018/889, Analysis of FeCrAl Cladding and UO₂ Fuel Including Discrete and Smeared Cracks. https://info.ornl.gov/sites/publications/Files/Pub112359.pdf
   and the maximum cladding hoop stress of 210~MPa lies within the 150--666~MPa range reported for PWR fuel rods \cite{Qi2020Pellet-claddingCladding}.%(Sercombe, J. et al., Pellet-cladding mechanical interaction analysis of Cr-coated Zircaloy cladding, Nuclear Engineering and Design, 2020. https://www.sciencedirect.com/science/article/pii/S0029549320302867).
 
-The observed temperature increase during the LBR cycle is physically consistent with reduced thermal conductivity due to fuel degradation, combined with a higher volumetric heat source and reduced convective heat removal. The Arrhenius corrosion model aligns well with experimental data on PWR Zircaloy-4, where corrosion kinetics follow a cubic rate law with an activation energy of 132.8~kJ/mol \cite{osti_23002966}.%(Sato, T. et al., Autoclave Corrosion Experiment of Zircaloy-4 at Temperatures Between 180°C and 270°C, WM2019 Conference Proceedings, OSTI:23002966. https://www.osti.gov/biblio/23002966).
- Furthermore, the thermally driven corrosion behavior during the 20-year cooling period is consistent with established Zircaloy corrosion literature\cite{Motta2015CorrosionCladding}. %Motta, A.T. et al., Corrosion of Zirconium Alloys Used for Nuclear Fuel Cladding, Annual Review of Materials Research, 2015.: https://www.nuce.psu.edu/Motta/Publications/124_Motta_ARoMR_2015.pdf).
+The observed temperature increase during the LBR cycle is physically consistent with reduced thermal conductivity due to fuel degradation, combined with a higher volumetric heat source and reduced convective heat removal. The Arrhenius corrosion model aligns well with experimental data on PWR Zircaloy-4, where corrosion kinetics follow a cubic rate law with an activation energy of 132.8~kJ/mol \cite{osti_23002966}. %(Sato, T. et al., Autoclave Corrosion Experiment of Zircaloy-4 at Temperatures Between 180°C and 270°C, WM2019 Conference Proceedings, OSTI:23002966. https://www.osti.gov/biblio/23002966).
+ Furthermore, the thermally driven corrosion behavior during the 20-year cooling period is consistent with established Zircaloy corrosion literature \cite{Motta2015CorrosionCladding}. %Motta, A.T. et al., Corrosion of Zirconium Alloys Used for Nuclear Fuel Cladding, Annual Review of Materials Research, 2015.: https://www.nuce.psu.edu/Motta/Publications/124_Motta_ARoMR_2015.pdf).
 
 The predicted failure mode, characterized by cladding-initiated cracking driven by corrosion embrittlement, creep, and degraded material properties under high-temperature conditions, agrees with experimental observations on Zircaloy-4, where waterside corrosion produces a brittle hydride rim with significantly reduced fracture resistance under the multi-axial stress states induced during the LBR reheating cycle \cite{ONReader}. %(Daum, R.S. et al., On the Embrittlement of Zircaloy-4 under RIA-Relevant Conditions, ANL, 2001. https://publications.anl.gov/anlpubs/2001/12/41627.pdf)
 
@@ -522,13 +527,13 @@ Overall, the model captures the dominant physical mechanisms governing fuel--cla
 
 While the present model captures the key thermo-mechanical and degradation phenomena, several simplifying assumptions were made that may influence the accuracy of the results.
 
-First, irradiation-induced effects such as swelling, fission gas release, and radiation hardening were not included. Neglecting fission gas pressure buildup in particular alters the hoop stress distribution. While these effects are secondary to thermo-mechanical stresses at the beginning of life, they become non-negligible at the end of the cycle. FRAPCON simulations of comparable PWR fuel rods indicate that internal fission gas pressure at the end of the cycle can contribute an additional 50--100~MPa of hoop stress to the cladding \cite{2015FRAPCON-4.0Assessment.},%(Geelhood, K.J. et al., FRAPCON-4.0: A Computer Code for the Calculation of Steady-State Thermal-Mechanical Behavior of Oxide Fuel Rods, PNNL-19418 Vol. 2 Rev. 2, NRC. https://www.nrc.gov/docs/ML1611/ML16118A434.pdf).
+First, irradiation-induced effects such as swelling, fission gas release, and radiation hardening were not included. Neglecting fission gas pressure buildup in particular alters the hoop stress distribution. While these effects are secondary to thermo-mechanical stresses at the beginning of life, they become non-negligible at the end of the cycle. FRAPCON simulations of comparable PWR fuel rods indicate that internal fission gas pressure at the end of the cycle can contribute an additional 50--100~MPa of hoop stress to the cladding \cite{2015FRAPCON-4.0Assessment.}, %(Geelhood, K.J. et al., FRAPCON-4.0: A Computer Code for the Calculation of Steady-State Thermal-Mechanical Behavior of Oxide Fuel Rods, PNNL-19418 Vol. 2 Rev. 2, NRC. https://www.nrc.gov/docs/ML1611/ML16118A434.pdf).
  meaning the LBR cladding and overclad stresses are likely underestimated.
 
-Additionally, the corrosion model is simplified and does not account for complex oxide layer behavior, such as spallation or transition kinetics. The exclusion of these phenomena results in a underestimate of the peak corrosion rates of Zircaloy in reactor conditions as corrosion rates are known to accelerate to a factor of 6 when fuel undergoes multiple irradiation cycles %(Blat, M. and Noel, D., Analysis of the Waterside Corrosion Kinetics of Zircaloy-4 Fuel Cladding in French PWRs, Nuclear Technology, Vol. 170, 2010.  https://www.tandfonline.com/doi/abs/10.13182/NT10-A10330)
+Additionally, the corrosion model is simplified and does not account for complex oxide layer behavior, such as spallation or transition kinetics. The exclusion of these phenomena results in an underestimate of the peak corrosion rates of Zircaloy in reactor conditions as corrosion rates are known to accelerate to a factor of 6 when fuel undergoes multiple irradiation cycles %(Blat, M. and Noel, D., Analysis of the Waterside Corrosion Kinetics of Zircaloy-4 Fuel Cladding in French PWRs, Nuclear Technology, Vol. 170, 2010.  https://www.tandfonline.com/doi/abs/10.13182/NT10-A10330)
 \cite{Bouineau01062010}. The phase-field fracture model, while effective in capturing crack propagation, does not explicitly resolve microstructural mechanisms such as grain boundary failure.
 
-Ignoring the fuel gas gap in the primary cycle, simulates the fuel having more heat removal than normal, resulting in a much cooler fuel as it is the strongest element of thermal resistance. This means that the model assumes direct conductive contact across the fuel–cladding interface, artificially enhancing heat removal from the fuel and resulting in a non-conservative underestimate of the fuel centerline temperature%(Lapetite, J.M. et al., Measurement of the Thermal Conductivity of Metal Clad Uranium Oxide Rods During Irradiation, Journal of Nuclear Materials, 1961. https://www.sciencedirect.com/science/article/abs/pii/0022311561902021)
+Ignoring the fuel gas gap in the primary cycle simulates the fuel having more heat removal than normal, resulting in a much cooler fuel as it is the strongest element of thermal resistance. This means that the model assumes direct conductive contact across the fuel–cladding interface, artificially enhancing heat removal from the fuel and resulting in a non-conservative underestimate of the fuel centerline temperature %(Lapetite, J.M. et al., Measurement of the Thermal Conductivity of Metal Clad Uranium Oxide Rods During Irradiation, Journal of Nuclear Materials, 1961. https://www.sciencedirect.com/science/article/abs/pii/0022311561902021)
 \cite{Cohen1961MeasurementIrradiation}. However, it should be addressed that the gas gap limitation applies to the primary heating cycle and during the LBR heating phase, the ruptured cladding is in direct contact with the overclad, which makes the no gas-gap assumption an approximation that is much closer to reality for that stage of the simulation.
 
 Future work should include irradiation effects with detailed neutron fluence data, burnup tracking and DPA (displacement per atom) evolutions, which would allow to simulate DPA correlations, swelling laws and irradiation creep coefficients that can be cross-checked with more advanced models such as BISON or FRAPCON. With the availability of sufficient computational power, these simulations can be rerun with the more advanced corrosion kinetics, a detailed phase field fracture physics and including gap mechanics.

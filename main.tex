@@ -11,7 +11,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{setspace}
 \usepackage{tabularx}
-
+\usepackage{pdflscape}  % instead of lscape
 % --- column types --------------------------------------------
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
@@ -25,6 +25,7 @@
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{makecell}
+\usepackage{rotating}
 \usepackage{array}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -99,8 +100,8 @@
 \vspace*{1in}
 
 % Course Information
-{\Large\bfseries NUEN 410}\\[0.4em]
-{\large Design of Nuclear Reactors}\\[0.2em]
+{\Large\bfseries NUEN 410 - \S200/\S500}\\[0.4em]
+{\large The Design of Nuclear Reactors}\\[0.2em]
 {\normalsize Spring 2026}
 
 \vspace{1.5in}
@@ -113,36 +114,41 @@ REACTOR DESIGN\par}
 \vspace{0.5in}
 
 % Subtitle
-{\LARGE\itshape Senior Design Project Review\par}
+{\LARGE\itshape Senior Design Project Final Report\par}
 
 \vfill
 
 % Institution
 {\large 
 Submitted to the\\[0.3em]
-\textbf{Department of Nuclear Engineering}\\[0.2em]
+\textbf{Department of Nuclear Engineering}\\
+at\\[.2em]
 Texas A\&M University}
 
 \newpage
-% Team Members
-{\large\bfseries Team Members}\\[0.8em]
-{\large
-Dylan J. Frank\\[0.5em]
-Ridwan T. Imam\\[0.5em]
-Sean A. Yeatts
-}
+% % Team Members
+% {\large\bfseries Team Members}\\[1.0em]
+% {\large
+% Dylan J. Frank\\[1.2em]
+% \rule{3in}{0.4pt}\\[1.2em]
+% Ridwan T. Imam\\[1.2em]
+% \rule{3in}{0.4pt}\\[1.2em]
+% Sean A. Yeatts\\[1.82em]
+% \rule{3in}{0.4pt}
+% }
 
-\vspace{1in}
+% \vspace{1in}
 
+% % Team Captain and Date
+% {\normalsize
+% \textbf{Team Captain:} Dylan J. Frank\\[0.5em]
+% \textbf{Date:} \today
+% }
 
-% Team Captain and Date
-{\normalsize
-\textbf{Team Captain:} Dylan J. Frank\\[0.5em]
-\textbf{Date:} \today
-}
+% \vspace{0.5in}
 
-\vspace{0.5in}
-
+\includepdf[pages=-]{"team-signature-page-1.pdf"}
+\vspace{1.0in}
 \end{titlepage}
 
 \clearpage
@@ -150,53 +156,55 @@ Sean A. Yeatts
 % Approval
 % ===================================================================
 
-\thispagestyle{empty}
+% \thispagestyle{empty}
 
-\begin{center}
-    {\large Approval Page}
-\end{center}
+% \begin{center}
+%     {\large Approval Page}
+% \end{center}
 
-\vspace{1.5cm}
+% \vspace{1.5cm}
 
-\noindent This Design Project Report has been approved by:
+% \noindent This Design Project Report has been approved by:
 
-\vspace{2cm}
+% \vspace{2cm}
 
-% --- Technical Advisor ---
-\noindent\begin{minipage}[t]{0.35\textwidth}
-    \vspace{0pt}
-    Technical Advisor:\par
-    \vspace{1.8cm}
-    \hrule
-    \vspace{4pt}
-    \small Signature
-\end{minipage}%
-\hfill
-\begin{minipage}[t]{0.55\textwidth}
-    \vspace{3.5cm}
-    \noindent Name (Print)\enspace\underline{\hspace{6cm}}\par
-    \vspace{0.5cm}
-    \noindent Date\enspace\underline{\hspace{6.5cm}}
-\end{minipage}
+% % --- Technical Advisor ---
+% \noindent\begin{minipage}[t]{0.35\textwidth}
+%     \vspace{0pt}
+%     Technical Advisor:\par
+%     \vspace{1.8cm}
+%     \hrule
+%     \vspace{4pt}
+%     \small Signature
+% \end{minipage}%
+% \hfill
+% \begin{minipage}[t]{0.55\textwidth}
+%     \vspace{3.5cm}
+%     \noindent Name (Print)\enspace\underline{\hspace{6cm}}\par
+%     \vspace{0.5cm}
+%     \noindent Date\enspace\underline{\hspace{6.5cm}}
+% \end{minipage}
 
-\vspace{3cm}
+% \vspace{3cm}
 
-% --- Faculty Advisor ---
-\noindent\begin{minipage}[t]{0.35\textwidth}
-    \vspace{0pt}
-    Faculty Advisor:\par
-    \vspace{1.8cm}
-    \hrule
-    \vspace{4pt}
-    \small Signature
-\end{minipage}%
-\hfill
-\begin{minipage}[t]{0.55\textwidth}
-    \vspace{3.5cm}
-    \noindent Name (Print)\enspace\underline{\hspace{6cm}}\par
-    \vspace{0.5cm}
-    \noindent Date\enspace\underline{\hspace{6.5cm}}
-\end{minipage}
+% % --- Faculty Advisor ---
+% \noindent\begin{minipage}[t]{0.35\textwidth}
+%     \vspace{0pt}
+%     Faculty Advisor:\par
+%     \vspace{1.8cm}
+%     \hrule
+%     \vspace{4pt}
+%     \small Signature
+% \end{minipage}%
+% \hfill
+% \begin{minipage}[t]{0.55\textwidth}
+%     \vspace{3.5cm}
+%     \noindent Name (Print)\enspace\underline{\hspace{6cm}}\par
+%     \vspace{0.5cm}
+%     \noindent Date\enspace\underline{\hspace{6.5cm}}
+% \end{minipage}
+\includepdf[pages=-]{"Approval Page_NUEN410.pdf"}
+\vspace{1.0in}
 
 \clearpage
 % ===================================================================
@@ -206,7 +214,7 @@ Sean A. Yeatts
 
 The U.S. commercial nuclear fleet has discharged over 90,000 metric tons of spent PWR fuel, most of which sits in interim storage with no clear disposal pathway. The \textit{Last Breath Reactor} (LBR) is a heavy-water-moderated reactor concept designed to take that spent fuel --- as-is, without decladding or chemical reprocessing --- and extract an additional 15\,MWd/kgHM of energy from it while reducing its $^{239}$Pu inventory. The core idea is simple: heavy water's near-zero thermal absorption cross section ($\sigma_a \approx 0.001$\,b) is what makes criticality on deeply depleted fuel possible at all. Light water cannot do this at any lattice geometry; D$_2$O can.
 
-The design was driven by three requirements: a $\geq$20\% reduction in per-assembly $^{239}$Pu, sustained criticality through 60\,GWd/tHM of accumulated burnup, and a 2\,GW$_\text{th}$ thermal output within regulatory safety margins. All three have been met.
+The design was driven by three requirements: a $\geq$20\% reduction in per-assembly $^{239}$Pu, sustained criticality through 60\,GWd/tHM of accumulated burnup, and stay within regulatory safety margins for DNBR, cladding temperature and power peaking factor. All three have been met.
 
 The 6\,cm square lattice pitch emerged from an OpenMC parametric sweep as the design point that best balances spectrum thermalization, initial excess reactivity, and thermal-hydraulic feasibility. It is a large pitch by any reactor standard, and that has consequences --- the coolant mass flux drops to about 102.6\,kg/m$^2$s, roughly an order of magnitude below a conventional PWR, which cuts the convective heat transfer coefficient to $\sim$757\,W/m$^2$K. Managing heat removal at this pitch is the central engineering challenge of the concept.
 
@@ -216,9 +224,11 @@ Serpent~2 depletion calculations show the per-assembly $^{239}$Pu inventory fall
 
 On the thermal side, ANSYS Fluent conjugate CFD (the V5 single-pin model) gives DNBR\,$= 6.5$ on the average channel and 2.95 at the PPF-scaled hot channel, both above the 1.3 regulatory minimum. The hot-channel cladding temperature approaches its limit at PPF\,$= 2.23$. Because of the low mass flow rate indicative of a 6-cm lattice pitch, average thermal power-density is limited to $\sim$13.5 W/g making LBR far from compact. This realization highlights a need for future work to focus on optimizing reloading patterns rather than relying on fresh fuel rods to meet cycle-length requirements.
 
-MOOSE thermomechanical analysis shows the original spent fuel cladding cracks under LBR operating conditions due to corrosion embrittlement and creep accumulated during PWR service. A Zircaloy-4 overclad sleeve provides the necessary secondary containment. Its von Mises stress under LBR conditions is 0.555\,MPa --- well below the $\sim$100--150\,MPa yield strength at operating temperature --- and oxide growth over the 300-day cycle (0.046\,mm) is less than what the original cladding accumulated in PWR service.
+MOOSE thermomechanical analysis shows the original spent fuel cladding cracks under LBR operating conditions due to corrosion embrittlement and creep accumulated during PWR service. A Zircaloy-4 overclad sleeve provides the necessary secondary containment. Its Von Mises stress under LBR conditions is 0.555\,MPa --- well below the $\sim$100--150\,MPa yield strength at operating temperature --- and oxide growth over the 300-day cycle (0.046\,mm) is less than what the original cladding accumulated in PWR service.
 
-LBR fabrication is estimated at \$501/kgHM, compared to \$1,195/kgHM for the DUPIC reference cycle. The difference comes almost entirely from eliminating OREOX processing, high-temperature sintering, and the Zircaloy cladding-hull waste stream. On an incremental energy basis, LBR comes in at \$110.6/MWd versus DUPIC's \$181.0/MWd. Neither matches conventional PWR economics (\$66.3/MWd), but the right comparison is the avoided cost of direct spent fuel disposal --- on that basis LBR's marginal energy cost is about \$31/MWd.
+LBR fabrication is estimated at \$501/kgHM, compared to \$1,195/kgHM for the DUPIC reference cycle. The difference comes almost entirely from eliminating OREOX processing, high-temperature sintering, and the Zircaloy cladding-hull waste stream. On an incremental energy basis, LBR comes in at \$110.6/MWd versus DUPIC's \$181.0/MWd. Neither matches conventional PWR economics (\$66.3/MWd), but another viewpoint is the avoided cost of direct spent fuel disposal --- on that basis LBR's marginal energy cost is about \$31/MWd.
+
+Although included in the initial project plan (Appendix \ref{sec:app-gantt}), health physics was removed from scope following the departure of a team member. Radiological health concerns remain a key constraint that warrants future investigation. Design was additionally constrained to a single-assembly model due to computational limitations. Despite these scope adjustments, all primary design objectives were met.
 
 \clearpage
 % ===================================================================
@@ -234,28 +244,100 @@ LBR fabrication is estimated at \$501/kgHM, compared to \$1,195/kgHM for the DUP
 \pagenumbering{arabic}
 \pagestyle{fancy}
 
-\section{Introduction}
+\section{Introduction (All)}
 \input{textContent/introduction}
 
 \clearpage
 % ===================================================================
 % OBJECTIVES
 % ===================================================================
-\section{Objectives}
+\section{Objectives (All)}
 \input{textContent/objectives}
 
 \clearpage
 % ===================================================================
 % SCOPING
 % ===================================================================
-\section{Scoping Analysis and Design Basis}
+\section{Scoping Analysis and Design Basis }
 \label{sec:scoping-section}
 \input{textContent/scoping-neutronics}
 
 \subsection{Preliminary Thermal-Hydraulic Scoping (S. Yeatts)}
 \label{sec:th-scoping}
+% ============================================================
+The coolant mass flow rate and mass flux in the representative channel are obtained from an energy balance and the geometric flow area of the 6\,cm lattice. First, the total core thermal power $Q$ and the specified coolant temperature rise $\Delta T = T_{\text{out}} - T_{\text{in}}$ define the required mass flow rate through
+\[
+\dot{m} = \frac{Q}{c_p \,\Delta T},
+\]
+where $c_p$ is the specific heat of heavy water at 10\,MPa evaluated at the average coolant temperature. The corresponding total coolant flow area is computed from the rod pitch and fuel-rod radius as
+\[
+A_{\text{flow}} = N_{\text{rods}}\left(P^{2} - \pi R^{2}\right),
+\]
+with $N_{\text{rods}}$ the number of rods per assembly, $P$ the lattice pitch, and $R$ the fuel-rod radius. The mass flux in the average channel is then
+\[
+G = \frac{\dot{m}}{A_{\text{flow}}}
+= \frac{Q}{c_p \,\Delta T \, A_{\text{flow}}},
+\]
+which evaluates to the design value
+\[
+G = 102.6~\text{kg m}^{-2}\text{s}^{-1}.
+\]
+
+Using the heavy-water density $\rho$ and dynamic viscosity $\mu$ at inlet conditions together with the hydraulic diameter $D_h$ for the 6\,cm lattice subchannel, the Reynolds number is
+\[
+\mathrm{Re} = \frac{\rho u D_h}{\mu}
+= \frac{G D_h}{\mu},
+\]
+where $u = G/\rho$ is the bulk coolant velocity at the inlet. Substituting the design values yields
+\[
+\mathrm{Re} \gg 4\times10^{3}
+\]
+(numerically, $\mathrm{Re} \sim \mathcal{O}(10^{5})$), which lies well above the canonical transition threshold $\mathrm{Re} \approx 2300$ for internal flows. This confirms that the coolant flow in the representative channel is turbulent, justifying the use of a near-wall-resolved RANS turbulence model for the thermal--hydraulic analysis.
+
+A scoping-level Critical Heat Flux (CHF) analysis was performed to verify that 2 GW thermal power can be safely removed from the core with adequate thermal margins. The analysis employed conservative assumptions appropriate for preliminary design, as detailed further in Section~\ref{sec:thermal-hydraulics}:
+
+\begin{itemize}
+    \item Operating pressure of 10 MPa (CANDU-typical, lower than PWR's 15.5 MPa)
+    \item Saturated liquid conditions at outlet ($x = 0$) rather than actual subcooled operation
+    \item Evaluation at core outlet where thermal margins are minimum
+    \item Power peaking factor $F_q = 2.0$ (conservative vs. typical CANDU 1.3-1.5)
+\end{itemize}
+
+\textbf{Key Results.}
+
+Using the Groeneveld 2006 CHF lookup tables \cite{Groeneveld2007TheTable}, which are valid for the low mass flux regime (102.6 kg/m$^2$/s) encountered in this design, the analysis yielded:
+
+\begin{equation}
+\text{DNBR} = \frac{q''_{\text{limit}}}{q''_{\text{peak}}} = \frac{0.9 \times \text{CHF}}{q''_{\text{peak}}} = \frac{3746}{1670.37} = 2.24
+\end{equation}
+
+This DNBR exceeds the regulatory minimum of 1.3-2.0, demonstrating adequate thermal margin.
 
 
+\newpage
+
+\textbf{Design Implications.}
+
+The calculated mass flux of 102.6~kg/m$^2$/s is significantly lower than typical CANDU and PWR values, as compared in Table~\ref{tab:comparison}, due to the large lattice pitch of 6~cm required for neutron spectrum thermalization. While this reduces pumping power requirements, it necessitates validation of flow stability The conservative peaking factor (2.0) accommodates uncertainties in power distribution from non-uniform spent fuel burnup. The DNBR of 2.24, while lower than typical operating margins (3-5), exceeds regulatory requirements and provides adequate margin for this scoping phase. Detailed CFD modeling in \S\ref{sec:cfd-setup} refines these estimates with subcooled conditions.
+
+\begin{table}[H]
+\centering
+\caption{Comparison of key parameters to typical CANDU and PWR values}
+\small
+\begin{tabular}{lccc}
+\toprule
+\textbf{Parameter} & \textbf{This Design} & \textbf{CANDU} & \textbf{PWR} \\
+\midrule
+Thermal Power (MW) & 2000 & 2000-2150 & 3000-3400 \\
+Pressure (MPa) & 10.0 & 9-11 & 15-16 \\
+Mass flux (kg/m$^2$/s) & 102.6 & 1500-3000 & 3000-4000 \\
+Peak heat flux (kW/m$^2$) & 1670 & 900-1200 & 1100-1300 \\
+Power peaking factor & 2.0 & 1.3-1.5 & 1.5-1.7 \\
+CHF (kW/m$^2$) & 4162 & 4000-8000 & 6000-10000 \\
+DNBR & 2.24 & 3-5 & 2.0-3.0 \\
+\bottomrule
+\end{tabular}
+\end{table}\label{tab:comparison}
 \clearpage
 
 % ===================================================================
@@ -294,15 +376,6 @@ LBR fabrication is estimated at \$501/kgHM, compared to \$1,195/kgHM for the DUP
 \clearpage
 
 % ===================================================================
-% DESIGN CONCEPT SUMMARY
-% ===================================================================
-\section{Design Concept Summary (All)}
-\input{textContent/designConceptSummary}
-
-
-\clearpage
-
-% ===================================================================
 % CONCLUSIONS
 % ===================================================================
 \section{Conclusions and Recommendations (All)}
@@ -325,15 +398,44 @@ LBR fabrication is estimated at \$501/kgHM, compared to \$1,195/kgHM for the DUP
 % APPENDICES
 % ===================================================================
 \appendix
+\vspace{-1em}
+\includepdf[
+  pages=-,
+  scale=0.90,
+  offset=0 -20pt,
+  pagecommand={\section{Constraints and Standards Index Page (All)}\vspace{1em}}
+]{constraints_and_standards_lbr.pdf}
+
 
 \section{Power Inverter Details (D. Frank)}
-\label{sec:app_A}
+\label{sec:app_pi}
 \input{appendices/power-inverters}
 
 \clearpage
-\section{TMI-1 NJ05YU Spent Fuel Reference Data (D. Frank)}
-\label{sec:app_C}
+\section{TMI-1 Spent Fuel Reference Data (D. Frank)}
+\label{sec:app_fuel-ref}
 \input{appendices/spentFuelRef}
 
+\vspace{-1em}
+\includepdf[
+  pages=-,
+  scale=0.85,
+  offset=0 -10pt,
+  pagecommand={\section{Groeneveld Lookup Table}\vspace{1em}}
+]{AppendixGroeneveld.pdf}
+
+
+\clearpage
+\begin{landscape}
+\section{Initial Project Approach (All)}
+\label{sec:app-gantt}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{figs/ganttChart.png}
+    \caption{Gantt Chart displaying the project timeline and approach at the conclusion of the scoping phase. The majority of planned tasks have been completed, though the departure of a team member necessitated removing health physics from scope. Design optimization was similarly constrained to a single-assembly model due to computational limitations. NE: Nazih El-Halik, DF: Dylan Frank, RI: Ridwan Imam, SY: Sean Yeatts}
+    \label{fig:gantt}
+\end{figure}
+\end{landscape}
+\clearpage
 
 \end{document}

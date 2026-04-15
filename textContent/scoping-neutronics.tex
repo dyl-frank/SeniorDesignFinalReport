@@ -2,7 +2,6 @@
 %  OPTIMIZATION STRATEGY
 % ============================================================
 
-The LBR design optimization is governed by a two-level strategy. At the conceptual level, the competition between plutonium breeding and burning is framed as a transmutation kinetics problem that establishes the necessary conditions on the neutron spectrum. At the engineering level, those conditions are translated into specific moderator and geometry choices through a sequence of scoping calculations of increasing fidelity, culminating in the full Monte Carlo design iteration described in Section~\ref{sec:neutronics}.
 
 % ============================================================
 \subsection{Transmutation Kinetics (D. Frank)}
@@ -57,7 +56,7 @@ The cross-section analysis establishes the need for a highly thermalized spectru
 
 \subsubsection{Moderator and Lattice Pitch: Infinite Lattice Study}
 
-An infinite lattice model was constructed in OpenMC, selected for its seamless integration with Python scripting, which facilitated the parametric sweep over moderator types and lattice pitches. Fuel compositions were drawn from radiochemical assay data for a spent fuel rod at Three Mile Island Unit 1 (TMI-1|NJ05|H6|C2B), with a discharge burnup of 52.6\,GWd/tHM and an initial enrichment of 4.01\,wt\%. This sample, among the highest-burnup specimens in the SFCOMPO-2.0 database \cite{Michel-Sendis2017SFCOMPO-2.0:Data}, was selected as a conservative baseline on the basis that highly depleted fuel maximizes the challenge to criticality. Three moderator candidates were evaluated --- light water (H$_2$O), heavy water (D$_2$O), and helium --- over a lattice pitch range of 1.5 to 15\,cm.
+An infinite lattice model was constructed in OpenMC, selected for its seamless integration with Python scripting, which facilitated the parametric sweep over moderator types and lattice pitches. Fuel compositions were drawn from radiochemical assay data for a spent fuel rod at Three Mile Island Unit 1 (TMI-1|NJ05|H6|C2B), with a discharge burnup of 52.6\,GWd/tHM and an initial enrichment of 4.01\,wt\%. This sample, among the highest-burnup specimens in the SFCOMPO-2.0 database \cite{Michel-Sendis2017SFCOMPO-2.0:Data}, was selected as a conservative baseline on the basis that highly depleted fuel maximizes the challenge to criticality (see Appendix \ref{sec:app_fuel-ref}, Table \ref{tab:tmi1_rod_characteristics} for isotopic profile). Three moderator candidates were evaluated --- light water (H$_2$O), heavy water (D$_2$O), and helium --- over a lattice pitch range of 1.5 to 15\,cm.
 
 Figure~\ref{fig:kinf-pitch} shows $k_\infty$ at startup as a function of lattice pitch for each moderator. Light water and helium fail to sustain criticality at any pitch for fuel of this burnup. Heavy water is the only candidate that achieves $k_\infty > 1$, owing to its low thermal neutron absorption cross section ($\sigma_\text{a,D2O} \approx 0.001$\,b) compared to light water ($\sigma_\text{a,H2O} \approx 0.33$\,b), which preserves neutron economy in a fuel-poor lattice. The D$_2$O system reaches $k_\infty > 1$ for pitches above $\sim$3\,cm and plateaus near 1.27 for pitches of 6 to 15\,cm.
 
@@ -81,15 +80,15 @@ A lattice pitch of 6\,cm was selected as the baseline design point, balancing th
 \begin{enumerate}
     \item Sufficient spectrum thermalization to maintain $\lambda_3/\lambda_2 > 1$ (Objective~1: plutonium burning).
     \item Adequate initial excess reactivity ($k_\infty \approx 1.22$) to sustain criticality throughout the fuel cycle (Objective~2).
-    \item An acceptable moderator-to-fuel ratio from a thermal-hydraulic standpoint (Objective~3), discussed further in \S~\ref{sec:thermalhydraulics}. %FIND THIS
+    \item Small enough to allow for sufficient heat removal (Objective~3), discussed further in \S~\ref{sec:th-scoping}. %FIND THIS
 \end{enumerate}
 
 \subsubsection{Zero-Dimensional Depletion Analysis}
 
-Having established D$_2$O moderation at a 6\,cm pitch as the design point, a zero-dimensional (0-D) depletion analysis was performed to assess achievable burnup, plutonium burndown, and isotopic quality evolution under continuous irradiation at constant power. A specific power of 30\,W/gHM was assumed, consistent with typical PWR operation, yielding a total heavy metal inventory of approximately 67\,tonnes at 2\,GW$_\text{th}$ across $\sim$19\,400 fuel rods.
+Having established D$_2$O moderation at a 6\,cm pitch as the design point, a zero-dimensional (0-D) depletion analysis was performed to assess achievable burnup, plutonium burndown, and isotopic quality evolution under continuous irradiation at constant power. A specific power of 30\,W/gHM was assumed, consistent with typical PWR operation, yielding a total heavy metal inventory of approximately 67\,tonnes at 2\,GW$_\text{th}$ across $\sim$19,400 fuel rods.
 
 \paragraph{Burnup Performance.}
-Objective~2 requires $k_\text{eff} \geq 1$ through an accumulated discharge burnup of $\geq$60\,GWd/tHM. The 0-D model uses the TMI-1 C2B spent fuel composition, which enters the LBR at 52.6\,GWd/tHM. The NRC regulatory ceiling of 62\,GWd/tHM therefore leaves 9.4\,GWd/tHM of available margin before the fuel must be discharged regardless of its reactivity state.
+Objective~2 requires $k_\text{eff} \geq 1$ through an accumulated discharge burnup of $\geq$60\,GWd/tHM. The 0-D model uses the TMI-1 C2B spent fuel composition (see App.~\ref{sec:app_fuel-ref}), which enters the LBR at 52.6\,GWd/tHM. The NRC regulatory ceiling of 62\,GWd/tHM therefore leaves 9.4\,GWd/tHM of available margin before the fuel must be discharged regardless of its reactivity state.
 
 As shown in Figure~\ref{fig:kinf-burn}, $k_\infty \geq 1$ is maintained through an additional 9.0\,GWd/tHM of irradiation, bringing the total accumulated burnup to $\sim$61.6\,GWd/tHM --- within 0.4\,GWd/tHM of the regulatory ceiling and exceeding the 60\,GWd/tHM design objective. The initial excess reactivity ($k_\infty = 1.22$) would be managed in the finite reactor through soluble boron, control rods, or burnable poisons.
 

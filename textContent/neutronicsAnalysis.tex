@@ -12,7 +12,7 @@ All detailed neutronics analyses were performed using the Serpent~2 Monte Carlo 
 
 Spent fuel material definitions were generated using an axially-resolved model of a fuel assembly from Three Mile Island Unit~1 (TMI-1). TMI-1 was selected as the benchmark case due to the availability of well-documented, spatially resolved isotopic and burnup distribution data for the assembly NJ05YU, which enables rigorous verification and validation (V\&V) of the depletion methodology prior to application in the LBR design iteration \cite{Wolf2000AnalysisReport}. The Serpent model geometry was constructed on the basis of a 1998 MCNP reference calculation \cite{Wright1998CRCI.}.
 
-The assembly geometry, shown in Figure~\ref{fig:tmi_geometry}, is discretized axially into a series of depletion zones to capture the spatially non-uniform burnup profile that results from flux gradients, control rod positioning, and coolant density variation along the rod length. Structural components --- including upper and lower grid spacers, flanges, and flow distribution hardware --- are explicitly modeled with region-specific material assignments. Key geometric and material parameters are summarized in Table~\ref{tab:tmi_geometry_params}. The reference nuclide mass fractions, rod characteristics, and axial burnup distribution for the NJ05YU assembly are tabulated in Appendix~\ref{sec:app_C}.
+The assembly geometry, shown in Figure~\ref{fig:tmi_geometry}, is discretized axially into a series of depletion zones to capture the spatially non-uniform burnup profile that results from flux gradients, control rod positioning, and coolant density variation along the rod length. Structural components --- including upper and lower grid spacers, flanges, and flow distribution hardware --- are explicitly modeled with region-specific material assignments. Key geometric and material parameters are summarized in Table~\ref{tab:tmi_geometry_params}. The reference nuclide mass fractions, rod characteristics, and axial burnup distribution for the NJ05YU assembly are tabulated in Appendix~\ref{sec:app_fuel-ref}.
 
 \begin{figure}[H]
     \centering
@@ -69,7 +69,7 @@ The assembly geometry, shown in Figure~\ref{fig:tmi_geometry}, is discretized ax
 \subsubsection{Operating History and Depletion Solver Stability}
 % ============================================================
 
-Burnup simulations followed the irradiation history of Assembly NJ05YU as documented in \cite{Wolf2000AnalysisReport}, comprising: a 666-day first cycle with control rods fully inserted, a 36-day shutdown period, a 692-day second cycle with control rods fully withdrawn, and a 20 year cool-down period. A constant assembly fission power of 14.508\,MW was maintained throughout all operating periods. The assembly-averaged discharge burnup is approximately 40.1\,GWd/t.
+Burnup simulations followed the irradiation history of Assembly NJ05YU as documented in \cite{Wolf2000AnalysisReport}, comprising: a 666-day first cycle with control rods fully inserted, a 36-day shutdown period, a 692-day second cycle with control rods fully withdrawn, and a 20 year cool-down period. A constant assembly fission power of 14.508\,MW was maintained throughout all operating periods. The assembly-averaged discharge burnup is approximately 40.1\,GWd/t with a detailed distribution tabulated in Appendix \ref{sec:app_fuel-ref}, \ref{tab:tmi1_burnup_distribution}.
 
 Two independent simulations of the operating history were performed, each using different numerical solver configurations in order to assess the sensitivity of isotopic predictions to solver parameters. As shown in Figure~\ref{fig:tmi-stability}, solver selection has a non-trivial effect on the predicted nuclide evolution, particularly for short-lived intermediaries and actinide chains that are sensitive to numerical stiffness. The stable configuration, characterized by three substep divisions and smaller timesteps, was adopted for all subsequent material generation.
 
@@ -96,7 +96,7 @@ The simulated axial distribution of $^{235}$U concentration is shown in Figure~\
     \centering
     \includegraphics[width=0.65\linewidth]{U235_evol_tmi.png}
     % TODO: Move this file to figs/ directory and update path to {figs/U235_evol_tmi.png}
-    \caption{Axial distribution of $^{235}$U concentration from initial loading through discharge, compared against radiochemical assay data. Simulation results (solid lines) fall within the $2\sigma$ experimental uncertainty bounds (shaded) at all irradiation stages, confirming the accuracy of the depletion model for the primary fissile species.}
+    \caption{Axial distribution of $^{235}$U concentration from initial loading through discharge, compared against radiochemical assay data. Simulation results (solid lines) fall within the $2\sigma$ experimental uncertainty bounds at all irradiation stages, confirming the accuracy of the depletion model for the primary fissile species.}
     \label{fig:U235_evol_tmi}
 \end{figure}
 
@@ -193,7 +193,7 @@ Ceria was selected as the central inert fill material for several reasons: (i) i
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{figs/fourdesigns.png}
-    \caption{Axial cross-section schematics of the four evaluated design variants: (A)~Baseline spent fuel rod in its as-discharged condition; (B)~Beryllium Caps with 51\,cm axial Be reflector plugs at each rod extremity; (C)~Fueled Power Inverter (PI-F) with a graded-enrichment fresh fuel rod; and (D)~Inert Power Inverter (PI-I) with UO$_2$ end sections flanking a central CeO$_2$ region. Dimensions are in centimeters.}
+    \caption{Axial cross-section schematics of the four evaluated design variants: (A)~Baseline spent fuel rod in its as-discharged condition; (B)~Beryllium Caps with 51\,cm axial Be reflector plugs at each rod extremity; (C)~Fueled Power Inverter (PI-F) with a graded-enrichment fresh fuel rod; and (D)~Inert Power Inverter (PI-I) with UO$_2$ end sections flanking a central CeO$_2$ region. Dimensions are in centimeters. A detailed description of power inverter placement is given in Appendix \ref{sec:app_pi}, Figure \ref{fig:core-layout}.} %FIX
     \label{fig:4-designs-sketch}
 \end{figure}
 
@@ -232,7 +232,7 @@ The power distributions and power peaking factor results for the four designs is
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{figs/4-designs-ppf.png}
-    \caption{Assembly-wide power distributions for each design variant. Solid curves show the average rod power, while the shaded regions indicate the full range across all rods. Both the \textit{Beryllium Caps} and \textit{Baseline} approaches produce acceptable power peaking factors (PPFs). In contrast, the \textit{Inert Power Inverter} design results in a PPF that is likely too high to reduce through iteration without compromising cycle length objectives. The \textit{Fueled Power Inverter} approach yields a PPF that meets the objective of $\le$2.5 and can likely be reduced further through iteration. \textit{Note} that the PPF calculation for the PI-I does include the central Ceria regions.}
+    \caption{Assembly-wide power distributions for each design variant. Solid curves show the average rod power, while the shaded regions indicate the full range across all rods. Both the \textit{Beryllium Caps} and \textit{Baseline} approaches produce acceptable power peaking factors (PPFs). In contrast, the \textit{Inert Power Inverter} design results in a PPF that is likely too high to reduce through iteration without compromising cycle length objectives. The \textit{Fueled Power Inverter} approach yields a PPF that meets the objective of $\le$2.5 and can likely be reduced further through iteration. \textit{Note} that the PPF calculation for the PI-I does include the central Ceria regions. A clearer visualization of the neutron flux and power redistribution is given in Appendix \ref{sec:app_pi}, \ref{fig:power_dist_all}.}
     \label{fig:ppf-4designs}
 \end{figure}
 
@@ -326,7 +326,7 @@ The sweep reveals a clear tradeoff between the two figures of merit. Minimizing 
 
 \begin{table}[H]
     \centering
-    \caption{Weighted decision matrix for LBR design variant selection. Scores are assigned on a scale of 1--4 per criterion; the weighted total determines the preferred design.}
+    \caption{Comparison of design variants for the PI-F. The final selection of the (3.5\%, 4.5\%) enrichment combination was chosen based upon the same weighted criteria in Table \ref{tab:decision_matrix}.}
     \label{tab:3-enrichments}
     \renewcommand{\arraystretch}{1.8}
     \begin{tabular}{>{\bfseries\raggedright\arraybackslash}m{3.8cm}
@@ -371,8 +371,9 @@ Inserting fresh nuclear fuel into a heavy water reactor obviously poses some ris
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figs/pu-populations.png}
-    \caption{Evolution of plutonium quality fractions (left axis) and total assembly plutonium inventory (right axis) as a function of core-averaged burnup. Total Pu (red dashed) decreases monotonically as the spent fuel burns. Weapons-grade and fuel-grade fractions produced in the power-inverter elements peak transiently at intermediate burnup ($\sim$52–54\,GWd/t) before being consumed, leaving reactor-grade plutonium as the dominant residual at end of cycle.}
-    \label{fig:placeholder}
+    \caption{Evolution of the per-assembly mass of different qualities of plutonium as a function of core-averaged burnup. Plutonium grades are classified by $^{240}$Pu content: super-grade ($<$3\%), weapons-grade (3--7\%), fuel-grade (7--18\%), and reactor-grade ($>$18\%). Total Pu (red dashed) decreases monotonically as the spent fuel burns. Weapons-grade and fuel-grade fractions produced in the power-inverter elements peak transiently at intermediate burnup ($\sim$52--54\,GWd/t) before being consumed, leaving reactor-grade plutonium as the dominant residual at end of cycle.
+}
+    \label{fig:pu-evolv}
 \end{figure}
 
 \begin{figure}[H]
@@ -398,6 +399,6 @@ The simulation tracks two material clusters within a single fuel assembly over a
 
 As shown in Figure~\ref{fig:placeholder}, the total assembly plutonium inventory (right axis) decreases monotonically with burnup, while the quality distribution of the produced plutonium (left axis) evolves markedly. The spent fuel rods, shown in Figure~\ref{fig:placeholder1}, consumed a net $0.80$\,kg of total plutonium ($-16.4\%$) and $0.88$\,kg of $^{239}$Pu ($-36.6\%$) over the interval. At extended burnup the fission rate of $^{239}$Pu outpaces its production from $^{238}$U$(n,\gamma)$ capture, so these rods act as a net plutonium burner. The isotopic quality of the spent-rod inventory is entirely reactor-grade, with $^{239}$Pu fractions concentrated in the 35–55\,wt.\% range — far below any weapons-relevant threshold.
 
-The power-inverter fuel accumulated $0.15$\,kg of total plutonium from a zero starting condition, of which $0.119$\,kg is $^{239}$Pu. As shown in Figure~\ref{fig:placeholder2}, the isotopic quality of this material is notably higher, with the distribution spanning 75–95\,wt.\% $^{239}$Pu. This is a consequence of the relatively short exposure time: the high neutron economy of the heavy-water lattice enables efficient $^{238}$U$(n,\gamma)$ capture, but the bred $^{239}$Pu has not yet undergone significant additional neutron capture into heavier isotopes. Figure~\ref{fig:placeholder} further illustrates this effect, showing a transient peak in weapons-grade plutonium ($^{240}$Pu $< 7\%$) at intermediate burnup before it is burned away at higher burnup. The material with the highest weapons-grade purity ($> 93\,\text{wt.\%}\ ^{239}$Pu) totals approximately $0.005$\,kg per assembly.
+The power-inverter fuel accumulated $0.15$\,kg of total plutonium from a zero starting condition, of which $0.119$\,kg is $^{239}$Pu. As shown in Figure~\ref{fig:placeholder2}, the isotopic quality of this material is notably higher, with the distribution spanning 75–95\,wt.\% $^{239}$Pu. This is a consequence of the relatively short exposure time: the high neutron economy of the heavy-water lattice enables efficient $^{238}$U$(n,\gamma)$ capture, but the bred $^{239}$Pu has not yet undergone significant additional neutron capture into heavier isotopes. Figure~\ref{fig:pu-evolv} further illustrates this effect, showing a transient peak in weapons-grade plutonium ($^{240}$Pu $< 7\%$) at intermediate burnup before it is burned away at higher burnup. The material with the highest weapons-grade purity ($> 93\,\text{wt.\%}\ ^{239}$Pu) totals approximately $0.005$\,kg per assembly.
 
 On a net basis the assembly is a net consumer of fissile plutonium: total Pu falls from $4.89$\,kg to $4.23$\,kg and $^{239}$Pu falls from $2.41$\,kg to $1.65$\,kg. Even when scaled to a representative full-core loading of 200 assemblies, the weapons-grade $^{239}$Pu produced across all power-inverter elements totals roughly $200 \times 0.005 \approx 1.0$\,kg — well below the IAEA significant quantity of $8$\,kg required to constitute a credible nuclear explosive device. This margin of nearly an order of magnitude demonstrates that the fueled power-inverter concept does not introduce a meaningful proliferation pathway beyond that of the baseline reactor.

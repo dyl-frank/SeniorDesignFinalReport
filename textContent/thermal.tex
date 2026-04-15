@@ -23,7 +23,7 @@ The modeled pin geometry is based on the dimensions used throughout the project:
 
 \subsubsection{Boundary Conditions, Fluid Model, and Solver Setup}
 
-All CFD cases were performed in ANSYS Fluent using the pressure-based, steady-state solver with the energy equation enabled. The SST \(k\)-\(\omega\) turbulence model was selected because it provides robust near-wall treatment in internal flows and is well suited to predicting wall shear and convective heat transfer in conjugate thermal problems. The coolant was modeled as heavy water at 10~MPa with representative thermophysical properties of \(\rho = 874\ \text{kg/m}^3\), \(c_p = 4670\ \text{J/kg-K}\), \(k = 0.53\ \text{W/m-K}\), and \(\mu = 1.14\times10^{-4}\ \text{kg/m-s}\).
+All CFD cases were performed in ANSYS Fluent using the pressure-based \cite{ANSYS_Fluent}, steady-state solver with the energy equation enabled. The SST \(k\)-\(\omega\) turbulence model was selected because it provides robust near-wall treatment in internal flows and is well suited to predicting wall shear and convective heat transfer in conjugate thermal problems. The coolant was modeled as heavy water at 10~MPa with representative thermophysical properties of \(\rho = 874\ \text{kg/m}^3\), \(c_p = 4670\ \text{J/kg-K}\), \(k = 0.53\ \text{W/m-K}\), and \(\mu = 1.14\times10^{-4}\ \text{kg/m-s}\).
 
 For the V5 case, the fuel properties were taken as \(\rho = 10{,}196\ \text{kg/m}^3\), \(c_p = 330\ \text{J/kg-K}\), and \(k = 2.5\ \text{W/m-K}\), while the cladding properties were \(\rho = 6500\ \text{kg/m}^3\), \(c_p = 300\ \text{J/kg-K}\), and \(k = 9.2\ \text{W/m-K}\). These values intentionally represent degraded spent-fuel thermal conductivities rather than fresh-fuel PWR values. Their use is conservative in the sense that they increase radial conduction resistance within the solid, thereby increasing predicted temperatures for a given heat generation rate.
 
@@ -153,38 +153,6 @@ A radial cut through the fuel at a fixed axial location near the outlet shows a 
     \label{fig:v5_radial_cut}
 \end{figure}
 
-% ============================================================
-\subsection{Hydraulic Conditions, Reynolds Number, and Comparison to Typical Reactors}
-\label{sec:hydraulics}
-% ============================================================
-The coolant mass flow rate and mass flux in the representative channel are obtained from an energy balance and the geometric flow area of the 6\,cm lattice. First, the total core thermal power $Q$ and the specified coolant temperature rise $\Delta T = T_{\text{out}} - T_{\text{in}}$ define the required mass flow rate through
-\[
-\dot{m} = \frac{Q}{c_p \,\Delta T},
-\]
-where $c_p$ is the specific heat of heavy water at 10\,MPa evaluated at the average coolant temperature. The corresponding total coolant flow area is computed from the rod pitch and fuel-rod radius as
-\[
-A_{\text{flow}} = N_{\text{rods}}\left(P^{2} - \pi R^{2}\right),
-\]
-with $N_{\text{rods}}$ the number of rods per assembly, $P$ the lattice pitch, and $R$ the fuel-rod radius. The mass flux in the average channel is then
-\[
-G = \frac{\dot{m}}{A_{\text{flow}}}
-= \frac{Q}{c_p \,\Delta T \, A_{\text{flow}}},
-\]
-which evaluates to the design value
-\[
-G = 102.6~\text{kg m}^{-2}\text{s}^{-1}.
-\]
-
-Using the heavy-water density $\rho$ and dynamic viscosity $\mu$ at inlet conditions together with the hydraulic diameter $D_h$ for the 6\,cm lattice subchannel, the Reynolds number is
-\[
-\mathrm{Re} = \frac{\rho u D_h}{\mu}
-= \frac{G D_h}{\mu},
-\]
-where $u = G/\rho$ is the bulk coolant velocity at the inlet. Substituting the design values yields
-\[
-\mathrm{Re} \gg 4\times10^{3}
-\]
-(numerically, $\mathrm{Re} \sim \mathcal{O}(10^{5})$), which lies well above the canonical transition threshold $\mathrm{Re} \approx 2300$ for internal flows. This confirms that the coolant flow in the representative channel is turbulent, justifying the use of a near-wall-resolved RANS turbulence model for the thermal--hydraulic analysis.
 \subsubsection{Effect of the 6~cm Pitch on Mass Flux and Heat Transfer}
 
 The 6~cm pitch selected by the neutronics optimization is far larger than the rod pitches of conventional light-water reactor fuel bundles. This larger pitch increases coolant flow area per rod and therefore reduces the mass flux for a given total flow rate. In the scoping thermal--hydraulic calculation, the resulting average-channel mass flux is
@@ -246,7 +214,7 @@ q''_\text{peak} \approx 2.2 \times 639\ \text{kW/m}^2
 
 Because the power peaking factor is elevated by the introduction of spent fuel for burnup redistribution, the hot channel is the more relevant thermal-limiting case. In the neutronics-driven design iteration, the PPF increased from values near 1.7 in the more conventional baseline configurations to values above 2.2 in the spent-fuel power-shaping configurations. This improves fissile utilization and cycle behavior but directly increases the local thermal burden, since peak temperature and DNBR scale much more strongly with local power than with assembly-average power. The thermal analysis therefore links the neutronics benefit of spent-fuel insertion to a thermal penalty that must be carefully managed.
 
-The final DNBR should be reported using the Groeneveld 2006 LUT value extracted at the operating pressure, mass flux, and quality corresponding to the V5 average-channel condition. The governing definition is
+The final DNBR should be reported using the Groeneveld 2006 LUT value extracted at the operating pressure, mass flux, and quality corresponding to the V5 average-channel condition \cite{Groeneveld2007TheTable}. The governing definition is
 \[
 \text{DNBR} = \frac{q''_\text{CHF}}{q''_\text{local}},
 \]
@@ -326,7 +294,7 @@ To understand how material properties and the presence or absence of a gas gap a
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\linewidth]{figs/crosssection_grid_higher_k.png}
+    \includegraphics[width=0.55\linewidth]{figs/crosssection_grid_higher_k.png}
     \caption{2-D cross-section temperature maps for the power sweep using higher fuel and cladding thermal conductivities but no gas gap. Each panel shows the fuel centerline temperature \(T_c\) for a given specific power.}
     \label{fig:cs_higherk}
 \end{figure}
@@ -405,15 +373,15 @@ The corresponding cladding temperature along the same edge rises from roughly 78
 
 The purpose of the present thermal analysis is not only to report temperatures, but also to interpret them relative to accepted material limits. For Zircaloy-based cladding in water-cooled reactors, excessive cladding temperature is undesirable because it accelerates oxidation, hydriding, and mechanical degradation; regulatory guidance associated with light-water reactor safety analyses typically places strong attention on maintaining cladding temperatures well below high-temperature oxidation regimes. Likewise, for UO$_2$ fuel, the centerline temperature must remain below the melting range and should retain adequate margin to account for uncertainty in conductivity, cracking, and local peaking.
 
-Regulatory limits provide a quantitative benchmark for interpreting these temperatures. For large-break loss-of-coolant accidents, 10~CFR~50.46(b)(1) specifies that the calculated maximum fuel element cladding temperature shall not exceed
+Regulatory limits provide a quantitative benchmark for interpreting these temperatures. For large-break loss-of-coolant accidents, 10~CFR~50.46(b)(1) specifies that the calculated maximum fuel element cladding temperature shall not exceed \cite{NRC_50_46}
 \[
 T_{\text{clad,peak}} \leq 2200~^{\circ}\text{F} \; (1204~^{\circ}\text{C}),
 \]
-together with auxiliary limits on cladding oxidation and hydrogen generation.\footnote{See 10~CFR~50.46 and associated NRC guidance on emergency core cooling system (ECCS) acceptance criteria.} Under normal operation and anticipated operational occurrences, the Standard Review Plan for fuel systems (NUREG--0800, Section~4.2) does not assign a single numeric centerline temperature limit; instead, it requires that UO$_2$ fuel remain below its melting temperature, and any rod that experiences centerline melting in postulated accidents is conservatively treated as failed for radiological analyses. In other words, the regulatory constraint for fuel is effectively a ``no centerline melting'' requirement during normal operation and AOOs, rather than a fixed temperature threshold.
+together with auxiliary limits on cladding oxidation and hydrogen generation. Under normal operation and anticipated operational occurrences, the Standard Review Plan for fuel systems (NUREG--0800, Section~4.2) does not assign a single numeric centerline temperature limit; instead, it requires that UO$_2$ fuel remain below its melting temperature, and any rod that experiences centerline melting in postulated accidents is conservatively treated as failed for radiological analyses. In other words, the regulatory constraint for fuel is effectively a ``no centerline melting'' requirement during normal operation and AOOs, rather than a fixed temperature threshold.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.90\linewidth]{figs/power_sweep.png} % <-- replace with your actual power-sweep figure filename
+    \includegraphics[width=0.90\linewidth]{figs/power_sweep.png}
     \caption{Fuel centerline and cladding surface temperature as functions of specific power for the average channel. The nominal design point at 30~W/g is highlighted for comparison against regulatory cladding and fuel temperature constraints.}
     \label{fig:temp_vs_power}
 \end{figure}
